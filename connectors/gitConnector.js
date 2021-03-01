@@ -1,9 +1,13 @@
-const git = simpleGit(".");
-var num;
-var fileslist;
-
-
 class GitConnector{
+
+    git;
+    num;
+
+    constructor(dir){
+        git = simpleGit(dir);
+        num = 0;
+    }
+
     init(){
         git.checkIsRepo()
             .then(isRepo => !isRepo && git.init())
@@ -38,7 +42,7 @@ class GitConnector{
     }
 
     addRemote(_user,_pass,_repo){
-        git().silent(true)
+        git.silent(true)
             .clone(`https://${_user}:${_pass}@${_repo}`)
             .then(() => console.log('finished'))
             .catch((err) => console.error('failed: ', err));
@@ -53,12 +57,13 @@ class GitConnector{
     }
 
     custom(_commands){
-        git(path).raw(_commands, (err, result) => {
+        git.raw(_commands, (err, result) => {
             if(err){
                 console.error(err);
             } else {
                 console.log(result);
             }
-        });
+        })
+        .raw('rev-list','--all','--count',(err,log) => num = log));
     }
 }

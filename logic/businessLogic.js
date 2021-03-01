@@ -1,13 +1,12 @@
 const fs = require('fs');
 var mkdirp = require('mkdirp');
-var git = new GitConnector();
+var git = new GitConnector(".");
 var treelist = new TreeList();
-const rl = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
 
+function changeDir(dir){
+    git = new GitConnector(dir);
+}
 
 function init(){
     git.init();

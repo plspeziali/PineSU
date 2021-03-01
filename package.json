@@ -2,7 +2,7 @@
   "name": "pinesu",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "ui/cli.js",
   "directories": {
     "lib": "lib"
   },
