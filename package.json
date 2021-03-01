@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/plspeziali/PineSU/issues"
   },
-  "homepage": "https://github.com/plspeziali/PineSU#readme"
+  "homepage": "https://github.com/plspeziali/PineSU#readme",
+  "dependencies": {
+    "mkdirp": "^1.0.4",
+    "readline": "^1.3.0",
+    "simple-git": "^2.35.2",
+    "yargs": "^16.2.0"
+  }
 }
