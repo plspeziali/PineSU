@@ -1,8 +1,13 @@
 {
   "name": "pinesu",
   "version": "1.0.0",
-  "description": "",
-  "main": "ui/cli.js",
+  "description": "NodeJS application which provides file version control along with integrity checking on the Ethereum blockchain network",
+  "main": "index.js",
+  "keywords": [
+    "cli",
+    "Git"
+  ],
+  "preferGlobal": true,
   "directories": {
     "lib": "lib"
   },
@@ -20,9 +25,17 @@
   },
   "homepage": "https://github.com/plspeziali/PineSU#readme",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^5.0.1",
+    "figlet": "^1.5.0",
+    "inquirer": "^8.0.0",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.5",
     "mkdirp": "^1.0.4",
     "readline": "^1.3.0",
     "simple-git": "^2.35.2",
-    "yargs": "^16.2.0"
+    "touch": "^3.1.0"
   }
 }
