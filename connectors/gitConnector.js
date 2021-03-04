@@ -21,11 +21,10 @@ class GitConnector{
     }
 
     async commit(_msg,_enmsg){
-        if(_enmsg){
-            return await this.git.commit(_msg);
-        } else {
-            return await this.git.raw('rev-list','--all','--count',(err,log) => {this.git.commit("commit #" + log.replace("\n","") + " by PineSU")});
+        if(!_enmsg){
+            await this.git.raw('rev-list','--all','--count',(err,log) => {_msg = "commit #" + log.replace("\n","") + " by PineSU"});
         }
+        return this.git.commit(_msg);
     }
 
     async getRepoFiles(){
