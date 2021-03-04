@@ -31,6 +31,8 @@ const run = async () => {
   if(ignore.gitignore == "Yes"){
     files.createGitignore();
   }
+
+  gitLogic.addFileSU('.gitignore');
   gitLogic.addAllSU();
 
   const commit = await inquirer.gitCommit();
