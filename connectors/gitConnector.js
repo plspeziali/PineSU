@@ -1,69 +1,70 @@
+var simpleGit = require('simple-git');
+
 class GitConnector{
 
-    git;
-    num;
-
     constructor(dir){
-        git = simpleGit(dir);
-        num = 0;
+        this.git = simpleGit(dir);
+        this.num = 0;
     }
 
     init(){
-        git.checkIsRepo()
-            .then(isRepo => !isRepo && git.init())
-            .then(() => git.fetch())
-            .then(() => git.raw('rev-list','--all','--count',(err,log) => num = log))
+        this.git.checkIsRepo()
+            .then(isRepo => !isRepo && this.git.init())
+            .then(() => this.git.fetch())
+            .then(() => this.git.raw('rev-list','--all','--count',(err,log) => this.num = log))
     }
 
     add(_arg){
-        git.add(_arg);
+        this.git.add(_arg);
     }
 
     add(){
-        git.add('./*')
+        this.git.add('./*')
     }
 
     commit(_msg,_enmsg){
         if(_enmsg){
-            git.commit(_msg)
-                .raw('rev-list','--all','--count',(err,log) => num = log);
+            this.git.commit(_msg)
+                .raw('rev-list','--all','--count',(err,log) => this.num = log);
         } else {
-            git.commit("commit #" + num + " by PineSU")
-                .raw('rev-list','--all','--count',(err,log) => num = log);
+            this.git.commit("commit #" + this.num + " by PineSU")
+                .raw('rev-list','--all','--count',(err,log) => this.num = log);
         }
     }
 
     async getRepoFiles(){
         try{
-            return await git.raw('ls-tree','--full-tree','-r','--name-only','HEAD',(err, log) => {return log.split("\n")});
+            return await this.git.raw('ls-tree','--full-tree','-r','--name-only','HEAD',(err, log) => {return log.split("\n")});
         } catch (e) {
             // TODO
         }
     }
 
     addRemote(_user,_pass,_repo){
-        git.silent(true)
+        this.git.silent(true)
             .clone(`https://${_user}:${_pass}@${_repo}`)
             .then(() => console.log('finished'))
             .catch((err) => console.error('failed: ', err));
     }
 
     push(){
-        git.push('origin', 'master')
+        this.git.push('origin', 'master')
     }
 
     pull(){
-        git.pull();
+        this.git.pull();
     }
 
     custom(_commands){
-        git.raw(_commands, (err, result) => {
+        this.git.raw(_commands, (err, result) => {
             if(err){
                 console.error(err);
             } else {
                 console.log(result);
             }
         })
-        .raw('rev-list','--all','--count',(err,log) => num = log));
+        .raw('rev-list','--all','--count',(err,log) => this.num = log);
     }
 }
+
+module.exports = GitConnector;

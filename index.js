@@ -5,6 +5,7 @@ const clear = require('clear');
 const figlet = require('figlet');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
+const files = require('./lib/files');
 
 clear();
 
@@ -16,20 +17,21 @@ console.log(
 
 const run = async () => {
   if (files.directoryExists('.git')) {
-    console.log(chalk.red('Already a Git repository!'));
+    console.log(chalk.green('Already a Git repository!'));
   } else {
     const setup = await inquirer.gitSetup();
     if(setup.gitinit == "Yes"){
       gitLogic.init();
     }else{
-      console.log('PineSU requires the folder to be initialized as a git repository in order to work');
+      console.log('PineSU requires the folder to be initialized as a git repository in order to\nwork');
       process.exit();
     }
   }
 
-  const ignore = await inquirer.gitAdd();
-  if(ignore.gitignore == "Yes"){
-    files.createGitignore();
+  const inqignore = await inquirer.gitAdd();
+  console.log(inqignore.gitignore)
+  if(inqignore.gitignore == "Yes"){
+    await files.createGitignore();
   }
 
   gitLogic.addFileSU('.gitignore');
@@ -42,10 +44,9 @@ const run = async () => {
     gitLogic.commitSU("");
   }
 
-  gitLogic.calculateSU;
-  
-  const details = await inquirer.askSUDetails();
+  gitLogic.calculateSU();
 
+  const details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
   files.saveJSON(details,"suinfo");
   process.exit();
 };

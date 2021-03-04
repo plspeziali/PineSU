@@ -1,7 +1,9 @@
 const fs = require('fs');
 var mkdirp = require('mkdirp');
-var git = new GitConnector(".");
-var treelist = new TreeList();
+var GitConnector = require('../connectors/gitConnector');
+var git = new GitConnector('.');
+var TreeListC = require('../lib/treelist');
+var treelist = new TreeListC();
 
 
 function changeDir(dir){
@@ -10,7 +12,6 @@ function changeDir(dir){
 
 function init(){
     git.init();
-    mkdirp(__dirname+'\\.pinesu', function(err) {});
 }
 
 function addFileSU(_file){
@@ -22,7 +23,7 @@ function addAllSU(){
 }
 
 function commitSU(_msg){
-    if(typeof msg === undefined || msg === ""){
+    if(typeof msg === 'undefined' || msg === ""){
         git.commit("",false);
     } else {
         git.commit(_msg,true);
@@ -30,11 +31,7 @@ function commitSU(_msg){
 }
 
 function calculateSU(){
-    var list;
-    var tree;
-    git.getRepoFiles((res) => list = res)
-        .then(tree = treelist.createHashLists(list))
-        .then(saveJSON(tree,"filetree"));
+    git.getRepoFiles((res) => {saveJSON(treelist.createHashLists(res),"filetree")});
 }
 
 module.exports = {
