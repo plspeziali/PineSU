@@ -4,7 +4,7 @@ var GitConnector = require('../connectors/gitConnector');
 var git = new GitConnector('.');
 var TreeListC = require('../lib/treelist');
 var treelist = new TreeListC();
-
+const files = require('../lib/files');
 
 function changeDir(dir){
     git = new GitConnector(dir);
@@ -31,7 +31,7 @@ function commitSU(_msg){
 }
 
 function calculateSU(){
-    git.getRepoFiles((res) => {saveJSON(treelist.createHashLists(res),"filetree")});
+    git.getRepoFiles((res) => {files.saveJSON(treelist.createHashLists(res),"filetree")});
 }
 
 module.exports = {

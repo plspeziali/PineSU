@@ -36,6 +36,7 @@ const run = async () => {
 
   gitLogic.addFileSU('.gitignore');
   gitLogic.addAllSU();
+  files.createPineSUDir();
 
   const commit = await inquirer.gitCommit();
   if(commit.message != "[Commit # by PineSU]"){
@@ -48,7 +49,7 @@ const run = async () => {
 
   const details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
   files.saveJSON(details,"suinfo");
-  process.exit();
+  console.log(chalk.green("The Storage Unit has been created!"));
 };
   
 run();
