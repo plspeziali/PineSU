@@ -22,11 +22,11 @@ function addAllSU(){
     git.add();
 }
 
-function commitSU(_msg){
+async function commitSU(_msg){
     if(typeof msg === 'undefined' || msg === ""){
-        git.commit("",false);
+        return await git.commit("",false);
     } else {
-        git.commit(_msg,true);
+        return await git.commit(_msg,true);
     }
 }
 

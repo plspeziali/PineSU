@@ -4,14 +4,12 @@ class GitConnector{
 
     constructor(dir){
         this.git = simpleGit(dir);
-        this.num = 0;
     }
 
     init(){
         this.git.checkIsRepo()
             .then(isRepo => !isRepo && this.git.init())
-            .then(() => this.git.fetch())
-            .then(() => this.git.raw('rev-list','--all','--count',(err,log) => this.num = log))
+            .then(() => this.git.fetch());
     }
 
     add(_arg){
@@ -22,13 +20,11 @@ class GitConnector{
         this.git.add('./*')
     }
 
-    commit(_msg,_enmsg){
+    async commit(_msg,_enmsg){
         if(_enmsg){
-            this.git.commit(_msg)
-                .raw('rev-list','--all','--count',(err,log) => this.num = log);
+            return await this.git.commit(_msg);
         } else {
-            this.git.commit("commit #" + this.num + " by PineSU")
-                .raw('rev-list','--all','--count',(err,log) => this.num = log);
+            return await this.git.raw('rev-list','--all','--count',(err,log) => {this.git.commit("commit #" + log.replace("\n","") + " by PineSU")});
         }
     }
 

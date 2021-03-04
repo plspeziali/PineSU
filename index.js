@@ -39,12 +39,10 @@ const run = async () => {
 
   const commit = await inquirer.gitCommit();
   if(commit.message != "[Commit # by PineSU]"){
-    gitLogic.commitSU(commit.message);
+    await gitLogic.commitSU(commit.message).then(() => {gitLogic.calculateSU()});
   } else {
-    gitLogic.commitSU("");
+    await gitLogic.commitSU("").then(() => {gitLogic.calculateSU()});
   }
-
-  gitLogic.calculateSU();
 
   const details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
   files.saveJSON(details,"suinfo");
