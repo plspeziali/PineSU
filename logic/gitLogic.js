@@ -21,12 +21,12 @@ function addAllSU(){
     git.add();
 }
 
-function commitSU(){
-    git.commit("",false);
-}
-
 function commitSU(_msg){
-    git.commit(_msg,true);
+    if(typeof msg === undefined || msg === ""){
+        git.commit("",false);
+    } else {
+        git.commit(_msg,true);
+    }
 }
 
 function calculateSU(){
@@ -34,18 +34,14 @@ function calculateSU(){
     var tree;
     git.getRepoFiles((res) => list = res)
         .then(tree = treelist.createHashLists(list))
-        .then(saveJSON(tree));
+        .then(saveJSON(tree,"filetree"));
 }
 
-function saveJSON(_tree){
-    const jsonContent = JSON.stringify(_tree);
- 
-    fs.writeFile(__dirname+"\\.pinesu\\filetree.json", jsonContent, 'utf8', function (err) {
-       if (err) {
-          return console.log(err);
-       }
- 
-       console.log("The file was saved!");
-       return;
-    }); 
- }
+module.exports = {
+    changeDir: changeDir,
+    init: init,
+    addAllSU: addAllSU,
+    addFileSU: addFileSU,
+    commitSU: commitSU,
+    calculateSU: calculateSU
+}
