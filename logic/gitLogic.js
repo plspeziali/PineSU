@@ -30,8 +30,10 @@ function commitSU(_msg){
     }
 }
 
-function calculateSU(){
-    git.getRepoFiles((res) => {files.saveJSON(treelist.createHashLists(res),"filetree")});
+async function calculateSU(){
+    var res = await git.getRepoFiles();
+    res = treelist.createCompSubArray(".pinesu",res.split("\n"));
+    files.saveJSON(treelist.createHashTree(res),"filetree");
 }
 
 module.exports = {

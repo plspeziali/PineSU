@@ -34,7 +34,7 @@ class GitConnector{
 
     async getRepoFiles(){
         try{
-            return await this.git.raw('ls-tree','--full-tree','-r','--name-only','HEAD',(err, log) => {return log.split("\n")});
+            return this.git.raw('ls-tree','--full-tree','-r','--name-only','HEAD',(err, log) => {return log.split("\n")});
         } catch (e) {
             // TODO
         }

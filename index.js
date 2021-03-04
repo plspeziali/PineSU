@@ -29,7 +29,6 @@ const run = async () => {
   }
 
   const inqignore = await inquirer.gitAdd();
-  console.log(inqignore.gitignore)
   if(inqignore.gitignore == "Yes"){
     await files.createGitignore();
   }
