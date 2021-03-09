@@ -28,6 +28,10 @@ const run = async () => {
     }
   }
 
+  if(!(await gitLogic.hasRemote())){
+    await gitLogic.addRemoteSU("http://localhost:7005/prova");
+  }
+
   const inqignore = await inquirer.gitAdd();
   if(inqignore.gitignore == "Yes"){
     await files.createGitignore();
@@ -37,16 +41,24 @@ const run = async () => {
   gitLogic.addAllSU();
   files.createPineSUDir();
 
+  gitLogic.commitSU("").then(() => {gitLogic.calculateSU()});
+  const details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
+  await files.saveJSON(details,"suinfo");
+  console.log(chalk.green("The Storage Unit has been created!"));
+
+  gitLogic.resetCommit();
+  gitLogic.addAllSU();
+
   const commit = await inquirer.gitCommit();
   if(commit.message != "[Commit # by PineSU]"){
-    gitLogic.commitSU(commit.message).then(() => {gitLogic.calculateSU()});
+    await gitLogic.commitSU(commit.message);
   } else {
-    gitLogic.commitSU("").then(() => {gitLogic.calculateSU()});
+    await gitLogic.commitSU("");
   }
+  
+  console.log(chalk.yellow("The Storage Unit will now be uploaded to our server..."));
+  await gitLogic.pushSU();
 
-  const details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
-  files.saveJSON(details,"suinfo");
-  console.log(chalk.green("The Storage Unit has been created!"));
 };
   
 run();

@@ -35,19 +35,37 @@ class GitConnector{
         }
     }
 
-    addRemote(_user,_pass,_repo){
-        this.git.silent(true)
-            .clone(`https://${_user}:${_pass}@${_repo}`)
-            .then(() => console.log('finished'))
-            .catch((err) => console.error('failed: ', err));
+    async addRemote(_repo){
+        try{
+            return this.git.addRemote('origin', _repo);
+        } catch (e) {
+            // TODO
+        }
     }
 
-    push(){
-        this.git.push('origin', 'master')
+    async push(){
+        return this.git.push('origin', 'master');
     }
 
     pull(){
         this.git.pull();
+    }
+
+    reset(){
+        this.git.reset("--hard","HEAD~1");
+    }
+
+    async hasRemote(){
+        return await this.git.listRemote(['--get-url'], (err, data) => {
+            if (!err) {
+                if(typeof(data) !== "undefined" && data !== ""){
+                    return true
+                }else{
+                    return false
+                }
+            }
+            return false;
+        });
     }
 
     custom(_commands){

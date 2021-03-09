@@ -30,6 +30,22 @@ async function commitSU(_msg){
     }
 }
 
+async function addRemoteSU(_repo){
+    return await git.addRemote(_repo);
+}
+
+async function pushSU(){
+    return git.push();
+}
+
+function resetCommit(){
+    git.reset();
+}
+
+async function hasRemote(){
+    return await git.hasRemote;
+}
+
 async function calculateSU(){
     var res = await git.getRepoFiles();
     res = treelist.createCompSubArray(".pinesu",res.split("\n"));
@@ -42,5 +58,9 @@ module.exports = {
     addAllSU: addAllSU,
     addFileSU: addFileSU,
     commitSU: commitSU,
-    calculateSU: calculateSU
+    calculateSU: calculateSU,
+    addRemoteSU: addRemoteSU,
+    pushSU: pushSU,
+    resetCommit: resetCommit,
+    hasRemote: hasRemote
 }
