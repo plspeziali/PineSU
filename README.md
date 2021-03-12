@@ -13,7 +13,7 @@ Finally the program will save in .pinesu the information about the Storage Unit 
  - [x] Implement Git client operations
  - [ ] Implement efficient hashes storage
  - [ ] Implement server-side upload
- - [ ] Implement server-side integrity checking with the Ethereum blockchain
+ - [ ] Implement client -side integrity checking with the Ethereum blockchain
  - [ ] Implement client-side integrity checking given the file and the hash of its peer files and directory
  - [ ] Implement client-side GUI
  - [x] Implement client-side CLI
