@@ -49,7 +49,9 @@ async function hasRemote(){
 async function calculateSU(){
     var res = await git.getRepoFiles();
     res = treelist.createCompSubArray(".pinesu",res.split(/\r?\n/));
-    files.saveJSON(treelist.createHashTree(res),"filetree");
+    var hashed = treelist.createHashTree(res);
+    files.saveJSON(hashed,"filetree");
+    return hashed;
 }
 
 module.exports = {

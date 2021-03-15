@@ -6,6 +6,7 @@ const figlet = require('figlet');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
+var ownID;
 
 clear();
 
@@ -16,6 +17,14 @@ console.log(
 );
 
 const run = async () => {
+
+  var res = files.readID();
+  if(res.id === "null"){
+    const inquser = await inquirer.chooseUsername();
+    files.writeID(inquser.username, inquirer.hash);
+    var res = files.readID();
+  }
+  this.ownID = res.id;
 
   const inqstart = await inquirer.startAction();
 
@@ -28,6 +37,8 @@ const run = async () => {
 
   } else if (inqstart.startans === "Download SU"){
     // TODO
+    await download();
+
   } else if (inqstart.startans === "Export SU"){
     // TODO
   } else if (inqstart.startans === "Get / Change identity"){
@@ -52,10 +63,6 @@ const create = async () => {
     }
   }
 
-  /*if(!(await gitLogic.hasRemote())){
-    await gitLogic.addRemoteSU("http://localhost:7005/prova");
-  }*/
-
   const inqignore = await inquirer.gitAdd();
   if(inqignore.gitignore == "Yes"){
     await files.createGitignore();
@@ -65,8 +72,11 @@ const create = async () => {
   gitLogic.addAllSU();
   files.createPineSUDir();
 
-  gitLogic.commitSU("").then(() => {gitLogic.calculateSU()});
-  const details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
+  var tree = await gitLogic.commitSU("").then( async () => {return await gitLogic.calculateSU()});
+  var details = new Object();
+  details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
+  await Object.assign(details, {owner: this.ownID});
+  await Object.assign(details, {hash: Object.keys(tree)[0].split(':h:')[1]});
   await files.saveJSON(details,"suinfo");
   console.log(chalk.green("The Storage Unit has been created!"));
 
@@ -79,9 +89,11 @@ const create = async () => {
   } else {
     await gitLogic.commitSU("");
   }
+
+};
+
+const download = async () => {
   
-  //console.log(chalk.yellow("The Storage Unit will now be uploaded to our server..."));
-  //await gitLogic.pushSU();
 };
 
 const identity = async () => {
@@ -89,7 +101,7 @@ const identity = async () => {
   var res = files.readID();
     if(res.id === "null"){
       const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username);
+      files.writeID(inquser.username, inquirer.hash);
       var res = files.readID();
     }
     console.log("Your username is "+chalk.black.bgGreen(res.username)+" and your ID is "+chalk.black.bgYellow(res.id));
@@ -98,7 +110,7 @@ const identity = async () => {
 
     if(inqchuser.userchange == "Yes"){
       const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username);
+      files.writeID(inquser.username, inquirer.hash);
       files.readID();
     }
 
