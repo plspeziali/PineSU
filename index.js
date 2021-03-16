@@ -107,7 +107,15 @@ const create = async () => {
 };
 
 const register = async () => {
-  
+
+  var sulist = files.readSUList();
+  if(sulist[0] !== "null"){
+    const inqreg = await inquirer.askRegSU(sulist);
+    
+  } else {
+    console.log(chalk.red("You have not created any Storage Unit yet!"))
+  }
+
 };
 
 const download = async () => {
