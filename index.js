@@ -110,7 +110,7 @@ const identity = async () => {
 
     if(inqchuser.userchange == "Yes"){
       const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username, inquirer.hash);
+      files.writeID(inquser.username, inquser.hash);
       files.readID();
     }
 
