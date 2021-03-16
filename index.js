@@ -88,7 +88,7 @@ const create = async () => {
   spinnerAdd.succeed("All files added");
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
     Object.assign(details, {owner: ownID});
-    Object.assign(details, {hash: Object.keys(tree)[0].split(':h:')[1]});
+    Object.assign(details, {hash: Object.keys(tree)[0].split(':')[1]});
     files.addToUser(details.owner,details.name,details.hash);
     files.saveJSON(details,"suinfo");
     console.log(chalk.green("The Storage Unit has been created!"));

@@ -4,7 +4,7 @@ NodeJS application which provides file version control along with integrity chec
 # What it does now
 By calling and executing with node the file `index.js` in a folder with the files you want to work with, PineSU will create a new hidden folder .pinesu along with a .git folder.
 After that the program will ask you if you have to ignore some files and get ypu through the process of selecting the files which will populate the .gitignore file.
-Finally the program will save in .pinesu the information about the Storage Unit (PineSU directory) you just created and a JSON file contaning the structure of the file tree, where every file and folder is represented with `filename:h:filehash`.
+Finally the program will save in .pinesu the information about the Storage Unit (PineSU directory) you just created and a JSON file contaning the structure of the file tree, where every file and folder is represented with `filename:filehash`.
 
 ## TODO List
 
