@@ -79,23 +79,21 @@ const create = async () => {
     await files.createGitignore();
     await gitLogic.addFileSU('.gitignore');
   }
-  const spinnerAdd = ora('Adding files to the SU...');
-  await gitLogic.addAllSU().then(() => {spinnerAdd.stop()});
-  spinnerAdd.start();
+  const spinnerAdd = ora('Adding files to the SU...').start();
+  await gitLogic.addAllSU();
   files.createPineSUDir();
 
   var tree = await gitLogic.commitSU("").then( async () => {return await gitLogic.calculateSU()});
-  var details = new Object();
-  details = await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then(() => {
+
+  spinnerAdd.succeed("All files added");
+  await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
     Object.assign(details, {owner: ownID});
     Object.assign(details, {hash: Object.keys(tree)[0].split(':h:')[1]});
-    files.addToUser(details.owner,details.hash);
-    console.log(details);
+    files.addToUser(details.owner,details.name,details.hash);
     files.saveJSON(details,"suinfo");
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
-
   gitLogic.resetCommit();
   await gitLogic.addAllSU();
 
