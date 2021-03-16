@@ -14,12 +14,12 @@ function init(){
     git.init();
 }
 
-function addFileSU(_file){
-    git.add(_file);
+async function addFileSU(_file){
+    await it.add(_file);
 }
 
-function addAllSU(){
-    git.add();
+async function addAllSU(){
+    await git.add();
 }
 
 async function commitSU(_msg){

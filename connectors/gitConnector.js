@@ -12,17 +12,24 @@ class GitConnector{
             .then(() => this.git.fetch());
     }
 
-    add(_arg){
-        this.git.add(_arg);
+    async add(_arg){
+        await this.git.add(_arg);
     }
 
-    add(){
-        this.git.add('./*')
+    async add(){
+        await this.git.add('./*')
     }
 
     async commit(_msg,_enmsg){
         if(!_enmsg){
-            await this.git.raw('rev-list','--all','--count',(err,log) => {_msg = "commit #" + log.replace("\n","") + " by PineSU"});
+            await this.git.raw('rev-list','--all','--count',(err,log) => {
+                if(typeof(log) !== "undefined"){
+                    _msg = "commit #" + log.replace("\n","") + " by PineSU"
+                }else{
+                    _msg = "commit #1 by PineSU"
+                }
+                
+            });
         }
         return this.git.commit(_msg);
     }

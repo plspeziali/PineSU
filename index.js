@@ -3,6 +3,7 @@
 const chalk = require('chalk');
 const clear = require('clear');
 const figlet = require('figlet');
+const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
@@ -76,10 +77,11 @@ const create = async () => {
   const inqignore = await inquirer.gitAdd();
   if(inqignore.gitignore == "Yes"){
     await files.createGitignore();
+    await gitLogic.addFileSU('.gitignore');
   }
-
-  gitLogic.addFileSU('.gitignore');
-  gitLogic.addAllSU();
+  const spinnerAdd = ora('Adding files to the SU...');
+  await gitLogic.addAllSU().then(() => {spinnerAdd.stop()});
+  spinnerAdd.start();
   files.createPineSUDir();
 
   var tree = await gitLogic.commitSU("").then( async () => {return await gitLogic.calculateSU()});
@@ -95,7 +97,7 @@ const create = async () => {
   
 
   gitLogic.resetCommit();
-  gitLogic.addAllSU();
+  await gitLogic.addAllSU();
 
   const commit = await inquirer.gitCommit();
   if(commit.message != "[Commit # by PineSU]"){
