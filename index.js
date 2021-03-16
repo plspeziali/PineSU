@@ -19,12 +19,12 @@ console.log(
 const run = async () => {
 
   var res = files.readID();
-  if(res.id === "null"){
+  if(typeof(res.id) == undefined || res.id === "null"){
     const inquser = await inquirer.chooseUsername();
-    files.writeID(inquser.username, inquirer.hash);
+    files.writeID(inquser.username, inquirer.hash, []);
     var res = files.readID();
   }
-  this.ownID = res.id;
+  ownID = res.id;
 
   const inqstart = await inquirer.startAction();
 
@@ -34,16 +34,26 @@ const run = async () => {
   } else if (inqstart.startans === "Create new SU") {
 
     await create();
+    run();
+
+  } else if (inqstart.startans === "Register SU") {
+
+    await register();
+    run();
 
   } else if (inqstart.startans === "Download SU"){
     // TODO
     await download();
+    run();
 
   } else if (inqstart.startans === "Export SU"){
     // TODO
+    await distribute();
+
   } else if (inqstart.startans === "Get / Change identity"){
     
     await identity();
+    run();
 
   }
 
@@ -74,11 +84,15 @@ const create = async () => {
 
   var tree = await gitLogic.commitSU("").then( async () => {return await gitLogic.calculateSU()});
   var details = new Object();
-  details = await inquirer.askSUDetails(files.getCurrentDirectoryBase());
-  await Object.assign(details, {owner: this.ownID});
-  await Object.assign(details, {hash: Object.keys(tree)[0].split(':h:')[1]});
-  await files.saveJSON(details,"suinfo");
-  console.log(chalk.green("The Storage Unit has been created!"));
+  details = await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then(() => {
+    Object.assign(details, {owner: ownID});
+    Object.assign(details, {hash: Object.keys(tree)[0].split(':h:')[1]});
+    files.addToUser(details.owner,details.hash);
+    console.log(details);
+    files.saveJSON(details,"suinfo");
+    console.log(chalk.green("The Storage Unit has been created!"));
+  });
+  
 
   gitLogic.resetCommit();
   gitLogic.addAllSU();
@@ -92,7 +106,15 @@ const create = async () => {
 
 };
 
+const register = async () => {
+  
+};
+
 const download = async () => {
+  
+};
+
+const distribute = async () => {
   
 };
 
@@ -101,8 +123,9 @@ const identity = async () => {
   var res = files.readID();
     if(res.id === "null"){
       const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username, inquirer.hash);
+      files.writeID(inquser.username, inquirer.hash, "null");
       var res = files.readID();
+      ownID = res.id;
     }
     console.log("Your username is "+chalk.black.bgGreen(res.username)+" and your ID is "+chalk.black.bgYellow(res.id));
     
@@ -110,11 +133,11 @@ const identity = async () => {
 
     if(inqchuser.userchange == "Yes"){
       const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username, inquser.hash);
+      files.writeID(inquser.username, inquser.hash, ["no-change"]);
       files.readID();
+      ownID = res.id;
     }
 
-    run();
 };
 
 run();
