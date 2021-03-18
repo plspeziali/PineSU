@@ -81,9 +81,12 @@ const create = async () => {
   }
   const spinnerAdd = ora('Adding files to the SU...').start();
   await gitLogic.addAllSU();
-  //files.createPineSUFile();
 
   var filelist = await gitLogic.commitSU("").then( async () => {return await gitLogic.calculateSU()});
+  if(filelist[0] == "null"){
+    gitLogic.resetCommit();
+    return;
+  }
 
   spinnerAdd.succeed("All files added");
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {

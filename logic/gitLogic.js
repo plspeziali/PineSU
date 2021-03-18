@@ -5,6 +5,7 @@ var git = new GitConnector('.');
 var TreeListC = require('../lib/treelist');
 var treelist = new TreeListC();
 const files = require('../lib/files');
+const inquirer = require('./lib/inquirer');
 
 function changeDir(dir){
     git = new GitConnector(dir);
@@ -48,7 +49,19 @@ async function hasRemote(){
 
 async function calculateSU(){
     var res = await git.getRepoFiles();
-    res = treelist.createCompSubArray(".pinesu",res.split(/\r?\n/));
+    res = res.split(/\r?\n/);
+    var pinesulist = treelist.createSubArray(".pinesu.json",res);
+    if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
+        if(pinesulist.length > 1 || pinesulist[0] !== ".pinesu.json"){
+            var pinesuArray = files.readPineSU(pinesulist);
+        } else {
+            const answer = await inquirer.resetSU();
+            if (answer.reset == "No") {
+                return ["null"];
+            }
+        }
+
+    }
     var hashed = treelist.createHashTree(res);
     return hashed;
 }
