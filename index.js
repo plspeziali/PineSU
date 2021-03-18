@@ -42,9 +42,9 @@ const run = async () => {
     await register();
     run();
 
-  } else if (inqstart.startans === "Download SU"){
-    // TODO
-    await download();
+  } else if (inqstart.startans === "Check SU integrity") {
+
+    await check();
     run();
 
   } else if (inqstart.startans === "Export SU"){
@@ -118,7 +118,7 @@ const register = async () => {
 
 };
 
-const download = async () => {
+const check = async () => {
   
 };
 
