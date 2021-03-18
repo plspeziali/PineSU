@@ -50,7 +50,6 @@ async function calculateSU(){
     var res = await git.getRepoFiles();
     res = treelist.createCompSubArray(".pinesu",res.split(/\r?\n/));
     var hashed = treelist.createHashTree(res);
-    files.saveJSON(hashed,"filetree");
     return hashed;
 }
 
