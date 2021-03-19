@@ -54,11 +54,12 @@ async function calculateSU(){
     if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
         if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
             var pinesuArray = files.readPineSU(pinesulist);
+            await inquirer.prova(pinesulist);
             var inqlist = new Array();
             for(el in pinesuArray){
                 inqlist.push(el.name+":"+el.path)
             }
-            var inqrec = await inquirer.askSURecalc();
+            var inqrec = await inquirer.askSURecalc(inqlist);
             if(typeof(inqrec.recalc) !== "undefined" && inqrec.recalc.length > 0){
                 for(el in inqrec.recalc){
                     var sufile = files.readPineSUFile(el.split(":")[1]);
@@ -73,7 +74,7 @@ async function calculateSU(){
                 }
             }
         } else {
-            const answer = await inquirer.resetSU(pinesulist[0]);
+            const answer = await inquirer.resetSU();
             if (answer.reset == "No") {
                 return ["null"];
             }
