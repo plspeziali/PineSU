@@ -1,11 +1,11 @@
 const fs = require('fs');
 var mkdirp = require('mkdirp');
 var GitConnector = require('../connectors/gitConnector');
-var git = new GitConnector('.');
+var git = new GitConnector(process.cwd());
 var TreeListC = require('../lib/treelist');
 var treelist = new TreeListC();
 const files = require('../lib/files');
-const inquirer = require('./lib/inquirer');
+const inquirer = require('../lib/inquirer');
 
 function changeDir(dir){
     git = new GitConnector(dir);
@@ -52,15 +52,32 @@ async function calculateSU(){
     res = res.split(/\r?\n/);
     var pinesulist = treelist.createSubArray(".pinesu.json",res);
     if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
-        if(pinesulist.length > 1 || pinesulist[0] !== ".pinesu.json"){
+        if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
             var pinesuArray = files.readPineSU(pinesulist);
+            var inqlist = new Array();
+            for(el in pinesuArray){
+                inqlist.push(el.name+":"+el.path)
+            }
+            var inqrec = await inquirer.askSURecalc();
+            if(typeof(inqrec.recalc) !== "undefined" && inqrec.recalc.length > 0){
+                for(el in inqrec.recalc){
+                    var sufile = files.readPineSUFile(el.split(":")[1]);
+                    sufile.path = sufile.path.substring(0,".pinesu.json".length);
+                    // sostituisco la root
+                    res = treelist.createCompSubArray(sufile.path, res);
+                    res.push(sufile.path+":"+sufile.hash);
+                    // sostituisco tutti
+                    for(suel in sufile.sulist){
+                        res.push(sufile.path+"/"+suel);
+                    }
+                }
+            }
         } else {
-            const answer = await inquirer.resetSU();
+            const answer = await inquirer.resetSU(pinesulist[0]);
             if (answer.reset == "No") {
                 return ["null"];
             }
         }
-
     }
     var hashed = treelist.createHashTree(res);
     return hashed;

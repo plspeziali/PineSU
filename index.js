@@ -82,13 +82,16 @@ const create = async () => {
   const spinnerAdd = ora('Adding files to the SU...').start();
   await gitLogic.addAllSU();
 
-  var filelist = await gitLogic.commitSU("").then( async () => {return await gitLogic.calculateSU()});
+  var filelist = await gitLogic.commitSU("").then( async () => {
+    spinnerAdd.succeed("All files added");
+    return await gitLogic.calculateSU()
+  });
+  
   if(filelist[0] == "null"){
     gitLogic.resetCommit();
     return;
   }
 
-  spinnerAdd.succeed("All files added");
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
     Object.assign(details, {owner: ownID});
     Object.assign(details, {hash: filelist[filelist.length-1].split(':')[1]});
