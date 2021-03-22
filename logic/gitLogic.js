@@ -54,21 +54,21 @@ async function calculateSU(){
     if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
         if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
             var pinesuArray = files.readPineSU(pinesulist);
-            await inquirer.prova(pinesulist);
+            await inquirer.prova(pinesuArray);
             var inqlist = new Array();
-            for(el in pinesuArray){
+            for(var el in pinesuArray){
                 inqlist.push(el.name+":"+el.path)
             }
             var inqrec = await inquirer.askSURecalc(inqlist);
             if(typeof(inqrec.recalc) !== "undefined" && inqrec.recalc.length > 0){
-                for(el in inqrec.recalc){
+                for(var el in inqrec.recalc){
                     var sufile = files.readPineSUFile(el.split(":")[1]);
                     sufile.path = sufile.path.substring(0,".pinesu.json".length);
                     // sostituisco la root
                     res = treelist.createCompSubArray(sufile.path, res);
                     res.push(sufile.path+":"+sufile.hash);
                     // sostituisco tutti
-                    for(suel in sufile.sulist){
+                    for(suel in sufile.filelist){
                         res.push(sufile.path+"/"+suel);
                     }
                 }
