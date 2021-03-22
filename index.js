@@ -30,7 +30,6 @@ const run = async () => {
   const inqstart = await inquirer.startAction();
 
   if(inqstart.startans === "Exit"){
-    console.log(await files.readPineSUFile([".pinesu.json","c/.pinesu.json"]));
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
   } else if (inqstart.startans === "Create new SU") {
