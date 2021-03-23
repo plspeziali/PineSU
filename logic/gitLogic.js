@@ -51,6 +51,7 @@ async function calculateSU(){
     var res = await git.getRepoFiles();
     res = res.split(/\r?\n/);
     var pinesulist = treelist.createSubArray(".pinesu.json",res);
+    await inquirer.prova(res);
     if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
         if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
             var pinesuArray = files.readPineSU(pinesulist);
@@ -80,7 +81,39 @@ async function calculateSU(){
         }
     }
     var hashed = treelist.createHashTree(res);
+
     return hashed;
+}
+
+function calculateTree(list){
+    var hashlist = [];
+    for(el of list){
+        elsplit = el.split(':');
+        hashlist.push(elsplit[elsplit.length - 1]);
+    }
+    return treelist.calculateTree(hashlist);
+}
+
+function createFilesJSON(list){
+    var root = files.readPineSUFile(".pinesu.json").hash;
+    if(!treelist.sameRoot(root)){
+        root = module.exports.calculateTree(files.readPineSUFile(".pinesu.json").filelist);
+    }
+    var res = []
+    for(el of list){
+        var o = {
+            path: el.split(":")[0],
+            hash: el.split(":")[1],
+            root: root,
+            proof: treelist.getProof(el.split(":")[1])
+        }
+        res.push(o);
+    }
+    return res;
+}
+
+function validateProof(proof, hash, root){
+    return treelist.validateProof(proof, hash, root);
 }
 
 module.exports = {
@@ -93,5 +126,8 @@ module.exports = {
     addRemoteSU: addRemoteSU,
     pushSU: pushSU,
     resetCommit: resetCommit,
+    calculateTree: calculateTree,
+    createFilesJSON: createFilesJSON,
+    validateProof: validateProof,
     hasRemote: hasRemote
 }

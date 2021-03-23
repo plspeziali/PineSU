@@ -8,6 +8,7 @@ const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
 var ownID;
+var merkleTools = new require('merkle-tools')();
 
 clear();
 
@@ -30,6 +31,7 @@ const run = async () => {
   const inqstart = await inquirer.startAction();
 
   if(inqstart.startans === "Exit"){
+
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
   } else if (inqstart.startans === "Create new SU") {
@@ -50,6 +52,7 @@ const run = async () => {
   } else if (inqstart.startans === "Export SU"){
     // TODO
     await distribute();
+    run();
 
   } else if (inqstart.startans === "Get / Change identity"){
     
@@ -92,10 +95,12 @@ const create = async () => {
     return;
   }
 
+  var merkleroot = gitLogic.calculateTree(filelist);
+
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
     Object.assign(details, {owner: ownID});
-    Object.assign(details, {hash: filelist[filelist.length-1].split(':')[1]});
-    Object.assign(details, {filelist: filelist.slice(0, filelist.length-1)})
+    Object.assign(details, {hash: merkleroot.toString('utf8')});
+    Object.assign(details, {filelist: filelist})
     files.addToUser(details.owner,details.name,details.hash);
     files.saveJSON(details,"suinfo");
     console.log(chalk.green("The Storage Unit has been created!"));
@@ -130,7 +135,22 @@ const check = async () => {
 };
 
 const distribute = async () => {
-  
+
+  var filelist = await files.distributeSU();
+  if(filelist[0] != "null"){
+
+    var filesJSON = gitLogic.createFilesJSON(filelist);
+
+    console.log(filesJSON);
+    console.log(filesJSON[0].proof);
+      
+    console.log(gitLogic.validateProof(filesJSON[0].proof, filesJSON[0].hash, filesJSON[0].root));
+    //files.createZIP(filelist, filesJSON);
+    
+  } else {
+    console.log(chalk.red("An error occurred. Please create a SU in this directory and/or select a file to distribute."))
+  }
+
 };
 
 const identity = async () => {
