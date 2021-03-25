@@ -119,6 +119,10 @@ function validateProof(proof, hash, root){
     return treelist.validateProof(proof, hash, root);
 }
 
+function calculateHash(path){
+    return treelist.calculateHash(path);
+}
+
 module.exports = {
     changeDir: changeDir,
     init: init,
@@ -132,5 +136,6 @@ module.exports = {
     calculateTree: calculateTree,
     createFilesJSON: createFilesJSON,
     validateProof: validateProof,
-    hasRemote: hasRemote
+    hasRemote: hasRemote,
+    calculateHash: calculateHash
 }

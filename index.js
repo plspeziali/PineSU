@@ -145,8 +145,13 @@ const checkFiles = async () => {
     console.log(chalk.red('No ".pifiles.json" found in the current folder'));
     run();
   }
-  for(var el in pifiles){
-    
+  for(var el of pifiles){
+    var hash = gitLogic.calculateHash(el.path)
+    if(gitLogic.validateProof(el.proof, hash, el.root)){
+      console.log(chalk.green("The integrity of the file "+el.path+" has been verified and it matches the original hash root"));
+    } else {
+      console.log(chalk.red("The integrity of the file "+el.path+" can't be been verified since it  doesn't match the original hash root"));
+    }
   }
 
 };
