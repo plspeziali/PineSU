@@ -8,7 +8,6 @@ const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
 var ownID;
-var merkleTools = new require('merkle-tools')();
 
 clear();
 
@@ -34,12 +33,12 @@ const run = async () => {
 
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
-  } else if (inqstart.startans === "Create new SU") {
+  } else if (inqstart.startans === "Create new SU / Register SU to your account") {
 
     await create();
     run();
 
-  } else if (inqstart.startans === "Register SU") {
+  } else if (inqstart.startans === "Register SU in the blockchain network") {
 
     await register();
     run();
@@ -49,9 +48,14 @@ const run = async () => {
     await check();
     run();
 
-  } else if (inqstart.startans === "Export SU"){
+  } else if (inqstart.startans === "Export files from current SU"){
     // TODO
     await distribute();
+    run();
+
+  } else if (inqstart.startans === "Check files integrity"){
+    // TODO
+    await checkFiles();
     run();
 
   } else if (inqstart.startans === "Get / Change identity"){
@@ -134,19 +138,18 @@ const check = async () => {
   
 };
 
+const checkFiles = async () => {
+  
+};
+
 const distribute = async () => {
 
   var filelist = await files.distributeSU();
+
   if(filelist[0] != "null"){
-
     var filesJSON = gitLogic.createFilesJSON(filelist);
-
-    console.log(filesJSON);
-    console.log(filesJSON[0].proof);
-      
-    console.log(gitLogic.validateProof(filesJSON[0].proof, filesJSON[0].hash, filesJSON[0].root));
-    //files.createZIP(filelist, filesJSON);
-    
+    files.createZIP(filelist, filesJSON);
+    console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/pinesuExport.zip"))
   } else {
     console.log(chalk.red("An error occurred. Please create a SU in this directory and/or select a file to distribute."))
   }

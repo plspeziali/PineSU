@@ -95,15 +95,18 @@ function calculateTree(list){
 }
 
 function createFilesJSON(list){
-    var root = files.readPineSUFile(".pinesu.json").hash;
+    var pinesufile = files.readPineSUFile(".pinesu.json");
+    var root = pinesufile.hash;
+    var owner = pinesufile.owner;
     if(!treelist.sameRoot(root)){
-        root = module.exports.calculateTree(files.readPineSUFile(".pinesu.json").filelist);
+        root = module.exports.calculateTree(pinesufile.filelist);
     }
     var res = []
     for(el of list){
         var o = {
             path: el.split(":")[0],
             hash: el.split(":")[1],
+            owner: owner,
             root: root,
             proof: treelist.getProof(el.split(":")[1])
         }
