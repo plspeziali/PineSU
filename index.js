@@ -140,6 +140,15 @@ const check = async () => {
 
 const checkFiles = async () => {
   
+  var pifiles = files.readPifiles();
+  if(pifiles[0] == "null"){
+    console.log(chalk.red('No ".pifiles.json" found in the current folder'));
+    run();
+  }
+  for(var el in pifiles){
+    
+  }
+
 };
 
 const distribute = async () => {
