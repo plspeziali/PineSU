@@ -51,7 +51,7 @@ async function calculateSU(){
     var res = await git.getRepoFiles();
     res = res.split(/\r?\n/);
     var pinesulist = treelist.createSubArray(".pinesu.json",res);
-    await inquirer.prova(res);
+    //await inquirer.prova(res);
     if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
         if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
             var pinesuArray = files.readPineSU(pinesulist);
@@ -80,17 +80,21 @@ async function calculateSU(){
             }
         }
     }
+    res = treelist.createCompSubArray(".gitignore", res);
+    res = treelist.createCompSubArray(".pinesu.json", res);
     var hashed = treelist.createHashTree(res);
 
     return hashed;
 }
 
 function calculateTree(list){
+    //inquirer.prova(list);
     var hashlist = [];
     for(el of list){
         elsplit = el.split(':');
-        hashlist.push(elsplit[elsplit.length - 1]);
+        hashlist.push(elsplit[1]);
     }
+    //inquirer.prova(list + " /// " + hashlist);
     return treelist.calculateTree(hashlist);
 }
 

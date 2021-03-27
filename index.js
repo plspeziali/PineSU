@@ -33,6 +33,7 @@ const run = async () => {
 
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
+    
   } else if (inqstart.startans === "Create new SU / Register SU to your account") {
 
     await create();
@@ -69,7 +70,7 @@ const run = async () => {
 
 const create = async () => {
 
-  if (files.directoryExists('.git')) {
+  if (files.fileExists('.git')) {
     console.log(chalk.green('Already a Git repository!'));
   } else {
     const setup = await inquirer.gitSetup();
@@ -145,12 +146,13 @@ const checkFiles = async () => {
     console.log(chalk.red('No ".pifiles.json" found in the current folder'));
     run();
   }
+
   for(var el of pifiles){
     var hash = gitLogic.calculateHash(el.path)
     if(gitLogic.validateProof(el.proof, hash, el.root)){
-      console.log(chalk.green("The integrity of the file "+el.path+" has been verified and it matches the original hash root"));
+      console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
     } else {
-      console.log(chalk.red("The integrity of the file "+el.path+" can't be been verified since it  doesn't match the original hash root"));
+      console.log(chalk.red("The integrity of the file "+el.path+"\ncan't be been verified since it doesn't match the original hash root"));
     }
   }
 
@@ -165,7 +167,7 @@ const distribute = async () => {
     files.createZIP(filelist, filesJSON);
     console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/pinesuExport.zip"))
   } else {
-    console.log(chalk.red("An error occurred. Please create a SU in this directory and/or select a file to distribute."))
+    console.log(chalk.red("An error occurred. Please create a SU in this directory\nand/or select a file to distribute."))
   }
 
 };
