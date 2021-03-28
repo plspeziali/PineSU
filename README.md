@@ -8,14 +8,12 @@ Finally the program will save in .pinesu the information about the Storage Unit 
 
 ## TODO List
 
- - [ ] Implement GitHub authentication for pushing
  - [x] Implement Merkle Tree hashing
  - [x] Implement Git client operations
- - [ ] Implement efficient hashes storage
- - [ ] Implement server-side upload
+ - [x] Implement efficient hashes storage
  - [ ] Implement client -side integrity checking with the Ethereum blockchain
- - [ ] Implement client-side integrity checking given the file and the hash of its peer files and directory
+ - [x] Implement client-side integrity checking given the file and the hash of its peer files and directory
  - [ ] Implement client-side GUI
  - [x] Implement client-side CLI
- - [ ] Improve the application pattern division
- - [ ] Implement user authentication with scheduled Storage Unit upload and checking
+ - [x] Improve the application pattern division
+ - [x] Implement user authentication with scheduled Storage Unit upload and checking
