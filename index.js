@@ -148,7 +148,7 @@ const checkFiles = async () => {
   }
 
   for(var el of pifiles){
-    var hash = gitLogic.calculateHash(el.path)
+    var hash = gitLogic.fileHashSync(el.path)
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
     } else {

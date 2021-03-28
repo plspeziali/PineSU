@@ -123,8 +123,8 @@ function validateProof(proof, hash, root){
     return treelist.validateProof(proof, hash, root);
 }
 
-function calculateHash(path){
-    return treelist.calculateHash(path);
+function fileHashSync(path){
+    return treelist.fileHashSync(path);
 }
 
 module.exports = {
@@ -141,5 +141,5 @@ module.exports = {
     createFilesJSON: createFilesJSON,
     validateProof: validateProof,
     hasRemote: hasRemote,
-    calculateHash: calculateHash
+    fileHashSync: fileHashSync
 }
