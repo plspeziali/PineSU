@@ -6,6 +6,7 @@ const figlet = require('figlet');
 const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
+const web3Logic = require('./logic/web3Logic');
 const files = require('./lib/files');
 var ownID;
 
@@ -31,6 +32,7 @@ const run = async () => {
 
   if(inqstart.startans === "Exit"){
 
+    await web3Logic.connect();
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
     
