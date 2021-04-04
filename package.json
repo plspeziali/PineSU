@@ -32,7 +32,6 @@
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "figlet": "^1.5.0",
-    "fortmatic": "^2.2.1",
     "hidefile": "^3.0.0",
     "inquirer": "^8.0.0",
     "macaddress": "^0.5.1",
