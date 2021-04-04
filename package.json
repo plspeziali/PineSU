@@ -29,6 +29,7 @@
   "homepage": "https://github.com/plspeziali/PineSU#readme",
   "dependencies": {
     "adm-zip": "^0.5.5",
+    "async": "^3.2.0",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "figlet": "^1.5.0",
@@ -38,6 +39,7 @@
     "merkle-tools": "^1.4.1",
     "mkdirp": "^1.0.4",
     "nexmo": "^2.9.1",
+    "opener": "^1.5.2",
     "ora": "^5.4.0",
     "simple-git": "^2.37.0",
     "touch": "^3.1.0",

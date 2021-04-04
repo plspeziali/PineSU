@@ -8,6 +8,7 @@ const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const web3Logic = require('./logic/web3Logic');
 const files = require('./lib/files');
+const {execSync} = require('child_process');
 var ownID;
 
 clear();
@@ -31,8 +32,8 @@ const run = async () => {
   const inqstart = await inquirer.startAction();
 
   if(inqstart.startans === "Exit"){
-
     await web3Logic.connect();
+    execSync('opener http://localhost:9011');
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
     
