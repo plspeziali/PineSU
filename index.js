@@ -8,7 +8,9 @@ const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const web3Logic = require('./logic/web3Logic');
 const files = require('./lib/files');
+const path = require('path');
 const {execSync} = require('child_process');
+const {spawn} = require('child_process');
 var ownID;
 
 clear();
@@ -32,8 +34,7 @@ const run = async () => {
   const inqstart = await inquirer.startAction();
 
   if(inqstart.startans === "Exit"){
-    await web3Logic.connect();
-    execSync('opener http://localhost:9011');
+    //await web3Logic.connect();
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
     
@@ -131,7 +132,8 @@ const register = async () => {
   var sulist = files.readSUList();
   if(sulist[0] !== "null"){
     const inqreg = await inquirer.askRegSU(sulist);
-    
+    spawn('pm2 --name HelloWorld serve npm -- start', {cwd: __dirname.replace(/\\/g, '/')+"/dapp/", stdio: 'inherit', detached: true});
+    execSync('opener http://localhost:9011',{stdio: 'inherit'});
   } else {
     console.log(chalk.red("You have not created any Storage Unit yet!"))
   }

@@ -8,10 +8,7 @@ module.exports = {
 
     connect: async () => {
 
-        require('async').series([
-            () => exec('cd dapp'),
-            () => exec('npm run serve')
-        ]);
+        
 
     }
 
