@@ -132,7 +132,15 @@ const register = async () => {
   var sulist = files.readSUList();
   if(sulist[0] !== "null"){
     const inqreg = await inquirer.askRegSU(sulist);
-    spawn('pm2 --name HelloWorld serve npm -- start', {cwd: __dirname.replace(/\\/g, '/')+"/dapp/", stdio: 'inherit', detached: true});
+    const options = {
+      cwd: __dirname.replace(/\\/g, '/')+"/dapp/",
+      slient:false,
+      detached:true,
+        stdio: [null, null, null, 'ipc']
+    };
+
+    //child = spawn('pm2 --name HelloWorld serve npm -- start', options);
+    //fork('pm2 --name HelloWorld serve npm -- start', {cwd: __dirname.replace(/\\/g, '/')+"/dapp/", stdio: 'inherit', detached: true});
     execSync('opener http://localhost:9011',{stdio: 'inherit'});
   } else {
     console.log(chalk.red("You have not created any Storage Unit yet!"))
@@ -170,7 +178,7 @@ const distribute = async () => {
   if(filelist[0] != "null"){
     var filesJSON = gitLogic.createFilesJSON(filelist);
     files.createZIP(filelist, filesJSON);
-    console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/pinesuExport.zip"))
+    console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/../pinesuExport.zip"))
   } else {
     console.log(chalk.red("An error occurred. Please create a SU in this directory\nand/or select a file to distribute."))
   }
