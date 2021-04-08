@@ -1,11 +1,10 @@
 pragma solidity ^0.5.16;
-pragma experimental ABIEncoderV2;
 
 contract SURegistry {
 
     string StorageUnit;
 
-    mapping(uint => StorageUnit) public registry;
+    mapping(uint => string) public registry;
 
     uint public SUCount;
 

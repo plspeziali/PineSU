@@ -29,12 +29,12 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('news.json', function(data) {
+    $.getJSON('SURegistry.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
-      App.contracts.news = TruffleContract(data);
+      App.contracts.SURegistry = TruffleContract(data);
     
       // Set the provider for our contract
-      App.contracts.news.setProvider(App.web3Provider);
+      App.contracts.SURegistry.setProvider(App.web3Provider);
     
       // Use our contract to retrieve and mark the adopted pets
       // return App.markAdopted();
@@ -43,36 +43,52 @@ App = {
     });
 
     // return App.bindEvents();
-      return App.AddNewsButton();
+      return App.AddSUButton();
 
   },
+
   init: async function() {
     // Load Products.
     var postInstance;
+    var modalbody = $('#modal-body');
 
-    App.contracts.news.deployed().then(function(instance){
+    /*const fs = require('fs');
+
+    var data = fs.readFileSync("latest_hashes.json");*/
+
+    $.getJSON('./src/latest_hashes.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      $('#prova').append(data);
+      var myObj = JSON.parse(data);
+      modalbody.getElementById('listSU').append("<ul>");
+      for(el of myObj){
+        modalbody.getElementById('listSU').append(el.name+": "+el.hash);
+      }
+      modalbody.getElementById('listSU').append("</ul>");
+
+    });
+    
+    App.contracts.SURegistry.deployed().then(function(instance){
       postInstance = instance;
-      return postInstance.newsCount();
+      return postInstance.SUCount();
     }).then(function(result){
 
       var counts = result.c[0];
-      console.log("Total News : "+counts);
+      console.log("Total Hashes : "+counts);
 
       for (var i = 1; i <= counts; i ++) {
-        postInstance.newsfeeds(i).then(function(result)
+        postInstance.registry(i).then(function(result)
         {
-          console.log("Publisher Address:" +result[0]);
-          console.log("News:" +result[1]);
+          console.log("Hash:" +result[0]);
 
-          var newsRow = $('#newsRow');
+          var newsRow = $('#SURow');
           var postTemplate = $('#postTemplate');
 
           postTemplate.find('.panel-title').text(result[0]);
-          postTemplate.find('.desc').text(result[1]);
           newsRow.append(postTemplate.html());
          });
       }
-    }); 
+    });
 },
 
   AddSUButton: function() {
@@ -80,12 +96,12 @@ App = {
   },
 
   
-  AddNews:function(event){
+  AddSU:function(event){
     var post = document.getElementById('post').value
     var postInstance;
     App.contracts.news.deployed().then(function(instance){
       postInstance = instance;
-      return postInstance.addnews(post);
+      return postInstance.addSUs(post);
     }); 
     console.log("Storage Unit(s) registered");
   },

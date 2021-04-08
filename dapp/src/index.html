@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Decentralized Newsfeed</title>
+    <title>Register Storage Units</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="icon" href="favicon.ico">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,14 +29,15 @@
         </div>
       </div>
 
-      <div id="newsRow" class="row">
+      <div id="SURow" class="row">
         <!-- PETS LOAD HERE -->
       </div>
-      <!-- <button class="btn btn-default" type="button" class="aaaaaddProd">Add Product</button> -->
-     <!-- Button trigger modal -->
-  <button type="button" style="align:center;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Register
-  </button>
+      <!-- <button class="btn btn-default" type="button" class="addProd">Add Product</button> -->
+      <!-- Button trigger modal -->
+      <button type="button" style="align:center;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Register
+      </button>
+      <div id="prova"></div>
     </div>
 
    
@@ -48,7 +51,7 @@
 
         <!--Modal Header-->
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Add News</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Register the selected Storage Unit(s)</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -56,11 +59,11 @@
         <!--Modal Body-->
         <div class="modal-body">
             <form>
-                <div class="form-group">
-                  <!--List of STorage Units-->
+                <div class="form-group" id="listSU">
+                  <!--List of Storage Units-->
                 </div>
                                 
-                <button type="submit" data-dismiss="modal" class="btn btn-primary addSU">Register the selected Storage Unit(s)</button>
+                <button type="submit" data-dismiss="modal" class="btn btn-primary addSU">Register</button>
               </form>
         </div>
 
@@ -77,14 +80,9 @@
         <div class="panel panel-default panel-pet">
 
           <div class="panel-heading">
-            <strong>Publisher Address</strong> <h3 class="panel-title"> Account Address </h3>
+            <strong>Hash:</strong> <h3 class="panel-title"> </h3>
           </div>
 
-          <div class="panel-body">
-
-            <strong>Descrition</strong>: <span class="desc"> </span><br/>
-
-          </div>
         </div>
       </div>
     </div>
