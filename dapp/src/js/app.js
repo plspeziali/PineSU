@@ -75,8 +75,8 @@ App = {
     }); 
 },
 
-  AddNewsButton: function() {
-    $(document).on('click', '.addNews', App.AddNews);
+  AddSUButton: function() {
+    $(document).on('click', '.addSU', App.AddSU);
   },
 
   
@@ -87,7 +87,7 @@ App = {
       postInstance = instance;
       return postInstance.addnews(post);
     }); 
-    console.log("News posted");
+    console.log("Storage Unit(s) registered");
   },
 };
 
