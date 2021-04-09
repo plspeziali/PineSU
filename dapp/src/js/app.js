@@ -50,21 +50,17 @@ App = {
   init: async function() {
     // Load Products.
     var postInstance;
-    var modalbody = $('#modal-body');
 
     /*const fs = require('fs');
 
     var data = fs.readFileSync("latest_hashes.json");*/
 
-    $.getJSON('./src/latest_hashes.json', function(data) {
+    $.getJSON('./latest_hashes.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
-      $('#prova').append(data);
-      var myObj = JSON.parse(data);
-      modalbody.getElementById('listSU').append("<ul>");
-      for(el of myObj){
-        modalbody.getElementById('listSU').append(el.name+": "+el.hash);
+      console.log(data);
+      for(el of data){
+        $('#listSU').append("<li>"+el.name+": "+el.hash+"</li>");
       }
-      modalbody.getElementById('listSU').append("</ul>");
 
     });
     
