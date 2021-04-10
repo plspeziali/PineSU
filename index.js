@@ -9,8 +9,6 @@ const gitLogic = require('./logic/gitLogic');
 const web3Logic = require('./logic/web3Logic');
 const files = require('./lib/files');
 const path = require('path');
-const {execSync} = require('child_process');
-const {spawn} = require('child_process');
 var ownID;
 
 clear();
@@ -133,7 +131,6 @@ const register = async () => {
   if(sulist[0] !== "null"){
     const inqreg = await inquirer.askRegSU(sulist);
     files.writeHashes(inqreg.register);
-    execSync('opener http://localhost:9011',{stdio: 'inherit'});
   } else {
     console.log(chalk.red("You have not created any Storage Unit yet!"))
   }

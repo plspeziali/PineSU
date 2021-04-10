@@ -1,18 +1,1 @@
-[
-  {
-    "hash": "hdskliAFG78OQWET8O34GRF",
-    "name": "bucciotto"
-  },
-  {
-    "hash": "ED9W7FYGH2489PFH789",
-    "name": "titano"
-  },
-  {
-    "hash": "ED9W7FYGH2489PFH789",
-    "name": "mhanz"
-  },
-  {
-    "hash": "ED9W7FYGH2489PFH787",
-    "name": "titano1"
-  }
-]
+[{"hash":"fc1b80450eb8f6b1b459a5c7e6d940e3","name":"cartella di prova","proof":[{"right":"ac7cbab88d8430f4700700068798e901"}]},{"hash":"ac7cbab88d8430f4700700068798e901","name":"c","proof":[{"left":"fc1b80450eb8f6b1b459a5c7e6d940e3"}]},{"hash":"a88eb8fc37db5f060233ba7b738d7a7b24f4dda8","name":"10/04/2021","proof":"null"}]
