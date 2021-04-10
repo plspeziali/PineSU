@@ -64,7 +64,7 @@ App = {
         $('#listSU').append("<li>"+el.name+": "+el.hash+"</li>");
       }
       App.hashValue = data[data.length-1].hash;
-      $('#defineSU').append("The selected SU will be registered opn the blockchain network as the hash: "+App.hashValue);
+      $('#defineSU').append("The selected SU will be registered on the blockchain network as the hash: "+App.hashValue);
     });
 
     
