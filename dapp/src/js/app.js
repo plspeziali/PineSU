@@ -1,6 +1,8 @@
 App = {
   web3Provider: null,
   contracts: {},
+  hashValue: "",
+  registeredHashes: [],
 
   initWeb3: async function() {
     // Modern dapp browsers...
@@ -58,11 +60,13 @@ App = {
     $.getJSON('./latest_hashes.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       console.log(data);
-      for(el of data){
+      for(el of data.slice(0,data.length-1)){
         $('#listSU').append("<li>"+el.name+": "+el.hash+"</li>");
       }
-
+      App.hashValue = data[data.length-1].hash;
+      $('#defineSU').append("The selected SU will be registered opn the blockchain network as the hash: "+App.hashValue);
     });
+
     
     App.contracts.SURegistry.deployed().then(function(instance){
       postInstance = instance;
@@ -75,12 +79,13 @@ App = {
       for (var i = 1; i <= counts; i ++) {
         postInstance.registry(i).then(function(result)
         {
-          console.log("Hash:" +result[0]);
+          console.log("Hash: " +result);
 
           var newsRow = $('#SURow');
           var postTemplate = $('#postTemplate');
 
-          postTemplate.find('.panel-title').text(result[0]);
+          postTemplate.find('.panel-title').text(result);
+          App.registeredHashes.push(result);
           newsRow.append(postTemplate.html());
          });
       }
@@ -93,13 +98,19 @@ App = {
 
   
   AddSU:function(event){
-    var post = document.getElementById('post').value
-    var postInstance;
-    App.contracts.news.deployed().then(function(instance){
-      postInstance = instance;
-      return postInstance.addSUs(post);
-    }); 
-    console.log("Storage Unit(s) registered");
+    var post = App.hashValue;
+    if(!App.registeredHashes.includes(post)){
+      var postInstance;
+      App.contracts.SURegistry.deployed().then(function(instance){
+        postInstance = instance;
+        return postInstance.addSU(post);
+      }); 
+      console.log("Storage Unit(s) registered");
+    } else {
+      $('.alertSU').append('<div class="alert alert-danger alert-dismissible fade in">'+
+      +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
+      +'<strong>Error!</strong> This Storage Unit(s) Hash has already been registered.</div>');
+    }
   },
 };
 
