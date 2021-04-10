@@ -1,6 +1,10 @@
 # PineSU
 NodeJS application which provides file version control along with integrity checking on the Ethereum blockchain network
 
+**This application is still not ready to be used! Try it at your own risk!**
+
+This application is part of my internship @ UniPG.
+
 # What it does now
 
 <img src="favicon.png" alt="drawing" align="right" height="150x"/>

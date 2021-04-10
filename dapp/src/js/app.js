@@ -107,9 +107,7 @@ App = {
       }); 
       console.log("Storage Unit(s) registered");
     } else {
-      $('.alertSU').append('<div class="alert alert-danger alert-dismissible fade in">'+
-      +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
-      +'<strong>Error!</strong> This Storage Unit(s) Hash has already been registered.</div>');
+      $('.alertSU').append('<div class="alert alert-danger alert-dismissible fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> This Storage Unit(s) Hash has already been registered.</div>');
     }
   },
 };

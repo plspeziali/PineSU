@@ -110,8 +110,8 @@ const create = async () => {
     Object.assign(details, {owner: ownID});
     Object.assign(details, {hash: merkleroot.toString('utf8')});
     Object.assign(details, {filelist: filelist})
-    files.addToUser(details.owner,details.name,details.hash);
-    files.saveJSON(details,"suinfo");
+    files.saveJSON(details);
+    files.addToUser(details.owner,details.name,details);
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
@@ -132,15 +132,7 @@ const register = async () => {
   var sulist = files.readSUList();
   if(sulist[0] !== "null"){
     const inqreg = await inquirer.askRegSU(sulist);
-    const options = {
-      cwd: __dirname.replace(/\\/g, '/')+"/dapp/",
-      slient:false,
-      detached:true,
-        stdio: [null, null, null, 'ipc']
-    };
-
-    //child = spawn('pm2 --name HelloWorld serve npm -- start', options);
-    //fork('pm2 --name HelloWorld serve npm -- start', {cwd: __dirname.replace(/\\/g, '/')+"/dapp/", stdio: 'inherit', detached: true});
+    files.writeHashes(inqreg.register);
     execSync('opener http://localhost:9011',{stdio: 'inherit'});
   } else {
     console.log(chalk.red("You have not created any Storage Unit yet!"))
