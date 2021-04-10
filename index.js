@@ -6,7 +6,6 @@ const figlet = require('figlet');
 const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
-const web3Logic = require('./logic/web3Logic');
 const files = require('./lib/files');
 const path = require('path');
 var ownID;
@@ -36,9 +35,13 @@ const run = async () => {
     console.log(chalk.green("Goodbye!"));
     process.exit(0);
     
-  } else if (inqstart.startans === "Create new SU / Register SU to your account") {
+  } else if (inqstart.startans === "Create new SU") {
 
-    await create();
+    if(!files.fileExists(".pinesu.json")){
+      await create();
+    } else {
+      console.log(chalk.red("This folder is already a Storage Unit"))
+    }
     run();
 
   } else if (inqstart.startans === "Register SU in the blockchain network") {
@@ -48,16 +51,24 @@ const run = async () => {
 
   } else if (inqstart.startans === "Check SU integrity") {
 
-    await check();
+    if(!files.fileExists(".registration.json")){
+      await check();
+    } else {
+      console.log(chalk.red("This Storage Unit is not registered in the blockchain network"))
+    }
     run();
 
   } else if (inqstart.startans === "Export files from current SU"){
-    // TODO
-    await distribute();
+    
+    if(files.fileExists(".pinesu.json")){
+      await distribute();
+    } else {
+      console.log(chalk.red("This folder is not a Storage Unit"))
+    }
     run();
 
   } else if (inqstart.startans === "Check files integrity"){
-    // TODO
+    
     await checkFiles();
     run();
 
@@ -89,7 +100,7 @@ const create = async () => {
     await files.createGitignore();
     await gitLogic.addFileSU('.gitignore');
   }
-  const spinnerAdd = ora('Adding files to the SU...').start();
+  const spinnerAdd = ora('Adding files to the Storage Unit...').start();
   await gitLogic.addAllSU();
 
   var filelist = await gitLogic.commitSU("").then( async () => {
@@ -138,6 +149,36 @@ const register = async () => {
 };
 
 const check = async () => {
+
+  const spinnerAdd = ora('Calculating the Storage Unit hash...').start();
+  await gitLogic.addAllSU();
+
+  var filelist = await gitLogic.commitSU("").then( async () => {
+    spinnerAdd.succeed("Calculation complete!");
+    return await gitLogic.calculateSU()
+  });
+  
+  if(filelist[0] == "null"){
+    gitLogic.resetCommit();
+    return;
+  }
+
+  var merkleroot = gitLogic.calculateTree(filelist);
+  /* SBAGLIATO! NON DEVI RICALCOLARE PINESU MA SOLO L'HASH E CONFRONTARLO */
+  await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
+    Object.assign(details, {owner: ownID});
+    Object.assign(details, {hash: merkleroot.toString('utf8')});
+    Object.assign(details, {filelist: filelist})
+    var hash = files.calculateHash(details);
+    if(files.compareHashes(hash)){
+      console.log(chalk.green("The integrity of the local files\nhas been verified and it matches the original hash root,\nproceeding with the blockchain check"));
+      files.blockchainCheck(hash);
+    } else {
+      console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
+    }
+  });
+  
+  gitLogic.resetCommit();
   
 };
 

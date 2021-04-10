@@ -50,7 +50,7 @@ async function hasRemote(){
 async function calculateSU(){
     var res = await git.getRepoFiles();
     res = res.split(/\r?\n/);
-    var pinesulist = treelist.createSubArray(".pinesu.json",res);
+    /*var pinesulist = treelist.createSubArray(".pinesu.json",res);
     //await inquirer.prova(res);
     if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
         if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
@@ -79,7 +79,7 @@ async function calculateSU(){
                 return ["null"];
             }
         }
-    }
+    }*/
     res = treelist.createCompSubArray(".gitignore", res);
     res = treelist.createCompSubArray(".pinesu.json", res);
     var hashed = treelist.createHashTree(res);
