@@ -3,10 +3,11 @@ NodeJS application which provides file version control along with integrity chec
 
 # What it does now
 
-<img src="favicon.png" alt="drawing" style="width:150px; float: right;"/>
-By calling and executing with node the file `index.js` in a folder with the files you want to work with, PineSU will create a new hidden folder .pinesu along with a .git folder.
+<img src="favicon.png" alt="drawing" align="right" height="150x"/>
+By calling and executing with node the file `index.js` in a folder with the files you want to work with, PineSU will create a new file .pinesu.json along with a .git folder.
 After that the program will ask you if you have to ignore some files and get ypu through the process of selecting the files which will populate the .gitignore file.
-Finally the program will save in .pinesu the information about the Storage Unit (PineSU directory) you just created and a JSON file contaning the structure of the file tree, where every file and folder is represented with `filename:filehash`.
+Finally the program will save in .pinesu.json the information about the Storage Unit (PineSU directory) you just created and a JSON file contaning the structure of the file tree, where every file and folder is represented with `filename:filehash`.
+It can also manage to export files along with proofs in order to verify them on a Merkle Tree.
 
 
 ## TODO List
