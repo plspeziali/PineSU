@@ -67,6 +67,15 @@ App = {
       $('#defineSU').append("The selected SU will be registered on the blockchain network as the hash: "+App.hashValue);
     });
 
+    var hashToCheck = ""
+    var hashFound = false;
+    $.getJSON('./hash_to_check.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      console.log(data);
+      if(typeof(data) !== "undefined" || data.length !== 0){
+        hashToCheck = data[0];
+      }
+    });
     
     App.contracts.SURegistry.deployed().then(function(instance){
       postInstance = instance;
@@ -87,10 +96,19 @@ App = {
           postTemplate.find('.panel-title').text(result);
           App.registeredHashes.push(result);
           newsRow.append(postTemplate.html());
+
+          if(hashToCheck === result){
+            hashFound = true;
+          }
          });
       }
+      if(hashFound){
+        $('#checkHash').text("Success! "+hashToCheck+" is registered in the blockchain!")
+      } else {
+        $('#checkHash').text("Failure! "+hashToCheck+" isn't registered in the blockchain!")
+      }
     });
-},
+  },
 
   AddSUButton: function() {
     $(document).on('click', '.addSU', App.AddSU);

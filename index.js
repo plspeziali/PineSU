@@ -51,7 +51,7 @@ const run = async () => {
 
   } else if (inqstart.startans === "Check SU integrity") {
 
-    if(!files.fileExists(".registration.json")){
+    if(files.fileExists(".registration.json")){
       await check();
     } else {
       console.log(chalk.red("This Storage Unit is not registered in the blockchain network"))
@@ -150,13 +150,13 @@ const register = async () => {
 
 const check = async () => {
 
-  const spinnerAdd = ora('Calculating the Storage Unit hash...').start();
+  //const spinnerAdd = ora('Calculating the Storage Unit hash...').start();
   var filelist = await gitLogic.calculateSU();
   var merkleroot = gitLogic.calculateTree(filelist);
   var pinesu = files.readPineSUFile(".pinesu.json");
   if(!pinesu.hash == merkleroot){
     console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
-    spinnerAdd.succeed("Calculation complete!");
+    //spinnerAdd.succeed("Calculation complete!");
     if(files.checkRegistration(pinesu.pinesuhash)){
       console.log(chalk.green("The integrity of the local files\nhas been verified and it matches the original hash root.\nProceding with the blockchain check"));
       files.blockchainCheck();
