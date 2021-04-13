@@ -150,20 +150,23 @@ const register = async () => {
 
 const check = async () => {
 
-  //const spinnerAdd = ora('Calculating the Storage Unit hash...').start();
-  var filelist = await gitLogic.calculateSU();
-  var merkleroot = gitLogic.calculateTree(filelist);
-  var pinesu = files.readPineSUFile(".pinesu.json");
-  if(!pinesu.hash == merkleroot){
-    console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
-    //spinnerAdd.succeed("Calculation complete!");
-    if(files.checkRegistration(pinesu.pinesuhash)){
-      console.log(chalk.green("The integrity of the local files\nhas been verified and it matches the original hash root.\nProceding with the blockchain check"));
-      files.blockchainCheck();
+  const spinnerCalc = ora('Calculating the Storage Unit hash...').start();
+  await gitLogic.calculateSU().then( async (filelist) => {
+    var merkleroot = gitLogic.calculateTree(filelist);
+    var pinesu = files.readPineSUFile(".pinesu.json");
+    console.log(pinesu+"\n"+merkleroot);
+    spinnerCalc.succeed("Calculation complete!");
+    if(pinesu.hash == merkleroot){
+      if(files.checkRegistration(pinesu.pinesuhash)){
+        console.log(chalk.green("The integrity of the local fileshas been verified and it matches the original hash root.\nProceding with the blockchain check"));
+        files.blockchainCheck();
+      } else {
+        console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
+      }
     } else {
-      console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
+      console.log(chalk.red("The integrity of the files can't be been verified\nsince they don't match the original hash root"));
     }
-  }
+  });
 
 };
 

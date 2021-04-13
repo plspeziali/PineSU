@@ -73,7 +73,7 @@ App = {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       console.log(data);
       if(typeof(data) !== "undefined" || data.length !== 0){
-        hashToCheck = data[0];
+        hashToCheck = data;
       }
     });
     
@@ -97,16 +97,18 @@ App = {
           App.registeredHashes.push(result);
           newsRow.append(postTemplate.html());
 
-          if(hashToCheck === result){
+          if(hashToCheck == result){
             hashFound = true;
+          }
+          
+          if(hashFound){
+            $('#checkHash').text("Success! "+hashToCheck+" is registered in the blockchain!")
+          } else {
+            $('#checkHash').text("Failure! "+hashToCheck+" isn't registered in the blockchain!")
           }
          });
       }
-      if(hashFound){
-        $('#checkHash').text("Success! "+hashToCheck+" is registered in the blockchain!")
-      } else {
-        $('#checkHash').text("Failure! "+hashToCheck+" isn't registered in the blockchain!")
-      }
+      
     });
   },
 
