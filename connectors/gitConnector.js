@@ -75,15 +75,15 @@ class GitConnector{
         });
     }
 
-    custom(_commands){
-        this.git.raw(_commands, (err, result) => {
+    async custom(_commands){
+        return await this.git.raw(_commands, (err, result) => {
             if(err){
                 console.error(err);
             } else {
                 console.log(result);
             }
         })
-        .raw('rev-list','--all','--count',(err,log) => this.num = log);
+        .raw('rev-list','--all','--count',(err,log) => {return log});
     }
 }
 

@@ -7,7 +7,6 @@ const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
-const path = require('path');
 var ownID;
 
 clear();
@@ -30,53 +29,57 @@ const run = async () => {
 
   const inqstart = await inquirer.startAction();
 
-  if(inqstart.startans === "Exit"){
-    //await web3Logic.connect();
-    console.log(chalk.green("Goodbye!"));
-    process.exit(0);
-    
-  } else if (inqstart.startans === "Create new SU") {
+  switch(inqstart.startans){
+    case "Exit":
+      console.log(chalk.green("Goodbye!"));
+      process.exit(0);
 
-    if(!files.fileExists(".pinesu.json")){
-      await create();
-    } else {
-      console.log(chalk.red("This folder is already a Storage Unit"))
-    }
-    run();
+    case "Create new SU":
+      if(!files.fileExists(".pinesu.json")){
+        await create();
+      } else {
+        console.log(chalk.red("This folder is already a Storage Unit"))
+      }
+      run();
+      break;
 
-  } else if (inqstart.startans === "Register SU in the blockchain network") {
+    case "Register SU in the blockchain network":
+      await register();
+      run();
+      break;
 
-    await register();
-    run();
+    case "Check SU integrity":
+      if(files.fileExists(".registration.json")){
+        await check();
+      } else {
+        console.log(chalk.red("This Storage Unit is not registered in the blockchain network"))
+      }
+      run();
+      break;
 
-  } else if (inqstart.startans === "Check SU integrity") {
+    case "Export files from current SU":
+      if(files.fileExists(".pinesu.json")){
+        await distribute();
+      } else {
+        console.log(chalk.red("This folder is not a Storage Unit"))
+      }
+      run();
+      break; 
 
-    if(files.fileExists(".registration.json")){
-      await check();
-    } else {
-      console.log(chalk.red("This Storage Unit is not registered in the blockchain network"))
-    }
-    run();
+    case "Check files integrity":
+      await checkFiles();
+      run();
+      break;
 
-  } else if (inqstart.startans === "Export files from current SU"){
-    
-    if(files.fileExists(".pinesu.json")){
-      await distribute();
-    } else {
-      console.log(chalk.red("This folder is not a Storage Unit"))
-    }
-    run();
+    case "Custom Git command":
+      await customGit();
+      run();
+      break;
 
-  } else if (inqstart.startans === "Check files integrity"){
-    
-    await checkFiles();
-    run();
-
-  } else if (inqstart.startans === "Get / Change identity"){
-    
-    await identity();
-    run();
-
+    case "Custom Git command":
+      await identity();
+      run();
+      break;
   }
 
 };
@@ -199,6 +202,18 @@ const distribute = async () => {
     console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/../pinesuExport.zip"))
   } else {
     console.log(chalk.red("An error occurred. Please create a SU in this directory\nand/or select a file to distribute."))
+  }
+
+};
+
+const customGit = async () => {
+
+  try {
+  await inquirer.gitCustom().then( async (res) => {
+    console.log(await gitLogic.customGit(res.command));
+  });
+  } catch(e){
+    console.log(chalk.red("Error! You may have entered an invalid Git command!"));
   }
 
 };

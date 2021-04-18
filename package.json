@@ -16,9 +16,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node .",
+    "start": "node index.js",
     "startServer": "npm --prefix dapp/ run serve",
-    "dev": "concurrently --handle-input --kill-others \"npm run start\" \"npm run startServer\""
+    "dev": "concurrently --handle-input --kill-others \"npm run startServer\" \"npm run start\""
   },
   "repository": {
     "type": "git",

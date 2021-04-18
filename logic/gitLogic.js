@@ -39,6 +39,10 @@ async function pushSU(){
     return git.push();
 }
 
+async function customGit(command){
+    return git.custom(command.split(" "));
+}
+
 function resetCommit(){
     git.reset();
 }
@@ -141,5 +145,6 @@ module.exports = {
     createFilesJSON: createFilesJSON,
     validateProof: validateProof,
     hasRemote: hasRemote,
-    fileHashSync: fileHashSync
+    fileHashSync: fileHashSync,
+    customGit: customGit
 }
