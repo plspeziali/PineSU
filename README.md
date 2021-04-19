@@ -20,7 +20,7 @@ It can also manage to export files along with proofs in order to verify them on 
  - [x] Implement Git client operations
  - [x] Implement efficient hashes storage
  - [x] Implement client-side integrity checking with the Ethereum blockchain
- - [ ] Implement client-side integrity checking given the file and the hash of its peer files and directory
+ - [x] Implement client-side integrity checking given the file and the hash of its peer files and directory
  - [ ] Implement client-side GUI
  - [x] Implement client-side CLI
  - [x] Improve the application pattern division
