@@ -84,8 +84,9 @@ async function calculateSU(){
             }
         }
     }*/
-    res = treelist.createCompSubArray(".gitignore", res);
-    res = treelist.createCompSubArray(".pinesu.json", res);
+    res = res .filter(e => e !== '.gitignore');
+    res = res .filter(e => e !== '.registration.json');
+    res = res .filter(e => e !== '.pinesu.json');
     var hashed = treelist.createHashTree(res);
 
     return hashed;

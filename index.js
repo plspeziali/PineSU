@@ -107,7 +107,6 @@ const create = async () => {
   await gitLogic.addAllSU();
 
   var filelist = await gitLogic.commitSU("").then( async () => {
-    spinnerAdd.succeed("All files added");
     return await gitLogic.calculateSU()
   });
   
@@ -117,6 +116,7 @@ const create = async () => {
   }
 
   var merkleroot = gitLogic.calculateTree(filelist);
+  spinnerAdd.succeed("All files added");
 
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
     Object.assign(details, {owner: ownID});
@@ -155,13 +155,15 @@ const check = async () => {
 
   const spinnerCalc = ora('Calculating the Storage Unit hash...').start();
   await gitLogic.calculateSU().then( async (filelist) => {
+    //console.log("\n"+filelist+"\n")
     var merkleroot = gitLogic.calculateTree(filelist);
     var pinesu = files.readPineSUFile(".pinesu.json");
-    console.log(pinesu+"\n"+merkleroot);
     spinnerCalc.succeed("Calculation complete!");
+    //console.log(pinesu.hash+"\n"+merkleroot);
     if(pinesu.hash == merkleroot){
       if(files.checkRegistration(pinesu.pinesuhash)){
-        console.log(chalk.green("The integrity of the local fileshas been verified and it matches the original hash root.\nProceding with the blockchain check"));
+        await checkFiles();
+        console.log(chalk.green("The integrity of the local files has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
         files.blockchainCheck();
       } else {
         console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
@@ -178,7 +180,7 @@ const checkFiles = async () => {
   var pifiles = files.readPifiles();
   if(pifiles[0] == "null"){
     console.log(chalk.red('No ".pifiles.json" found in the current folder'));
-    run();
+    return;
   }
 
   for(var el of pifiles){
