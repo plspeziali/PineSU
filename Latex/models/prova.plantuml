@@ -1,0 +1,8 @@
+@startuml
+rectangle "NodeJS front-end UI"
+rectangle "NodeJS Git Logic"
+rectangle "NodeJS Git Module Controller"
+rectangle "Git Client"
+
+"NodeJS front-end UI" -->> "NodeJS Git Logic"
+@enduml

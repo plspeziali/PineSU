@@ -1,0 +1,4 @@
+\babel@toc {italian}{}
+\babel@toc {italian}{}
+\beamer@sectionintoc {1}{Brainstorming}{2}{0}{1}
+\beamer@sectionintoc {2}{Specifica dei requisiti}{4}{0}{2}
