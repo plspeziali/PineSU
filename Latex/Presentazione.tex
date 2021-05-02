@@ -46,4 +46,114 @@
 	\frametitle{Fase 2: Specifica dei requisiti}
 	Partendo da questa idea lo step successivo è stata la definizione dei requisiti del progetto. Abbiamo perciò concordato che l’attività potesse orientarsi verso la creazione di un tool universale per la registrazione dell’impronta digitale (tramite funzioni di hashing) di insiemi di file, da noi battezzati Storage Unit, su Blockchain, utilizzando gli strumenti messi a disposizione da Git per gestirli meglio.
 \end{frame}
+\section{Excursus sulle tecnologie}
+\begin{frame}
+	\frametitle{Excursus su Ethereum e Blockchain}
+	La tecnologia di Ethereum permette la creazione di una rete distribuita e decentralizzata finanziata e incentivata ad operare e rimanere attiva mediante la creazione, lo scambio e l’utilizzo dell’omonima criptovaluta.
+	\medskip
+	\begin{figure}
+		\includegraphics[width=0.60\textwidth]{figures/blockchain.png}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{Excursus sulle Applicazioni Distribuite}
+	\begin{figure}
+		\includegraphics[width=0.90\textwidth]{figures/truffle.png}
+	\end{figure}
+	\bigskip
+	Su tale rete è possibile mettere a disposizione delle applicazioni che chiunque può utilizzare dietro pagamento di una piccola commissione. Queste applicazioni sono realizzabili dagli sviluppatori interessati tramite vari framework e suite di applicativi, il più celebre è Truffle.
+\end{frame}
+\begin{frame}
+	\frametitle{Excursus su Git}
+	Git è un software che permette in maniera semplice di gestire insiemi di file tramite un sistema di controllo di versione, una grande risorsa per gli sviluppatori che devono contribuire in maniera condivisa ad uno stesso progetto o che devono tenere sotto controllo i vari cambiamenti che sono stati apportati ai vari file e documenti.
+	\begin{figure}
+		\includegraphics[width=0.45\textwidth]{figures/git2.png}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{Excursus su Git}
+	Funzioni non invertibili che permettono di associare in maniera “univoca” stringhe di caratteri (e quindi anche documenti di varia natura tradotti in stringhe) a delle stringhe alfanumeriche di lunghezza fissa.
+	\bigskip
+	\begin{figure}
+		\includegraphics[width=0.85\textwidth]{figures/hashing.jpg}
+	\end{figure}
+\end{frame}
+\section{Progettazione}
+\begin{frame}
+	\frametitle{Fase 4: Progettazione - Prima stesura}
+	\begin{columns}
+		\column{0.5\textwidth}
+			La stesura iniziale è stata svolta dal professore che mi ha quindi fornito una linea guida da cui poter prendere spunto per poter realizzare il progetto dopo aver concordato sulle funzionalità del progetto, tale architettura è stata tuttavia modificata abbastanza in quanto le tecnologie utilizzate sono ancora troppo sperimentali e non offrono gli strumenti per potere essere adattati ad una struttura del genere.
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=0.88\textwidth]{figures/architecture1.png}
+		\end{figure}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{Fase 4: Progettazione - Seconda stesura}
+	\begin{columns}
+		\column{0.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=1\textwidth, height=1.05\textwidth]{figures/architecture2.png}
+			\end{figure}
+		\column{0.5\textwidth}
+		Il Front-End in NodeJS che comunica con una parte logica è stata mantenuta, sono stati però introdotti alcuni moduli Utility che vengono utilizzati da entrambe le componenti.
+
+		La connessione alla Blockchain avviene attraverso l’avvio di un Web Server apposito e l’apertura di una scheda del browser, l’interazione da parte dell’utente deve avvenire tramite l’add-on Metamask.
+	\end{columns}
+\end{frame}
+\section{Progettazione}
+\begin{frame}
+	\frametitle{Fase 5: Apprendimento}
+	In concomitanza con la fase di progettazione è stato necessario l’apprendimento di alcune tecnologie in modo da poter imparare le loro modalità di utilizzo e poter effettuare la seconda stesura dello schema progettuale.
+
+	Oltre alla già citati suite Truffle e Metamask, abbastanza intuitivi nell'utilizzo, le tecnologie che seguono sono quelle che hanno occupato la maggior parte di questa fase.
+	\begin{figure}
+		\includegraphics[width=0.50\textwidth]{figures/metamask.png}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{Fase 5: Apprendimento - Solidity}
+	\begin{columns}
+		\column{0.5\textwidth}
+		Per l’apprendimento della sintassi e delle peculiarità del linguaggio da utilizzare per scrivere DAPP per la Blockchain Ethereum mi sono avvalso della documentazione ufficiale e del tutorial interattivo CryptoZombies.	
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=0.30\textwidth]{figures/solidity.png}
+		\end{figure}
+		\begin{figure}
+			\includegraphics[width=0.40\textwidth]{figures/zombie.png}
+		\end{figure}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{Fase 5: Apprendimento - Javascript Asynchronous Programming}	
+	\begin{figure}
+		\includegraphics[width=0.89\textwidth]{figures/async.png}
+	\end{figure}
+	L’utilizzo di alcuni moduli all’interno dell’applicazione ha richiesto che io spendessi diverso tempo ad imparare le tecniche di programmazione asincrona di Javascript in quanto lo scorretto utilizzo delle keyword async e await sono state fonte di svariati problemi nella prima fase della stesura del codice.
+\end{frame}
+\begin{frame}
+	\frametitle{Fase 5: Apprendimento - Modulo Merkle Tree}
+	\begin{columns}
+		\column{0.5\textwidth}
+		La necessità di dover calcolare una singola stringa Hash per una moltitudine di file ha portato il professore a proporre l’utilizzo di questa struttura, è stato quindi necessario da parte mia non solo comprenderne bene il funzionamento ma anche essere in grado di poter utilizzare al meglio i moduli che fornivano metodi per lavorare con questi particolari alberi.
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=0.88\textwidth]{figures/merkle-tree.png}
+		\end{figure}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{Fase 5: Apprendimento - Modulo InquirerJS}
+	\begin{columns}
+		\column{0.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.80\textwidth]{figures/inquirer.png}
+			\end{figure}
+		\column{0.5\textwidth}
+		Anziché realizzare un Front-End dotato di GUI, ho preferito optare per una interfaccia testuale. Tuttavia, non volendo rinunciare all’immediatezza e la semplicità che un approccio grafico e user-friendly poteva portare al progetto ho imparato ad utilizzare il modulo di InquirerJS, il quale consente di realizzare menù con scelta a singola, multipla e libera in tutta comodità.
+	\end{columns}
+\end{frame}
 \end{document}

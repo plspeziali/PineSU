@@ -2,3 +2,6 @@
 \babel@toc {italian}{}
 \beamer@sectionintoc {1}{Brainstorming}{2}{0}{1}
 \beamer@sectionintoc {2}{Specifica dei requisiti}{4}{0}{2}
+\beamer@sectionintoc {3}{Excursus sulle tecnologie}{5}{0}{3}
+\beamer@sectionintoc {4}{Progettazione}{9}{0}{4}
+\beamer@sectionintoc {5}{Progettazione}{11}{0}{5}
