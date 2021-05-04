@@ -20,7 +20,7 @@
 \section{Brainstorming}
 \begin{frame}
 	\frametitle{Fase 1: Brainstorming}
-	Nella scelta dell’attività di tirocinio si è partiti dall’idea di poter unire le funzionalità peculiari delle applicazioni distribuite su Blockchain Ethereum (anche chiamate DAPP) assieme a quelle del software di controllo di versione distribuito Git.
+	Nella scelta dell’attività di tirocinio si è partiti dall’idea di poter unire le funzionalità peculiari delle applicazioni distribuite su Blockchain Ethereum (anche chiamate \emph{DAPP}) assieme a quelle del software di controllo di versione distribuito Git.
 	\begin{columns}
 		\column{0.5\textwidth}
 		\begin{figure}
@@ -45,6 +45,8 @@
 \begin{frame}
 	\frametitle{Fase 2: Specifica dei requisiti}
 	Partendo da questa idea lo step successivo è stata la definizione dei requisiti del progetto. Abbiamo perciò concordato che l’attività potesse orientarsi verso la creazione di un tool universale per la registrazione dell’impronta digitale (tramite funzioni di hashing) di insiemi di file, da noi battezzati Storage Unit, su Blockchain, utilizzando gli strumenti messi a disposizione da Git per gestirli meglio.
+
+	La nome scelto per l'applicazione è stato \textbf{PineSU}
 \end{frame}
 \section{Excursus sulle tecnologie}
 \begin{frame}
@@ -61,7 +63,7 @@
 		\includegraphics[width=0.90\textwidth]{figures/truffle.png}
 	\end{figure}
 	\bigskip
-	Su tale rete è possibile mettere a disposizione delle applicazioni che chiunque può utilizzare dietro pagamento di una piccola commissione. Queste applicazioni sono realizzabili dagli sviluppatori interessati tramite vari framework e suite di applicativi, il più celebre è Truffle.
+	Su tale rete è possibile mettere a disposizione delle applicazioni che chiunque può utilizzare dietro pagamento di una piccola commissione. Queste applicazioni sono realizzabili dagli sviluppatori interessati tramite vari framework e suite di applicativi, il più celebre è \textbf{Truffle}.
 \end{frame}
 \begin{frame}
 	\frametitle{Excursus su Git}
@@ -71,8 +73,8 @@
 	\end{figure}
 \end{frame}
 \begin{frame}
-	\frametitle{Excursus su Git}
-	Funzioni non invertibili che permettono di associare in maniera “univoca” stringhe di caratteri (e quindi anche documenti di varia natura tradotti in stringhe) a delle stringhe alfanumeriche di lunghezza fissa.
+	\frametitle{Excursus sulle funzioni di hashing}
+	Funzioni non invertibili che permettono di associare in maniera univoca (o quasi) stringhe di caratteri (e quindi anche documenti di varia natura tradotti in stringhe) a delle stringhe alfanumeriche di lunghezza fissa.
 	\bigskip
 	\begin{figure}
 		\includegraphics[width=0.85\textwidth]{figures/hashing.jpg}
@@ -130,7 +132,7 @@
 \begin{frame}
 	\frametitle{Fase 5: Apprendimento - Javascript Asynchronous Programming}	
 	\begin{figure}
-		\includegraphics[width=0.65\textwidth]{figures/async.png}
+		\includegraphics[width=0.65\textwidth]{figures/async.jpg}
 	\end{figure}
 	L’utilizzo di alcuni moduli all’interno dell’applicazione ha richiesto che io spendessi diverso tempo ad imparare le tecniche di programmazione asincrona di Javascript in quanto lo scorretto utilizzo delle keyword async e await sono state fonte di svariati problemi nella prima fase della stesura del codice.
 \end{frame}
@@ -141,7 +143,7 @@
 		La necessità di dover calcolare una singola stringa Hash per una moltitudine di file ha portato il professore a proporre l’utilizzo di questa struttura, è stato quindi necessario da parte mia non solo comprenderne bene il funzionamento ma anche essere in grado di poter utilizzare al meglio i moduli che fornivano metodi per lavorare con questi particolari alberi.
 		\column{0.5\textwidth}
 		\begin{figure}
-			\includegraphics[width=0.88\textwidth]{figures/merkle-tree.png}
+			\includegraphics[width=0.88\textwidth]{figures/merkle-tree.jpg}
 		\end{figure}
 	\end{columns}
 \end{frame}
@@ -154,6 +156,58 @@
 			\end{figure}
 		\column{0.5\textwidth}
 		Anziché realizzare un Front-End dotato di GUI, ho preferito optare per una interfaccia testuale. Tuttavia, non volendo rinunciare all’immediatezza e la semplicità che un approccio grafico e user-friendly poteva portare al progetto ho imparato ad utilizzare il modulo di InquirerJS, il quale consente di realizzare menù con scelta a singola, multipla e libera in tutta comodità.
+	\end{columns}
+\end{frame}
+\section{Implementa -zione}
+\begin{frame}
+	\frametitle{Fase 6: Implementazione}
+	La fase di implementazione è divisibile in tre macro-sezioni:
+	\begin{enumerate}
+		\item Creazione delle librerie di utility e dei moduli di interfacciamento con Git
+  		\item Creazione della CLI e del flow di interazione con le librerie e la logica di Git
+  		\item Creazione del modulo di interrogazione e registrazione per la Blockchain
+	\end{enumerate}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione delle librerie di utility e dei moduli di interfacciamento con Git}
+	\begin{columns}
+		\column{0.5\textwidth}
+		La prima stesura di codice è avvenuta nella creazione della classe “connettore” per Git con il modulo “simple-git” e del relativo modulo Logic il quale richiama le sue funzioni a seconda della necessità della CLI.
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=0.88\textwidth]{figures/merkle-tree.png}
+		\end{figure}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione delle librerie di utility e dei moduli di interfacciamento con Git}
+	In concomitanza ho scritto i moduli del package “lib”:
+	\begin{itemize}
+		\item files: Lettura e scrittura di file JSON in cui conservare le informazioni riguardanti la Storage Unit o l’utente che sta utilizzando l’applicativo;
+		\item inquirer: Contiene tutte le scelte che vengono poi presentate all’utente nella CLI;
+		\item treelist: Si occupa di effettuare tutte le operazioni riguardanti l’hashing di file, l’assegnazione di hash alle subdirectories e la creazione e gestione di Merkle Tree.
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione della CLI e del flow di interazione con le librerie e la logica di Git}
+	Ho proseguito andando a creare l’effettivo workflow del programma richiamando le scelte dal modulo inquirer e funzioni differenti in base alle selezioni dell’utente.	
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione della CLI e del flow di interazione con le librerie e la logica di Git - Workflow}
+	\begin{figure}
+		\includegraphics[width=1\textwidth]{figures/workflow.png}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione del modulo di interrogazione e registrazione per la Blockchain}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=0.6\textwidth]{figures/meta-gui.png}
+			\caption{Transazione per registrare un hash nella blockchain}
+		\end{figure}
+		\column{0.5\textwidth}
+		L’ultima parte della fase di implementazione è stata la realizzazione del Web Server locale che permette all’utente di registrare gli hash delle proprie Storage Unit nella blockchain, il risultato è stato ottenuta con una versione pesantemente modificata dell’applicazione di esempio fornita dal sito della suite Truffle.
 	\end{columns}
 \end{frame}
 \end{document}

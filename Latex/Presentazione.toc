@@ -5,3 +5,4 @@
 \beamer@sectionintoc {3}{Excursus sulle tecnologie}{5}{0}{3}
 \beamer@sectionintoc {4}{Progettazione}{9}{0}{4}
 \beamer@sectionintoc {5}{Apprendimento}{11}{0}{5}
+\beamer@sectionintoc {6}{Implementa -zione}{16}{0}{6}

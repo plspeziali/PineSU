@@ -76,7 +76,7 @@ const run = async () => {
       run();
       break;
 
-    case "Custom Git command":
+    case "Get / Change identity":
       await identity();
       run();
       break;

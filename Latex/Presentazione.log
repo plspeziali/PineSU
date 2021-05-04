@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.19)  2 MAY 2021 13:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.19)  4 MAY 2021 16:59
 entering extended mode
 **d:/Progetti/Tirocinio/pinesu/Latex/Presentazione.tex
 (d:/Progetti/Tirocinio/pinesu/Latex/Presentazione.tex
@@ -799,12 +799,12 @@ italian.ldf    See the documentation concerning the babel-italian typesetting
 italian.ldf    on input line 16.
 
 (d:/Progetti\Tirocinio\pinesu\Latex\Presentazione.nav)
-<figures/favicon.png, id=32, 513.92pt x 513.92pt>
+<figures/favicon.png, id=36, 513.92pt x 513.92pt>
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
 Package pdftex.def Info: figures/favicon.png  used on input line 16.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
-<figures/logo_unipg.png, id=34, 853.1875pt x 853.1875pt>
+<figures/logo_unipg.png, id=38, 853.1875pt x 853.1875pt>
 File: figures/logo_unipg.png Graphic file (type png)
 <use figures/logo_unipg.png>
 Package pdftex.def Info: figures/logo_unipg.png  used on input line 19.
@@ -821,7 +821,7 @@ Package pdftex.def Info: figures/favicon.png  used on input line 19.
 [1{C:/Users/Paolo/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/favicon.png> <d:/Progetti/Tirocinio/pinesu/Latex/figures/logo_unipg.png>]
-<figures/ethereum.png, id=78, 1003.75pt x 565.11125pt>
+<figures/ethereum.png, id=84, 1003.75pt x 565.11125pt>
 File: figures/ethereum.png Graphic file (type png)
 <use figures/ethereum.png>
 Package pdftex.def Info: figures/ethereum.png  used on input line 34.
@@ -838,7 +838,7 @@ LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inpu
  (C:\Users\Paolo\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
 )
-<figures/git.png, id=79, 913.4125pt x 381.425pt>
+<figures/git.png, id=85, 913.4125pt x 381.425pt>
 File: figures/git.png Graphic file (type png)
 <use figures/git.png>
 Package pdftex.def Info: figures/git.png  used on input line 34.
@@ -855,7 +855,7 @@ Package pdftex.def Info: figures/favicon.png  used on input line 34.
 [2
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/ethereum.png> <d:/Progetti/Tirocinio/pinesu/Latex/figures/git.png>]
-<figures/concorso-fiera-di-roma.jpg, id=113, 642.4pt x 479.7925pt>
+<figures/concorso-fiera-di-roma.jpg, id=121, 642.4pt x 479.7925pt>
 File: figures/concorso-fiera-di-roma.jpg Graphic file (type jpg)
 <use figures/concorso-fiera-di-roma.jpg>
 Package pdftex.def Info: figures/concorso-fiera-di-roma.jpg  used on input line 43.
@@ -878,15 +878,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 48.
+Package pdftex.def Info: figures/favicon.png  used on input line 50.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [4
 
 ]
-<figures/blockchain.png, id=174, 768.9528pt x 465.9006pt>
+<figures/blockchain.png, id=185, 768.9528pt x 465.9006pt>
 File: figures/blockchain.png Graphic file (type png)
 <use figures/blockchain.png>
-Package pdftex.def Info: figures/blockchain.png  used on input line 57.
+Package pdftex.def Info: figures/blockchain.png  used on input line 59.
 (pdftex.def)             Requested size: 174.44734pt x 105.69753pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -895,15 +895,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 57.
+Package pdftex.def Info: figures/favicon.png  used on input line 59.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [5
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/blockchain.png (PNG copy)>]
-<figures/truffle.png, id=207, 1927.2pt x 552.0625pt>
+<figures/truffle.png, id=219, 1927.2pt x 552.0625pt>
 File: figures/truffle.png Graphic file (type png)
 <use figures/truffle.png>
-Package pdftex.def Info: figures/truffle.png  used on input line 65.
+Package pdftex.def Info: figures/truffle.png  used on input line 67.
 (pdftex.def)             Requested size: 261.66658pt x 74.95483pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -912,15 +912,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 65.
+Package pdftex.def Info: figures/favicon.png  used on input line 67.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [6
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/truffle.png>]
-<figures/git2.png, id=240, 1021.8175pt x 861.2175pt>
+<figures/git2.png, id=253, 1021.8175pt x 861.2175pt>
 File: figures/git2.png Graphic file (type png)
 <use figures/git2.png>
-Package pdftex.def Info: figures/git2.png  used on input line 72.
+Package pdftex.def Info: figures/git2.png  used on input line 74.
 (pdftex.def)             Requested size: 130.83328pt x 110.267pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -929,15 +929,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 72.
+Package pdftex.def Info: figures/favicon.png  used on input line 74.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [7
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/git2.png (PNG copy)>]
-<figures/hashing.jpg, id=272, 1606.0pt x 622.325pt>
+<figures/hashing.jpg, id=286, 1606.0pt x 622.325pt>
 File: figures/hashing.jpg Graphic file (type jpg)
 <use figures/hashing.jpg>
-Package pdftex.def Info: figures/hashing.jpg  used on input line 80.
+Package pdftex.def Info: figures/hashing.jpg  used on input line 82.
 (pdftex.def)             Requested size: 247.133pt x 95.75667pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -946,15 +946,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 80.
+Package pdftex.def Info: figures/favicon.png  used on input line 82.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [8
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/hashing.jpg>]
-<figures/architecture1.png, id=303, 481.8pt x 686.565pt>
+<figures/architecture1.png, id=318, 481.8pt x 686.565pt>
 File: figures/architecture1.png Graphic file (type png)
 <use figures/architecture1.png>
-Package pdftex.def Info: figures/architecture1.png  used on input line 92.
+Package pdftex.def Info: figures/architecture1.png  used on input line 94.
 (pdftex.def)             Requested size: 127.92746pt x 182.29504pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -963,15 +963,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 92.
+Package pdftex.def Info: figures/favicon.png  used on input line 94.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [9
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/architecture1.png>]
-<figures/architecture2.png, id=336, 885.3075pt x 804.00375pt>
+<figures/architecture2.png, id=352, 885.3075pt x 804.00375pt>
 File: figures/architecture2.png Graphic file (type png)
 <use figures/architecture2.png>
-Package pdftex.def Info: figures/architecture2.png  used on input line 105.
+Package pdftex.def Info: figures/architecture2.png  used on input line 107.
 (pdftex.def)             Requested size: 145.36697pt x 152.63962pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -980,15 +980,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 105.
+Package pdftex.def Info: figures/favicon.png  used on input line 107.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [10
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/architecture2.png>]
-<figures/metamask.png, id=368, 441.65pt x 301.125pt>
+<figures/metamask.png, id=385, 441.65pt x 301.125pt>
 File: figures/metamask.png Graphic file (type png)
 <use figures/metamask.png>
-Package pdftex.def Info: figures/metamask.png  used on input line 115.
+Package pdftex.def Info: figures/metamask.png  used on input line 117.
 (pdftex.def)             Requested size: 145.3713pt x 99.11424pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -997,20 +997,20 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 115.
+Package pdftex.def Info: figures/favicon.png  used on input line 117.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [11
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/metamask.png>]
-<figures/solidity.png, id=401, 421.575pt x 653.642pt>
+<figures/solidity.png, id=420, 421.575pt x 653.642pt>
 File: figures/solidity.png Graphic file (type png)
 <use figures/solidity.png>
-Package pdftex.def Info: figures/solidity.png  used on input line 129.
+Package pdftex.def Info: figures/solidity.png  used on input line 131.
 (pdftex.def)             Requested size: 43.61183pt x 67.61212pt.
-<figures/zombie.png, id=402, 192.72pt x 288.07625pt>
+<figures/zombie.png, id=421, 192.72pt x 288.07625pt>
 File: figures/zombie.png Graphic file (type png)
 <use figures/zombie.png>
-Package pdftex.def Info: figures/zombie.png  used on input line 129.
+Package pdftex.def Info: figures/zombie.png  used on input line 131.
 (pdftex.def)             Requested size: 58.14763pt x 86.91585pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -1019,16 +1019,16 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 129.
+Package pdftex.def Info: figures/favicon.png  used on input line 131.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [12
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/solidity.png> <d:/Progetti/Tirocinio/pinesu/Latex/figures/zombie.png>]
-<figures/async.png, id=436, 401.5pt x 125.46875pt>
-File: figures/async.png Graphic file (type png)
-<use figures/async.png>
-Package pdftex.def Info: figures/async.png  used on input line 136.
-(pdftex.def)             Requested size: 188.98093pt x 59.05838pt.
+<figures/async.jpg, id=456, 803.0pt x 250.9375pt>
+File: figures/async.jpg Graphic file (type jpg)
+<use figures/async.jpg>
+Package pdftex.def Info: figures/async.jpg  used on input line 138.
+(pdftex.def)             Requested size: 188.98093pt x 59.05455pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
  []\OT1/cmss/m/n/6 Apprendimento  
@@ -1036,16 +1036,16 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 136.
+Package pdftex.def Info: figures/favicon.png  used on input line 138.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [13
 
- <d:/Progetti/Tirocinio/pinesu/Latex/figures/async.png>]
-<figures/merkle-tree.png, id=470, 163.812pt x 143.737pt>
-File: figures/merkle-tree.png Graphic file (type png)
-<use figures/merkle-tree.png>
-Package pdftex.def Info: figures/merkle-tree.png  used on input line 147.
-(pdftex.def)             Requested size: 127.92746pt x 112.25476pt.
+ <d:/Progetti/Tirocinio/pinesu/Latex/figures/async.jpg>]
+<figures/merkle-tree.jpg, id=490, 819.06pt x 718.685pt>
+File: figures/merkle-tree.jpg Graphic file (type jpg)
+<use figures/merkle-tree.jpg>
+Package pdftex.def Info: figures/merkle-tree.jpg  used on input line 149.
+(pdftex.def)             Requested size: 127.92746pt x 112.25038pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
  []\OT1/cmss/m/n/6 Apprendimento  
@@ -1053,15 +1053,15 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 147.
+Package pdftex.def Info: figures/favicon.png  used on input line 149.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [14
 
- <d:/Progetti/Tirocinio/pinesu/Latex/figures/merkle-tree.png>]
-<figures/inquirer.png, id=502, 188.705pt x 188.705pt>
+ <d:/Progetti/Tirocinio/pinesu/Latex/figures/merkle-tree.jpg>]
+<figures/inquirer.png, id=522, 188.705pt x 188.705pt>
 File: figures/inquirer.png Graphic file (type png)
 <use figures/inquirer.png>
-Package pdftex.def Info: figures/inquirer.png  used on input line 158.
+Package pdftex.def Info: figures/inquirer.png  used on input line 160.
 (pdftex.def)             Requested size: 116.29749pt x 116.29619pt.
 
 Overfull \hbox (1.11505pt too wide) has occurred while \output is active
@@ -1070,11 +1070,95 @@ Overfull \hbox (1.11505pt too wide) has occurred while \output is active
 
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 158.
+Package pdftex.def Info: figures/favicon.png  used on input line 160.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
 [15
 
  <d:/Progetti/Tirocinio/pinesu/Latex/figures/inquirer.png>]
+Overfull \hbox (1.11505pt too wide) has occurred while \output is active
+ []\OT1/cmss/m/n/6 Apprendimento  
+ []
+
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 170.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+[16
+
+]
+<figures/merkle-tree.png, id=587, 153.57375pt x 134.75343pt>
+File: figures/merkle-tree.png Graphic file (type png)
+<use figures/merkle-tree.png>
+Package pdftex.def Info: figures/merkle-tree.png  used on input line 181.
+(pdftex.def)             Requested size: 127.92746pt x 112.25038pt.
+
+Overfull \hbox (1.11505pt too wide) has occurred while \output is active
+ []\OT1/cmss/m/n/6 Apprendimento  
+ []
+
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 181.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+[17
+
+ <d:/Progetti/Tirocinio/pinesu/Latex/figures/merkle-tree.png>]
+Overfull \hbox (1.11505pt too wide) has occurred while \output is active
+ []\OT1/cmss/m/n/6 Apprendimento  
+ []
+
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 190.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+[18
+
+]
+Overfull \hbox (1.11505pt too wide) has occurred while \output is active
+ []\OT1/cmss/m/n/6 Apprendimento  
+ []
+
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 194.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+[19
+
+]
+<figures/workflow.png, id=686, 1491.5725pt x 981.6675pt>
+File: figures/workflow.png Graphic file (type png)
+<use figures/workflow.png>
+Package pdftex.def Info: figures/workflow.png  used on input line 200.
+(pdftex.def)             Requested size: 290.74263pt x 191.342pt.
+
+Overfull \hbox (1.11505pt too wide) has occurred while \output is active
+ []\OT1/cmss/m/n/6 Apprendimento  
+ []
+
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 200.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+[20
+
+ <d:/Progetti/Tirocinio/pinesu/Latex/figures/workflow.png>]
+<figures/meta-gui.png, id=719, 301.125pt x 499.11469pt>
+File: figures/meta-gui.png Graphic file (type png)
+<use figures/meta-gui.png>
+Package pdftex.def Info: figures/meta-gui.png  used on input line 212.
+(pdftex.def)             Requested size: 87.22366pt x 144.57199pt.
+
+Overfull \hbox (1.11505pt too wide) has occurred while \output is active
+ []\OT1/cmss/m/n/6 Apprendimento  
+ []
+
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 212.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+[21
+
+ <d:/Progetti/Tirocinio/pinesu/Latex/figures/meta-gui.png>]
 \tf@nav=\write6
 \openout6 = `Presentazione.nav'.
 
@@ -1086,20 +1170,20 @@ Package pdftex.def Info: figures/favicon.png  used on input line 158.
 
  (d:/Progetti\Tirocinio\pinesu\Latex\Presentazione.aux)
 Package rerunfilecheck Info: File `Presentazione.out' has not changed.
-(rerunfilecheck)             Checksum: E9F14229188BB19771CDE757D4F6F62F;662.
+(rerunfilecheck)             Checksum: 5C31F4E0BC73D385504DB8CD198E01AE;793.
  ) 
 Here is how much of TeX's memory you used:
- 21536 strings out of 479334
- 401363 string characters out of 2857084
+ 21636 strings out of 479334
+ 403492 string characters out of 2857084
  706413 words of memory out of 3000000
- 38464 multiletter control sequences out of 15000+200000
- 410485 words of font info for 52 fonts, out of 3000000 for 9000
+ 38547 multiletter control sequences out of 15000+200000
+ 411135 words of font info for 54 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  131i,20n,132p,480b,648s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb>
-Output written on d:/Progetti\Tirocinio\pinesu\Latex\Presentazione.pdf (15 pages, 1136102 bytes).
+<C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb>
+Output written on d:/Progetti\Tirocinio\pinesu\Latex\Presentazione.pdf (21 pages, 1345126 bytes).
 PDF statistics:
- 554 PDF objects out of 1000 (max. 8388607)
- 36 named destinations out of 1000 (max. 500000)
- 168 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 783 PDF objects out of 1000 (max. 8388607)
+ 49 named destinations out of 1000 (max. 500000)
+ 191 words of extra memory for PDF output out of 10000 (max. 10000000)
 
