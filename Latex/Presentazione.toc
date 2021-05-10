@@ -6,3 +6,5 @@
 \beamer@sectionintoc {4}{Progettazione}{9}{0}{4}
 \beamer@sectionintoc {5}{Apprendimento}{11}{0}{5}
 \beamer@sectionintoc {6}{Implementa -zione}{16}{0}{6}
+\beamer@sectionintoc {7}{Resoconto}{22}{0}{7}
+\beamer@sectionintoc {8}{Fonti}{23}{0}{8}
