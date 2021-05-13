@@ -48,6 +48,18 @@
 
 	La nome scelto per l'applicazione è stato \textbf{PineSU}
 \end{frame}
+\begin{frame}
+	\frametitle{Fase 2: Specifica dei requisiti}
+	\begin{columns}
+		\column{0.5\textwidth}
+		L'applicazione avrebbe dovuto quindi fornire all'utilizzatore le funzionalità del software Git corredando il tutto con la possibilità di registrare e, successivamente, verificare l'integrità delle Storage Unit. Una volta creata una Storage Unit essa deve essere immutabile, dando tuttavia la possibilità di esportarne singoli file dotandoli sempre di meccanismi di controllo.
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=0.55\textwidth]{figures/favicon.png}
+			\caption{Il logo dell'applicazione}
+		\end{figure}
+	\end{columns}
+\end{frame}
 \section{Excursus sulle tecnologie}
 \begin{frame}
 	\frametitle{Excursus su Ethereum e Blockchain}
@@ -82,7 +94,7 @@
 \end{frame}
 \section{Progettazione}
 \begin{frame}
-	\frametitle{Fase 4: Progettazione - Prima stesura}
+	\frametitle{Fase 3: Progettazione - Prima stesura}
 	\begin{columns}
 		\column{0.5\textwidth}
 			La stesura iniziale è stata svolta dal professore che mi ha quindi fornito una linea guida da cui poter prendere spunto per poter realizzare il progetto dopo aver concordato sulle funzionalità del progetto, tale architettura è stata tuttavia modificata abbastanza in quanto le tecnologie utilizzate sono ancora troppo sperimentali e non offrono gli strumenti per potere essere adattati ad una struttura del genere.
@@ -93,7 +105,7 @@
 	\end{columns}
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 4: Progettazione - Seconda stesura}
+	\frametitle{Fase 3: Progettazione - Seconda stesura}
 	\begin{columns}
 		\column{0.5\textwidth}
 			\begin{figure}
@@ -107,7 +119,7 @@
 \end{frame}
 \section{Apprendimento}
 \begin{frame}
-	\frametitle{Fase 5: Apprendimento}
+	\frametitle{Fase 4: Apprendimento}
 	In concomitanza con la fase di progettazione è stato necessario l’apprendimento di alcune tecnologie in modo da poter imparare le loro modalità di utilizzo e poter effettuare la seconda stesura dello schema progettuale.
 
 	Oltre ai già citati Truffle Suite e Metamask, abbastanza intuitivi nell'utilizzo, le tecnologie che seguono sono quelle che hanno occupato la maggior parte di questa fase.
@@ -116,7 +128,7 @@
 	\end{figure}
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 5: Apprendimento - Solidity}
+	\frametitle{Fase 4: Apprendimento - Solidity}
 	\begin{columns}
 		\column{0.5\textwidth}
 		Per l’apprendimento della sintassi e delle peculiarità del linguaggio da utilizzare per scrivere DAPP per la Blockchain Ethereum mi sono avvalso della documentazione ufficiale e del tutorial interattivo \textbf{CryptoZombies}.	
@@ -130,14 +142,14 @@
 	\end{columns}
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 5: Apprendimento - Javascript Asynchronous Programming}	
+	\frametitle{Fase 4: Apprendimento - Javascript Asynchronous Programming}	
 	\begin{figure}
 		\includegraphics[width=0.65\textwidth]{figures/async.jpg}
 	\end{figure}
 	L’utilizzo di alcuni moduli all’interno dell’applicazione ha richiesto che io spendessi diverso tempo ad imparare le tecniche di programmazione asincrona di Javascript in quanto lo scorretto utilizzo delle keyword async e await sono state fonte di svariati problemi nella prima fase della stesura del codice.
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 5: Apprendimento - Modulo Merkle Tree}
+	\frametitle{Fase 4: Apprendimento - Modulo Merkle Tree}
 	\begin{columns}
 		\column{0.5\textwidth}
 		La necessità di dover calcolare una singola stringa Hash per una moltitudine di file ha portato il professore a proporre l’utilizzo di questa struttura, è stato quindi necessario da parte mia non solo comprenderne bene il funzionamento ma anche essere in grado di poter utilizzare al meglio i moduli che fornivano metodi per lavorare con questi particolari alberi.
@@ -148,19 +160,19 @@
 	\end{columns}
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 5: Apprendimento - Modulo InquirerJS}
+	\frametitle{Fase 4: Apprendimento - Modulo InquirerJS}
 	\begin{columns}
 		\column{0.5\textwidth}
 			\begin{figure}
-				\includegraphics[width=0.80\textwidth]{figures/inquirer.png}
+				\includegraphics[width=1\textwidth]{figures/inquirer.png}
 			\end{figure}
 		\column{0.5\textwidth}
-		Anziché realizzare un Front-End dotato di GUI, ho preferito optare per una interfaccia testuale. Tuttavia, non volendo rinunciare all’immediatezza e la semplicità che un approccio grafico e user-friendly poteva portare al progetto ho imparato ad utilizzare il modulo di InquirerJS, il quale consente di realizzare menù con scelta a singola, multipla e libera in tutta comodità.
+		Anziché realizzare un Front-End dotato di GUI, ho preferito optare per una interfaccia testuale. Tuttavia, non volendo rinunciare all’immediatezza e la semplicità che un approccio grafico e user-friendly poteva portare al progetto ho imparato ad utilizzare il modulo di InquirerJS, il quale consente di realizzare menù a scelta singola, multipla e libera in tutta comodità.
 	\end{columns}
 \end{frame}
 \section{Implementa -zione}
 \begin{frame}
-	\frametitle{Fase 6: Implementazione}
+	\frametitle{Fase 5: Implementazione}
 	La fase di implementazione è divisibile in tre macro-sezioni:
 	\begin{enumerate}
 		\item Creazione delle librerie di utility e dei moduli di interfacciamento con Git
