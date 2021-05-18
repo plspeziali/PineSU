@@ -44,9 +44,9 @@
 \section{Specifica dei requisiti}
 \begin{frame}
 	\frametitle{Fase 2: Specifica dei requisiti}
-	Partendo da questa idea lo step successivo è stata la definizione dei requisiti del progetto. Abbiamo perciò concordato che l’attività potesse orientarsi verso la creazione di un tool universale per la registrazione dell’impronta digitale (tramite funzioni di hashing) di insiemi di file, da noi battezzati Storage Unit, su Blockchain, utilizzando gli strumenti messi a disposizione da Git per gestirli meglio.
+	Partendo da questa idea lo step successivo è stato la definizione dei requisiti del progetto. Abbiamo perciò concordato che l’attività potesse orientarsi verso la creazione di un tool universale per la registrazione dell’impronta digitale (tramite funzioni di hashing) di insiemi di file, da noi battezzati Storage Unit, su Blockchain, utilizzando gli strumenti messi a disposizione da Git per gestirli meglio.
 
-	La nome scelto per l'applicazione è stato \textbf{PineSU}
+	La nome scelto per l'applicazione è stato \textbf{PineSU}.
 \end{frame}
 \begin{frame}
 	\frametitle{Fase 2: Specifica dei requisiti}
@@ -86,7 +86,7 @@
 \end{frame}
 \begin{frame}
 	\frametitle{Excursus sulle funzioni di hashing}
-	Funzioni non invertibili che permettono di associare in maniera univoca (o quasi) stringhe di caratteri (e quindi anche documenti di varia natura tradotti in stringhe) a delle stringhe alfanumeriche di lunghezza fissa.
+	Le funzioni di hashing sono funzioni non invertibili che permettono di associare in maniera univoca (o quasi) stringhe di caratteri (e quindi anche documenti di varia natura tradotti in stringhe) a delle stringhe alfanumeriche di lunghezza fissa.
 	\bigskip
 	\begin{figure}
 		\includegraphics[width=0.85\textwidth]{figures/hashing.jpg}
@@ -97,7 +97,7 @@
 	\frametitle{Fase 3: Progettazione - Prima stesura}
 	\begin{columns}
 		\column{0.5\textwidth}
-			La stesura iniziale è stata svolta dal professore che mi ha quindi fornito una linea guida da cui poter prendere spunto per poter realizzare il progetto dopo aver concordato sulle funzionalità del progetto, tale architettura è stata tuttavia modificata abbastanza in quanto le tecnologie utilizzate sono ancora troppo sperimentali e non offrono gli strumenti per potere essere adattati ad una struttura del genere.
+			La stesura iniziale è stata svolta dal professore che mi ha quindi fornito una linea guida da cui poter prendere spunto per poter realizzare il progetto dopo aver concordato sulle sue funzionalità, tale architettura è stata tuttavia modificata abbastanza in quanto le tecnologie utilizzate sono ancora troppo sperimentali e non offrono gli strumenti per potere essere adattati ad una struttura del genere.
 		\column{0.5\textwidth}
 		\begin{figure}
 			\includegraphics[width=0.88\textwidth]{figures/architecture1.png}
@@ -112,7 +112,7 @@
 				\includegraphics[width=1\textwidth, height=1.05\textwidth]{figures/architecture2.png}
 			\end{figure}
 		\column{0.5\textwidth}
-		Il Front-End in NodeJS che comunica con una parte logica è stata mantenuta, sono stati però introdotti alcuni moduli Utility che vengono utilizzati da entrambe le componenti.
+		Il Front-End in NodeJS che comunica con una parte logica è stato mantenuto, sono stati però introdotti alcuni moduli Utility che vengono utilizzati da entrambe le componenti.
 
 		La connessione alla Blockchain avviene attraverso l’avvio di un Web Server apposito e l’apertura di una scheda del browser, l’interazione da parte dell’utente deve avvenire tramite l’add-on \textbf{Metamask}.
 	\end{columns}
@@ -212,7 +212,7 @@
 			\caption{Transazione per registrare un hash nella blockchain}
 		\end{figure}
 		\column{0.5\textwidth}
-		L’ultima parte della fase di implementazione è stata la realizzazione del Web Server locale che permette all’utente di registrare gli hash delle proprie Storage Unit nella blockchain, il risultato è stato ottenuta con una versione pesantemente modificata dell’applicazione di esempio fornita dal sito della suite Truffle.
+		L’ultima parte della fase di implementazione è stata la realizzazione del Web Server locale che permette all’utente di registrare gli hash delle proprie Storage Unit nella blockchain, il risultato è stato ottenuto con una versione pesantemente modificata dell’applicazione \emph{sample} fornita dal sito della suite Truffle.
 	\end{columns}
 \end{frame}
 \section{Resoconto}
