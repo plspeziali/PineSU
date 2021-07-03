@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 
-\title{PineSU}
+\title{PineSU - Workflow}
 \subtitle{Sviluppo di un'applicazione distribuita su Blockchain Ethereum}
 \author{Paolo Speziali}
 \institute{Università degli Studi di Perugia - Dipartimento di Ingegneria\\[\medskipamount]
@@ -17,57 +17,99 @@
 \begin{frame}
 	\titlepage % beamer's \maketitle
 \end{frame}
-\section{Brainstorming}
+\section{Operazioni}
 \begin{frame}
-	\frametitle{Fase 1: Brainstorming}
-	Nella scelta dell’attività di tirocinio si è partiti dall’idea di poter unire le funzionalità peculiari delle applicazioni distribuite su Blockchain Ethereum (anche chiamate \emph{DAPP}) assieme a quelle del software di controllo di versione distribuito Git.
-	\begin{columns}
-		\column{0.5\textwidth}
-		\begin{figure}
-			\includegraphics[width=1\textwidth]{figures/ethereum.png}
-		\end{figure}
-		\column{0.5\textwidth}
-		\begin{figure}
-			\includegraphics[width=0.55\textwidth]{figures/git.png}
-		\end{figure}
-	\end{columns}
+	\frametitle{Operazioni eseguibili}
+	Nell'applicativo è possibile eseguire le seguenti operazioni:
+	\begin{enumerate}
+		\item Creazione di una Storage Unit (SU)
+		\item Registrazione di una o più SU nella blockchain Ethereum
+		\item Esportazione di sottoinsiemi di file da una SU
+		\item Controllo d'integrità su una SU
+		\item Controllo d'integrità di singoli file esportati da altre SU
+	\end{enumerate}
+	Oltre a poter eseguire tutti i comandi di Git. Vedremo ora questi comandi uno per uno utilizzando una directory campione da trasformare in Storage Unit.
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 1: Brainstorming}
-	Il pensiero del professore-tutor è andato verso il classico problema presente sia nella pubblica amministrazione sia nelle aziende private di dover controllare l’integrità di file per concorsi o bandi in modo che, una volta registrati, non possano essere manomessi.
-	\medskip
+	\frametitle{Directory campione}
+	Utilizzeremo come directory campione per mostrare l'evoluzione della Storage Unit una cartella chiamata \emph{sample} con la seguente struttura (dove \emph{first} e \emph{second} sono sottodirectory di \emph{sample} e \emph{third} è sottodirectory di \emph{second}):
+	\smallskip
 	\begin{figure}
-		\includegraphics[width=0.40\textwidth]{figures/concorso-fiera-di-roma.jpg}
-		\caption{Un concorso pubblico con elaborati digitali}
+		\includegraphics[width=0.80\textwidth]{figures/sample1.png}
 	\end{figure}
 \end{frame}
-\section{Specifica dei requisiti}
+\section{Creazione}
 \begin{frame}
-	\frametitle{Fase 2: Specifica dei requisiti}
-	Partendo da questa idea lo step successivo è stato la definizione dei requisiti del progetto. Abbiamo perciò concordato che l’attività potesse orientarsi verso la creazione di un tool universale per la registrazione dell’impronta digitale (tramite funzioni di hashing) di insiemi di file, da noi battezzati Storage Unit, su Blockchain, utilizzando gli strumenti messi a disposizione da Git per gestirli meglio.
+	\frametitle{Creazione di una SU}
+	La creazione di una Storage Unit è in realtà un'operazione che comprende sia la trasformazione in una Git Repository della directory, sia il calcolo degli hash che serviranno poi per registrare la nostra SU nella blockchain.
+	\\
 
-	Il nome scelto per l'applicazione è stato \textbf{PineSU}.
+	Le informazioni della nostra SU sono conservate nel file \textbf{.pinesu.json} nella root della directory, la presenza di questo file indica al programma che la directory è già una SU.
+	\\
+
+	La creazione potrebbe eventualmente venire suddivisa in due azioni diverse, ma a quel punto la prima fase si limiterebbe ad eseguire un comando "git init" sulla directory, comando che potrebbe non essere necessario.
 \end{frame}
 \begin{frame}
-	\frametitle{Fase 2: Specifica dei requisiti}
-	\begin{columns}
-		\column{0.5\textwidth}
-		L'applicazione avrebbe dovuto quindi fornire all'utilizzatore le funzionalità del software Git corredando il tutto con la possibilità di registrare e, successivamente, verificare l'integrità delle Storage Unit. Una volta creata una Storage Unit essa deve essere immutabile, dando tuttavia la possibilità di esportarne singoli file dotandoli sempre di meccanismi di controllo.
-		\column{0.5\textwidth}
-		\begin{figure}
-			\includegraphics[width=0.55\textwidth]{figures/favicon.png}
-			\caption{Il logo dell'applicazione}
-		\end{figure}
-	\end{columns}
+	\frametitle{Creazione di una SU}
+	Tuttavia, per come il programma è ora strutturato, la creazione della Storage Unit la rende pronta per essere registrata (eventualmente insieme ad altre) nella blockchain.
+	\\
+
+	Andiamo quindi a vedere quali sono le operazioni che avvengono in questa fase e come la nostra directory \emph{sample} cambia.
 \end{frame}
-\section{Excursus sulle tecnologie}
 \begin{frame}
-	\frametitle{Excursus su Ethereum e Blockchain}
-	La tecnologia di Ethereum permette la creazione di una rete distribuita e decentralizzata finanziata e incentivata ad operare e rimanere attiva mediante la creazione, lo scambio e l’utilizzo dell’omonima criptovaluta.
-	\medskip
-	\begin{figure}
-		\includegraphics[width=0.60\textwidth]{figures/blockchain.png}
-	\end{figure}
+	\frametitle{Creazione di una SU}
+	\begin{itemize}
+		\item Controlla se nella directory è già presente \textbf{.pinesu.json}, in caso negativo continua;
+		\item Permette all'utente di selezionare dei file da ignorare da tutto il processo, ciò produce un file \textbf{.gitignore};
+		\item Aggiunge tutti i file della directory nella Git Staging Area e crea un commit fantoccio;
+		\item Recupera la lista dei file dal commit;
+		\item Calcola gli hash di tutti i file (non directory);
+		\item Calcola gli hash delle directory creando dei Merkle Tree con gli hash del loro contenuto e usa l'hash della radice come hash della directory, ciò avviene tramite un approccio bottom-up: calcola prima gli hash delle directory senza file al loro interno;
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione di una SU}
+	\begin{itemize}
+		\item Calcola l'hash della SU creando un Merkle Tree con tutti gli hash dei file e delle directory in essa contenute e ne prende la radice;
+		\item Viene generato il file \textbf{.pinesu.json} con al suo interno nome, descrizione, visibilità, data, hash dell'utente, hash della SU, lista dei file e delle sottodirectory con hash associati;
+		\item Aggiunge tutti i file della directory nella Git Staging Area e crea un commit fantoccio;
+		\item Aggiungo il percorso di questa SU con il suo hash alla lista della SU generate dall'utente (memorizzata nella cartella d'installazione del programma);
+		\item Viene annullato il commit fantoccio e creato uno effettivo con informazioni consistenti e aggiunto \textbf{.pinesu.json};
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione di una SU - Risultato}
+	L'operazione di creazione ha prodotto nella cartella \emph{sample}, ovviamente, una sottocartella \emph{.git} e il file \textbf{.pinesu.json}. L'ordine di calcolo degli hash è stato questo:
+	\newcounter{currentenumi}
+	\begin{enumerate}
+		\item sample/first/astar.js
+		\item sample/first/graph.js
+		\item sample/graphCreator.js
+		\item sample/second/priorityQueue.js
+		\item sample/second/third/main.js
+		\item sample/second/third/vertex.js
+		\setcounter{currentenumi}{\theenumi}
+	\end{enumerate}
+\end{frame}
+\begin{frame}
+	\frametitle{Creazione di una SU - Risultato}
+	\begin{enumerate}
+		\setcounter{enumi}{\thecurrentenumi}
+		\item sample/first (tramite MT dei due file da lui contenuti)
+		\item sample/second/third (tramite MT dei due file da lui contenuti)
+		\item sample/second (tramite MT del file e della sottodirectory \emph{third} da lui contenuti)
+		\item sample (tramite MT degli hash dei tutti i file e le directory appena visti)
+	\end{enumerate}
+	Si può quindi facilmente osservare come questa tecnica di calcolo di hash bottom-up viene messa in atto calcolando prima i file effettivi, poi le directory senza sottodirectory e infine tutto il resto delle directory.
+\end{frame}
+\section{Registrazione}
+\begin{frame}
+	\frametitle{Registrazione di una o più SU nella blockchain}
+	In questa fase all'utente viene data la libertà di scegliere se registrare con un unico hash una o più SU insieme, poiché il workflow è praticamente identico andrò a separare i punti esclusivi ad una registrazione “multipla” scrivendoli in color oliva:
+	\begin{itemize}
+		\item Mostra la selezione multipla della SU registrate dall'utente per permettere di registrarne una sola o più in una volta;
+		\item \textcolor{olive}{Per ogni Storage Unit selezionata} creo nella root della SU il file \textbf{.registration.json} che contiene l'hash della directory, l'hash che verrà salvato nella blockchain (stesso valore se registriamo una sola SU, \textcolor{olive}{valore della root del MT di tutti gli hash delle SU selezionate se la registrazione è multipla})
+	\end{itemize}
 \end{frame}
 \begin{frame}
 	\frametitle{Excursus sulle Applicazioni Distribuite}
