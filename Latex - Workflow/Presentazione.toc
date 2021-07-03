@@ -3,8 +3,7 @@
 \beamer@sectionintoc {1}{Operazioni}{2}{0}{1}
 \beamer@sectionintoc {2}{Creazione}{4}{0}{2}
 \beamer@sectionintoc {3}{Registrazione}{10}{0}{3}
-\beamer@sectionintoc {4}{Progettazione}{14}{0}{4}
-\beamer@sectionintoc {5}{Apprendimento}{16}{0}{5}
-\beamer@sectionintoc {6}{Implementa -zione}{21}{0}{6}
-\beamer@sectionintoc {7}{Resoconto}{27}{0}{7}
-\beamer@sectionintoc {8}{Fonti}{28}{0}{8}
+\beamer@sectionintoc {4}{Esportazione}{12}{0}{4}
+\beamer@sectionintoc {5}{Controllo file esportati}{14}{0}{5}
+\beamer@sectionintoc {6}{Controllo d'integrità su una SU}{15}{0}{6}
+\beamer@sectionintoc {7}{Resoconto}{16}{0}{7}
