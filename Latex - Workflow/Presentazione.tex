@@ -101,6 +101,10 @@
 		\item sample (tramite MT degli hash dei tutti i file e le directory appena visti)
 	\end{enumerate}
 	Si può quindi facilmente osservare come questa tecnica di calcolo di hash bottom-up viene messa in atto calcolando prima i file effettivi, poi le directory senza sottodirectory e infine tutto il resto delle directory.
+	\end{frame}
+\begin{frame}
+	\frametitle{Chiarificazione}
+	L'hash che verrà infine inserito nella blockchain non sarà tuttavia l'hash della directory \emph{sample}, bensì l'hash del suo file \textbf{.pinesu.json}, ogni volta quindi che farò riferimento all'hash della SU mi starò riferendo all'hash del file JSON associato.
 \end{frame}
 \section{Registrazione}
 \begin{frame}
@@ -147,6 +151,18 @@
 		\item Si richiama l'operazione di controllo dei file integrati da altre SU;
 		\item In caso i dati in \textbf{.pinesu.json} combacino con i dati appena calcolati si procede a controllare la presenza dell'hash della SU su blockchain, ciò avviene leggendo \textbf{.registration.json}, \textcolor{olive}{verificando le \emph{proof} del MT in caso di regsitrazione multipla} e cercando nella blockchain i dati richiesti.
 	\end{itemize}
+\end{frame}
+\section{Workflow}
+\begin{frame}
+	\frametitle{Workflow di una Storage Unit}
+	Nell'immagine della slide successiva è possibile osservare il riassunto, in forma grafica, dei concetti delle slide precedenti.
+	I sensi delle frecce permettono di capire quali azioni cambiano lo stato di una Storage Unit e quali azioni sono irreversibili (almeno all'interno dell'applicativo).
+\end{frame}
+\begin{frame}
+	\frametitle{Workflow di una Storage Unit}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{figures/WorkflowSU.png}
+	\end{figure}
 \end{frame}
 
 \section{Resoconto}

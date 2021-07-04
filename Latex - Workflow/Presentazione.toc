@@ -2,8 +2,9 @@
 \babel@toc {italian}{}
 \beamer@sectionintoc {1}{Operazioni}{2}{0}{1}
 \beamer@sectionintoc {2}{Creazione}{4}{0}{2}
-\beamer@sectionintoc {3}{Registrazione}{10}{0}{3}
-\beamer@sectionintoc {4}{Esportazione}{12}{0}{4}
-\beamer@sectionintoc {5}{Controllo file esportati}{14}{0}{5}
-\beamer@sectionintoc {6}{Controllo d'integrità su una SU}{15}{0}{6}
-\beamer@sectionintoc {7}{Resoconto}{16}{0}{7}
+\beamer@sectionintoc {3}{Registrazione}{11}{0}{3}
+\beamer@sectionintoc {4}{Esportazione}{13}{0}{4}
+\beamer@sectionintoc {5}{Controllo file esportati}{15}{0}{5}
+\beamer@sectionintoc {6}{Controllo d'integrità su una SU}{16}{0}{6}
+\beamer@sectionintoc {7}{Workflow}{17}{0}{7}
+\beamer@sectionintoc {8}{Resoconto}{19}{0}{8}
