@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.19)  4 JUL 2021 09:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.19)  4 JUL 2021 21:43
 entering extended mode
 **"d:/Progetti/Tirocinio/pinesu/Latex - Workflow/Presentazione.tex"
 (d:/Progetti/Tirocinio/pinesu/Latex - Workflow/Presentazione.tex
@@ -882,6 +882,18 @@ Package pdftex.def Info: figures/favicon.png  used on input line 104.
 [9
 
 ]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 108.
+ (C:\Users\Paolo\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 108.
+ (C:\Users\Paolo\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on input line 108.
+ (C:\Users\Paolo\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\ot1mathkerncmss.fd
+File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
+)
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
 Package pdftex.def Info: figures/favicon.png  used on input line 108.
@@ -891,21 +903,21 @@ Package pdftex.def Info: figures/favicon.png  used on input line 108.
 ]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 117.
+Package pdftex.def Info: figures/favicon.png  used on input line 112.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
  [11
 
 ]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 124.
+Package pdftex.def Info: figures/favicon.png  used on input line 121.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
  [12
 
 ]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 134.
+Package pdftex.def Info: figures/favicon.png  used on input line 128.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
  [13
 
@@ -919,42 +931,49 @@ Package pdftex.def Info: figures/favicon.png  used on input line 138.
 ]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 143.
+Package pdftex.def Info: figures/favicon.png  used on input line 142.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
  [15
 
 ]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 154.
+Package pdftex.def Info: figures/favicon.png  used on input line 147.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
  [16
 
 ]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 160.
+Package pdftex.def Info: figures/favicon.png  used on input line 158.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
  [17
 
 ]
-<figures/WorkflowSU.png, id=639, 591.20876pt x 402.50375pt>
+File: figures/favicon.png Graphic file (type png)
+<use figures/favicon.png>
+Package pdftex.def Info: figures/favicon.png  used on input line 164.
+(pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
+ [18
+
+]
+<figures/WorkflowSU.png, id=674, 591.20876pt x 402.50375pt>
 File: figures/WorkflowSU.png Graphic file (type png)
 <use figures/WorkflowSU.png>
-Package pdftex.def Info: figures/WorkflowSU.png  used on input line 166.
+Package pdftex.def Info: figures/WorkflowSU.png  used on input line 170.
 (pdftex.def)             Requested size: 290.74263pt x 197.94714pt.
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 166.
+Package pdftex.def Info: figures/favicon.png  used on input line 170.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
- [18
+ [19
 
  <d:/Progetti/Tirocinio/pinesu/Latex - Workflow/figures/WorkflowSU.png>]
 File: figures/favicon.png Graphic file (type png)
 <use figures/favicon.png>
-Package pdftex.def Info: figures/favicon.png  used on input line 176.
+Package pdftex.def Info: figures/favicon.png  used on input line 180.
 (pdftex.def)             Requested size: 28.44997pt x 28.45274pt.
- [19
+ [20
 
 ]
 \tf@nav=\write6
@@ -971,17 +990,17 @@ Package rerunfilecheck Info: File `Presentazione.out' has not changed.
 (rerunfilecheck)             Checksum: 9A621FF4E2C61BA7A2B3E1A6546F594C;945.
  ) 
 Here is how much of TeX's memory you used:
- 21462 strings out of 479334
- 399532 string characters out of 2857084
+ 21540 strings out of 479334
+ 401383 string characters out of 2857084
  708557 words of memory out of 3000000
- 38412 multiletter control sequences out of 15000+200000
- 405892 words of font info for 35 fonts, out of 3000000 for 9000
+ 38467 multiletter control sequences out of 15000+200000
+ 410830 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 131i,20n,132p,512b,648s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 131i,20n,132p,705b,648s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/Paolo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb>
-Output written on "d:/Progetti\Tirocinio\pinesu\Latex - Workflow\Presentazione.pdf" (19 pages, 590460 bytes).
+Output written on "d:/Progetti\Tirocinio\pinesu\Latex - Workflow\Presentazione.pdf" (20 pages, 598462 bytes).
 PDF statistics:
- 738 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
+ 775 PDF objects out of 1000 (max. 8388607)
+ 49 named destinations out of 1000 (max. 500000)
  127 words of extra memory for PDF output out of 10000 (max. 10000000)
 

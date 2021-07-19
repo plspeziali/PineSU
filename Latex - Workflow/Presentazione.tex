@@ -104,6 +104,10 @@
 	\end{frame}
 \begin{frame}
 	\frametitle{Chiarificazione}
+	Mentre per le tre sottodirectory ci trovavamo in una situazione in cui il contenuto era composto da due soli elementi il Merkle Tree prodotto era ovviamente bilanciato, tuttavia per calcolare l'hash dell'intera directory \emph{sample} il MT prodotto aveva nove elementi, il nono elemento si trovava quindi scoppiato. La presenza di elementi in numero dispari è infatti l'unico motivo di sbilanciamento in questi MT in quanto, anziché essere l'albero a sistemare gli elementi in base alla struttura File System, andiamo a creare un albero per ogni directory ed esso si trova ad avere un numero \(n\) di elementi pronti da utilizzare. 
+\end{frame}
+\begin{frame}
+	\frametitle{Chiarificazione}
 	L'hash che verrà infine inserito nella blockchain non sarà tuttavia l'hash della directory \emph{sample}, bensì l'hash del suo file \textbf{.pinesu.json}, ogni volta quindi che farò riferimento all'hash della SU mi starò riferendo all'hash del file JSON associato.
 \end{frame}
 \section{Registrazione}
@@ -139,7 +143,7 @@
 \section{Controllo file esportati}
 \begin{frame}
 	\frametitle{Controllo d'integrità di singoli file esportati da altre SU}
-	L'unica operazione svolta dal controllo d'integrità dei file esportati è quella di cercare i \textbf{.pifiles.json} nella cartella d'interesse e controllare che l'hash di ogni file combaci con quello registrato nel docuemto JSON e che si riesca a risalira all'hash della SU originale tramite le \emph{proof} registrate sempre nel medesimo JSON. 
+	L'unica operazione svolta dal controllo d'integrità dei file esportati è quella di cercare i \textbf{.pifiles.json} nella cartella d'interesse e controllare che l'hash di ogni file combaci con quello registrato nel documento JSON e che si riesca a risalire all'hash della SU originale tramite le \emph{proof} memorizzate sempre nel medesimo JSON. 
 \end{frame}
 \section{Controllo d'integrità su una SU}
 \begin{frame}
