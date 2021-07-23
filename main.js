@@ -25,7 +25,7 @@ const deploy = async () => {
     const receipt = await web3.eth.sendSignedTransaction(createTransaction.rawTransaction);
     console.log(receipt);
     console.log('Transaction successfull with hash: '+createTransaction.messageHash+': '+web3.utils.utf8ToHex("Hello Worldd"));
-    console.log(web3.eth.accounts.recoverTransaction(createTransaction.rawTransaction));
+    //console.log(web3.eth.accounts.recoverTransaction(createTransaction.rawTransaction));
     console.log(await web3.eth.getTransaction(receipt.transactionHash));
 }
 deploy();

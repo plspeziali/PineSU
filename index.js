@@ -7,25 +7,31 @@ const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
-var ownID;
+var w1,w2,k;
 
 clear();
 
 console.log(
   chalk.yellow(
     figlet.textSync('PineSU', { horizontalLayout: 'full' })
-  )
+  ) 
 );
 
 const run = async () => {
 
-  var res = files.readID();
+  /*var res = files.readID();
   if(typeof(res.id) == undefined || res.id === "null"){
-    const inquser = await inquirer.chooseUsername();
+    const inquser = await inquirer.chooseAddresses();
     files.writeID(inquser.username, inquirer.hash, []);
     var res = files.readID();
   }
-  ownID = res.id;
+  ownID = res.id;*/
+  var res = await files.readWallet();
+  w1 = res.wallet1;
+  w2 = res.wallet2;
+  k = res.pkey;
+
+  mc = files.loadTree();
 
   const inqstart = await inquirer.startAction();
 
@@ -34,26 +40,29 @@ const run = async () => {
       console.log(chalk.green("Goodbye!"));
       process.exit(0);
 
-    case "Create new SU":
-      if(!files.fileExists(".pinesu.json")){
+    case "Create new SU / Recalculate open SU":
+      if(!files.isClosed()){
         await create();
       } else {
-        console.log(chalk.red("This folder is already a Storage Unit"))
+        console.log(chalk.red("This folder is already a Storage Unit and is closed"))
       }
       run();
       break;
-
+    case "Close current SU":
+      if(!files.isClosed()){
+        await create();
+      } else {
+        console.log(chalk.red("This Storage Unit is already closed"))
+      }
+      run();
+      break;
     case "Register SU in the blockchain network":
       await register();
       run();
       break;
 
     case "Check SU integrity":
-      if(files.fileExists(".registration.json")){
-        await check();
-      } else {
-        console.log(chalk.red("This Storage Unit is not registered in the blockchain network"))
-      }
+      await check();
       run();
       break;
 
@@ -76,8 +85,8 @@ const run = async () => {
       run();
       break;
 
-    case "Get / Change identity":
-      await identity();
+    case "Get / Change Wallet Addresses":
+      await addresses();
       run();
       break;
   }
@@ -121,7 +130,8 @@ const create = async () => {
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
     Object.assign(details, {owner: ownID});
     Object.assign(details, {hash: merkleroot.toString('utf8')});
-    Object.assign(details, {filelist: filelist})
+    Object.assign(details, {filelist: filelist});
+    Object.assign(details, {closed: false});
     files.saveJSON(details);
     files.addToUser(details.owner,details.name,details);
     console.log(chalk.green("The Storage Unit has been created!"));
@@ -220,24 +230,19 @@ const customGit = async () => {
 
 };
 
-const identity = async () => {
+const addresses = async () => {
 
-  var res = files.readID();
-    if(res.id === "null"){
-      const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username, inquirer.hash, "null");
-      var res = files.readID();
-      ownID = res.id;
-    }
-    console.log("Your username is "+chalk.black.bgGreen(res.username)+" and your ID is "+chalk.black.bgYellow(res.id));
-    
-    const inqchuser = await inquirer.changeUsername();
+    console.log("Your first wallet's address is "+chalk.black.bgGreen(w1));
+    console.log("Your second wallet's address is "+chalk.black.bgGreen(w2));
+    console.log("Your first wallet's private key is "+chalk.black.bgRed(k));
 
-    if(inqchuser.userchange == "Yes"){
-      const inquser = await inquirer.chooseUsername();
-      files.writeID(inquser.username, inquser.hash, ["no-change"]);
-      files.readID();
-      ownID = res.id;
+    const inqchuser = await inquirer.changeAddresses();
+
+    if(inqchuser.addresschange == "Yes"){
+      var res = await files.readWallet();
+      w1 = res.wallet1;
+      w2 = res.wallet2;
+      k = res.pkey;
     }
 
 };
