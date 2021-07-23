@@ -50,7 +50,7 @@ const run = async () => {
       break;
     case "Close current SU":
       if(!files.isClosed()){
-        await create();
+        await close();
       } else {
         console.log(chalk.red("This Storage Unit is already closed"))
       }
@@ -128,12 +128,11 @@ const create = async () => {
   spinnerAdd.succeed("All files added");
 
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
-    Object.assign(details, {owner: ownID});
+    Object.assign(details, {owner: w1});
     Object.assign(details, {hash: merkleroot.toString('utf8')});
     Object.assign(details, {filelist: filelist});
     Object.assign(details, {closed: false});
     files.saveJSON(details);
-    files.addToUser(details.owner,details.name,details);
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
@@ -146,6 +145,9 @@ const create = async () => {
   } else {
     await gitLogic.commitSU("");
   }
+
+  var pinesu = files.readPineSUFile('.pinesu.json');
+  ethLogic.addToTree(pinesu.name, pinesu.pinesuhash);
 
 };
 
