@@ -7,7 +7,7 @@ const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
-var w1,w2,k;
+var w1, w2, k, mc;
 
 clear();
 
@@ -128,11 +128,13 @@ const create = async () => {
   spinnerAdd.succeed("All files added");
 
   await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
+    var hash = merkleroot.toString('utf8');
     Object.assign(details, {owner: w1});
-    Object.assign(details, {hash: merkleroot.toString('utf8')});
+    Object.assign(details, {hash: hash});
     Object.assign(details, {filelist: filelist});
     Object.assign(details, {closed: false});
     files.saveJSON(details);
+    ethLogic.addToTree(details.name, hash, mc, false);
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
@@ -146,10 +148,21 @@ const create = async () => {
     await gitLogic.commitSU("");
   }
 
-  var pinesu = files.readPineSUFile('.pinesu.json');
-  ethLogic.addToTree(pinesu.name, pinesu.pinesuhash);
+  //var pinesu = files.readPineSUFile('.pinesu.json');
+  //ethLogic.addToTree(pinesu.name, pinesu.pinesuhash);
 
 };
+
+const close = async () => {
+  var pinesu = files.readPineSUFile('.pinesu.json');
+  if(pinesu[0] == null){
+    console.log(chalk.red("This folder is not a Storage Unit"));
+  } else {
+    files.saveJSON(details);
+    ethLogic.addToTree(pinesu.name, pinesu.hash, mc, true);
+    console.log(chalk.green("The Storage Unit has been closed!"));
+  }
+}
 
 const register = async () => {
 

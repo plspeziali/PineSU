@@ -1,7 +1,7 @@
 module.exports = {
 
-    addToTree(name, hash){
-        
+    addToTree(name, hash, mc, closed){
+        mc.addRegistration(name, hash, Date.now(), closed);
     },
 
 }
