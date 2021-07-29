@@ -6,6 +6,7 @@ const figlet = require('figlet');
 const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
+const ethLogic = require('./logic/ethLogic');
 const files = require('./lib/files');
 var w1, w2, k, mc, sg;
 
@@ -30,6 +31,8 @@ const run = async () => {
   w1 = res.wallet1;
   w2 = res.wallet2;
   k = res.pkey;
+
+  ethLogic.connect(w1,w2,k);
 
   mc = files.loadTree();
 
@@ -66,7 +69,7 @@ const run = async () => {
       }
       run();
       break;
-    case "Register SU in the blockchain network":
+    case "Register Staged SUs in the blockchain network":
       await register();
       run();
       break;
@@ -163,13 +166,18 @@ const create = async () => {
 
 };
 
+
 const stage = async () => {
   var pinesu = files.readPineSUFile(".pinesu.json");
   sg.push({
+    name: pinesu.name,
     hash: pinesu.hash,
-    path: files.getCurrentDirectoryBase()
-  })
+    path: files.getCurrentDirectoryBase(),
+    closed: pinesu.closed
+  });
+  files.saveSG(sg);
 };
+
 
 const close = async () => {
   var pinesu = files.closePineSUFile('.pinesu.json');
@@ -183,15 +191,19 @@ const close = async () => {
 
 const register = async () => {
 
-  /*var sulist = files.readSUList();
-  if(sulist[0] !== "null"){
-    const inqreg = await inquirer.askRegSU(sulist);
-    files.writeHashes(inqreg.register);
-  } else {
-    console.log(chalk.red("You have not created any Storage Unit yet!"))
-  }*/
+  [document, openRoot, closedRoot] = files.createSGTrees(sg);
+
+  ethLogic.addToTree(openRoot, mc, false);
+  ethLogic.addToTree(closedRoot, mc, true);
+
+  var transactionHash = ethLogic.registerMC(mc);
+
+  for(var el of document){
+
+  }
 
 };
+
 
 const check = async () => {
 
@@ -216,6 +228,7 @@ const check = async () => {
   });
 
 };
+
 
 const checkFiles = async () => {
   
