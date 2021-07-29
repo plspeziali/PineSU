@@ -7,7 +7,7 @@ const ora = require('ora');
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const files = require('./lib/files');
-var w1, w2, k, mc;
+var w1, w2, k, mc, sg;
 
 clear();
 
@@ -33,6 +33,8 @@ const run = async () => {
 
   mc = files.loadTree();
 
+  sg = files.loadSG();
+
   const inqstart = await inquirer.startAction();
 
   switch(inqstart.startans){
@@ -45,6 +47,14 @@ const run = async () => {
         await create();
       } else {
         console.log(chalk.red("This folder is already a Storage Unit and is closed"))
+      }
+      run();
+      break;
+    case "Stage Storage Unit for Synchronization":
+      if(files.fileExists(".pinesu.json")){
+        await stage();
+      } else {
+        console.log(chalk.red("This folder is not a Storage Unit"))
       }
       run();
       break;
@@ -153,26 +163,33 @@ const create = async () => {
 
 };
 
+const stage = async () => {
+  var pinesu = files.readPineSUFile(".pinesu.json");
+  sg.push({
+    hash: pinesu.hash,
+    path: files.getCurrentDirectoryBase()
+  })
+};
+
 const close = async () => {
-  var pinesu = files.readPineSUFile('.pinesu.json');
+  var pinesu = files.closePineSUFile('.pinesu.json');
   if(pinesu[0] == null){
     console.log(chalk.red("This folder is not a Storage Unit"));
   } else {
-    files.saveJSON(details);
-    ethLogic.addToTree(pinesu.name, pinesu.hash, mc, true);
     console.log(chalk.green("The Storage Unit has been closed!"));
   }
-}
+};
+
 
 const register = async () => {
 
-  var sulist = files.readSUList();
+  /*var sulist = files.readSUList();
   if(sulist[0] !== "null"){
     const inqreg = await inquirer.askRegSU(sulist);
     files.writeHashes(inqreg.register);
   } else {
     console.log(chalk.red("You have not created any Storage Unit yet!"))
-  }
+  }*/
 
 };
 
