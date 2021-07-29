@@ -2,6 +2,11 @@ const Web3 = require('web3');
 
 class EthConnector{
 
+    #web3;
+    #w1;
+    #w2;
+    #k;
+
     constructor(host,w1,w2,k){
         this.#web3 = new Web3(host); //'HTTP://127.0.0.1:7545'
         this.#w1 = w1;
@@ -28,7 +33,7 @@ class EthConnector{
         return receipt.transactionHash;
     }
 
-    verifyHash(transactionHash, hash){
+    async verifyHash(transactionHash, hash){
         const res = await this.#web3.eth.getTransaction(transactionHash)
         if(res.input == hash){
             return true;

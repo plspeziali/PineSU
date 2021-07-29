@@ -147,7 +147,6 @@ const create = async () => {
     Object.assign(details, {filelist: filelist});
     Object.assign(details, {closed: false});
     files.saveJSON(details);
-    ethLogic.addToTree(details.name, hash, mc, false);
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
@@ -169,13 +168,17 @@ const create = async () => {
 
 const stage = async () => {
   var pinesu = files.readPineSUFile(".pinesu.json");
-  sg.push({
-    name: pinesu.name,
-    hash: pinesu.hash,
-    path: files.getCurrentDirectoryBase(),
-    closed: pinesu.closed
-  });
-  files.saveSG(sg);
+  const found = sg.some(el => el.hash == pinesu.hash);
+  if(!found){
+    sg.push({
+      name: pinesu.name,
+      hash: pinesu.hash,
+      path: files.getCurrentDirectoryABS(),
+      closed: pinesu.closed
+    });
+    files.saveSG(sg);
+  }
+  files.saveTree(mc);
 };
 
 
@@ -199,8 +202,11 @@ const register = async () => {
   var transactionHash = ethLogic.registerMC(mc);
 
   for(var el of document){
-
+    el.transactionHash = transactionHash;
+    await gitLogic.makeCommit(el.path);
   }
+
+  gitLogic.changeDir('.');
 
 };
 

@@ -132,6 +132,12 @@ module.exports = {
 
     fileHashSync(path){
         return treelist.fileHashSync(path);
+    },
+
+    async makeCommit(path){
+        this.changeDir(path);
+        await this.add();
+        await this.commitSU();
     }
 
 }
