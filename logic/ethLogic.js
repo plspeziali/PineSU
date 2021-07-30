@@ -8,7 +8,7 @@ module.exports = {
     },
 
     addToTree(hash, mc, closed){
-        var date = Date.now()
+        var date = new Date()
         mc.addRegistration("SU of "+date, hash, date, closed);
     },
 

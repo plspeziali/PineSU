@@ -196,8 +196,12 @@ const register = async () => {
 
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
 
-  ethLogic.addToTree(openRoot, mc, false);
-  ethLogic.addToTree(closedRoot, mc, true);
+  if(openRoot != "null"){
+    ethLogic.addToTree(openRoot, mc, false);
+  }
+  if(closedRoot != "null"){
+    ethLogic.addToTree(closedRoot, mc, true);
+  }
 
   var transactionHash = ethLogic.registerMC(mc);
 
