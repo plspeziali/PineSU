@@ -202,16 +202,20 @@ const register = async () => {
   if(closedRoot != "null"){
     ethLogic.addToTree(closedRoot, mc, true);
   }
+  if(openRoot != "null" || closedRoot != "null"){
+    var transactionHash = ethLogic.registerMC(mc);
 
-  var transactionHash = ethLogic.registerMC(mc);
+    for(var el of document){
+      el.transactionHash = transactionHash;
+      await gitLogic.makeCommit(el.path);
+    }
 
-  for(var el of document){
-    el.transactionHash = transactionHash;
-    await gitLogic.makeCommit(el.path);
+    gitLogic.changeDir('.');
+
+    files.flushSG();
+  } else {
+    console.log(chalk.red("There are no Storage Units staged!"));
   }
-
-  gitLogic.changeDir('.');
-
 };
 
 

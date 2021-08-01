@@ -136,7 +136,7 @@ module.exports = {
 
     async makeCommit(path){
         this.changeDir(path);
-        await this.add();
+        await this.addAllSU();
         await this.commitSU();
     }
 

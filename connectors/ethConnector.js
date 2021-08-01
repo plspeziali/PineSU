@@ -15,7 +15,7 @@ class EthConnector{
     }
 
     async deploy(hashRoot){
-        console.log('Sending a transaction from '+address+' to '+receiver);
+        console.log('Sending a transaction from '+this.#w1+' to '+this.#w2);
         const createTransaction = await this.#web3.eth.accounts.signTransaction({
                 from: this.#w1,
                 to: this.#w2,
