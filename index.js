@@ -203,10 +203,12 @@ const register = async () => {
     ethLogic.addToTree(closedRoot, mc, true);
   }
   if(openRoot != "null" || closedRoot != "null"){
-    var transactionHash = ethLogic.registerMC(mc);
+    var transactionHash = await ethLogic.registerMC(mc);
+    console.log(transactionHash);
 
     for(var el of document){
       el.transactionHash = transactionHash;
+      files.createRegistration(el);
       await gitLogic.makeCommit(el.path);
     }
 
