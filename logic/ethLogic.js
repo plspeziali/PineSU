@@ -12,10 +12,15 @@ module.exports = {
         mc.addRegistration("SU of "+date, hash, date, closed);
     },
 
-    registerMC(mc){
+    async registerMC(mc){
         var hash = mc.getMCRoot();
-        var transactionHash = ethConnector.deploy(hash);
+        var transactionHash = await ethConnector.deploy(hash);
         return transactionHash;
+    },
+
+    verifyHash(mc, hash, transactionHash){
+        var BSPRoot = mc.getBSPRoot(hash);
+        return await mc.verifyHash(transactionHash, BSPRoot);
     }
 
 }

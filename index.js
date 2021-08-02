@@ -231,15 +231,19 @@ const check = async () => {
     spinnerCalc.succeed("Calculation complete!");
     //console.log(pinesu.hash+"\n"+merkleroot);
     if(pinesu.hash == merkleroot){
-      if(files.checkRegistration(pinesu.pinesuhash)){
-        await checkFiles();
+      var res = files.checkRegistration(merkleroot)
+      if(res[0]){
         console.log(chalk.green("The integrity of the local files has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
-        files.blockchainCheck();
+        if(await verifyHash(mc, res[1].root, res[1].transactionHash)){
+          console.log(chalk.green("The Storage Unit has been found in the blockchain"));
+        } else {
+          console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
+        }
       } else {
-        console.log(chalk.red("The integrity of the files \ncan't be been verified since they don't match the original hash root"));
+        console.log(chalk.red("The integrity of the files\ncan't be been verified since they don't match the original hash root"));
       }
     } else {
-      console.log(chalk.red("The integrity of the files can't be been verified\nsince they don't match the original hash root"));
+      console.log(chalk.red("The integrity of the files\ncan't be been verified since they don't match the original hash root"));
     }
   });
 
