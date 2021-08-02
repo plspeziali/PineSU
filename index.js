@@ -178,7 +178,6 @@ const stage = async () => {
     });
     files.saveSG(sg);
   }
-  files.saveTree(mc);
 };
 
 
@@ -215,6 +214,8 @@ const register = async () => {
     gitLogic.changeDir('.');
 
     files.flushSG();
+
+    files.saveTree(mc);
   } else {
     console.log(chalk.red("There are no Storage Units staged!"));
   }
