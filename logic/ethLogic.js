@@ -18,9 +18,9 @@ module.exports = {
         return transactionHash;
     },
 
-    verifyHash(mc, hash, transactionHash){
+    async verifyHash(mc, hash, transactionHash){
         var BSPRoot = mc.getBSPRoot(hash);
-        return await mc.verifyHash(transactionHash, BSPRoot);
+        return await ethConnector.verifyHash(transactionHash, BSPRoot);
     }
 
 }

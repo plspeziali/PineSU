@@ -35,6 +35,8 @@ class EthConnector{
 
     async verifyHash(transactionHash, hash){
         const res = await this.#web3.eth.getTransaction(transactionHash)
+        console.log(res);
+        console.log(hash);
         if(res.input == hash){
             return true;
         } else {

@@ -229,21 +229,22 @@ const check = async () => {
     var merkleroot = gitLogic.calculateTree(filelist);
     var pinesu = files.readPineSUFile(".pinesu.json");
     spinnerCalc.succeed("Calculation complete!");
-    //console.log(pinesu.hash+"\n"+merkleroot);
+    console.log(pinesu.hash+"\n"+merkleroot);
     if(pinesu.hash == merkleroot){
       var res = files.checkRegistration(merkleroot)
+      console.log(res);
       if(res[0]){
         console.log(chalk.green("The integrity of the local files has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
-        if(await verifyHash(mc, res[1].root, res[1].transactionHash)){
+        if(await ethLogic.verifyHash(mc, res[1].root, res[1].transactionHash)){
           console.log(chalk.green("The Storage Unit has been found in the blockchain"));
         } else {
           console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
         }
       } else {
-        console.log(chalk.red("The integrity of the files\ncan't be been verified since they don't match the original hash root"));
+        console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the latest registration"));
       }
     } else {
-      console.log(chalk.red("The integrity of the files\ncan't be been verified since they don't match the original hash root"));
+      console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the original hash root"));
     }
   });
 
