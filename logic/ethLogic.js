@@ -9,7 +9,7 @@ module.exports = {
 
     addToTree(hash, mc, closed){
         var date = new Date()
-        mc.addRegistration("SU of "+date, hash, date, closed);
+        mc.addRegistrationD("SU of "+date, hash, date, closed);
     },
 
     async registerMC(mc){
@@ -20,7 +20,10 @@ module.exports = {
 
     async verifyHash(mc, hash, transactionHash){
         var BSPRoot = mc.getBSPRoot(hash);
-        return await ethConnector.verifyHash(transactionHash, BSPRoot);
+        if(BSPRoot != null){
+            return await ethConnector.verifyHash(transactionHash, BSPRoot);
+        }
+        return false;
     }
 
 }

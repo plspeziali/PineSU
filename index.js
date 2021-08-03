@@ -208,7 +208,7 @@ const register = async () => {
     for(var el of document){
       el.transactionHash = transactionHash;
       files.createRegistration(el);
-      await gitLogic.makeCommit(el.path);
+      await gitLogic.makeRegistrationCommit(el.path);
     }
 
     gitLogic.changeDir('.');

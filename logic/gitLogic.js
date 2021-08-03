@@ -18,7 +18,7 @@ module.exports = {
     },
 
     async addFileSU(_file){
-        await it.add(_file);
+        await git.add(_file);
     },
 
     async addAllSU(){
@@ -134,9 +134,9 @@ module.exports = {
         return treelist.fileHashSync(path);
     },
 
-    async makeCommit(path){
+    async makeRegistrationCommit(path){
         this.changeDir(path);
-        await this.addAllSU();
+        await this.addFileSU(".registration.json");
         await this.commitSU();
     }
 
