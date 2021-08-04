@@ -62,7 +62,7 @@ const run = async () => {
       run();
       break;
     case "Close current SU":
-      if(!files.isClosed()){
+      if(files.fileExists(".pinesu.json")){
         await close();
       } else {
         console.log(chalk.red("This Storage Unit is already closed"))
@@ -80,7 +80,7 @@ const run = async () => {
       break;
 
     case "Export files from current SU":
-      if(files.fileExists(".pinesu.json")){
+      if(files.fileExists(".registration.json")){
         await distribute();
       } else {
         console.log(chalk.red("This folder is not a Storage Unit"))
@@ -183,7 +183,7 @@ const stage = async () => {
 
 const close = async () => {
   var pinesu = files.closePineSUFile('.pinesu.json');
-  if(pinesu[0] == null){
+  if(pinesu == null){
     console.log(chalk.red("This folder is not a Storage Unit"));
   } else {
     console.log(chalk.green("The Storage Unit has been closed!"));
