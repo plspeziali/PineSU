@@ -17,6 +17,7 @@ module.exports = {
         var hash;
         if(oHash != null){
             if(cHash != null){
+                console.log([oHash, cHash])
                 hash = mc.calculateHash([oHash, cHash]);
             } else {
                 hash = oHash;
