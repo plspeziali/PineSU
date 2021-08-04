@@ -195,13 +195,14 @@ const register = async () => {
 
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
 
-  if(openRoot != "null"){
+  if(openRoot != null){
     ethLogic.addToTree(openRoot, mc, false);
   }
-  if(closedRoot != "null"){
+  if(closedRoot != null){
     ethLogic.addToTree(closedRoot, mc, true);
   }
-  if(openRoot != "null" || closedRoot != "null"){
+  if(openRoot != null || closedRoot != null){
+    console.log([openRoot, closedRoot])
     var [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
     console.log(transactionHash);
 

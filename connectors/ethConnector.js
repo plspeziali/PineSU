@@ -37,7 +37,7 @@ class EthConnector{
         const res = await this.#web3.eth.getTransaction(transactionHash)
         console.log(res);
         console.log(hash);
-        if(res.input == hash){
+        if(res.input == "0x"+hash){
             return true;
         } else {
             return false;
