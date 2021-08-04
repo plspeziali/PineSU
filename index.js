@@ -202,10 +202,12 @@ const register = async () => {
     ethLogic.addToTree(closedRoot, mc, true);
   }
   if(openRoot != "null" || closedRoot != "null"){
-    var transactionHash = await ethLogic.registerMC(mc);
+    var [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
     console.log(transactionHash);
 
     for(var el of document){
+      el.oHash = oHash;
+      el.cHash = cHash;
       el.transactionHash = transactionHash;
       files.createRegistration(el);
       await gitLogic.makeRegistrationCommit(el.path);
@@ -236,7 +238,7 @@ const check = async () => {
       console.log(res);
       if(res[0]){
         console.log(chalk.green("The integrity of the local files has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
-        if(await ethLogic.verifyHash(mc, res[1].root, res[1].transactionHash)){
+        if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
           console.log(chalk.green("The Storage Unit has been found in the blockchain"));
         } else {
           console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));

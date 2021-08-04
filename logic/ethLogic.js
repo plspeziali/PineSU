@@ -13,13 +13,24 @@ module.exports = {
     },
 
     async registerMC(mc){
-        var hash = mc.getMCRoot();
+        var [oHash, cHash] = mc.getMCRoot();
+        var hash;
+        if(oHash != null){
+            if(cHash != null){
+                hash = mc.calculateHash([oHash, cHash]);
+            } else {
+                hash = oHash;
+            }
+        }
+        if(cHash != null && oHash == null){
+            hash = cHash;
+        }
         var transactionHash = await ethConnector.deploy(hash);
-        return transactionHash;
+        return [oHash, cHash, transactionHash];
     },
 
-    async verifyHash(mc, hash, transactionHash){
-        var BSPRoot = mc.getBSPRoot(hash);
+    async verifyHash(mc, root, oHash, cHash, transactionHash){
+        var BSPRoot = mc.getBSPRoot(root, oHash, cHash);
         if(BSPRoot != null){
             return await ethConnector.verifyHash(transactionHash, BSPRoot);
         }
