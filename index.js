@@ -260,7 +260,7 @@ const checkFiles = async () => {
   
   var pifiles = files.readPifiles();
   if(pifiles[0] == "null"){
-    console.log(chalk.red('No ".pifiles.json" found in the current folder'));
+    console.log(chalk.cyan('No ".pifiles.json" found in the current folder'));
     return;
   }
 
@@ -279,7 +279,7 @@ const checkFilesBlockchain = async () => {
   
   var pifiles = files.readPifiles();
   if(pifiles[0] == "null"){
-    console.log(chalk.red('No ".pifiles.json" found in the current folder'));
+    console.log(chalk.cyan('No ".pifiles.json" found in the current folder'));
     return;
   }
 
