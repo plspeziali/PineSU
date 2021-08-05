@@ -3,7 +3,7 @@ NodeJS application which provides file version control along with integrity chec
 
 **This application is still not ready to be used! Try it at your own risk!**
 
-This application is part of my internship @ UniPG.
+This application is part of my deegree thesis @ UniPG.
 
 # What it does now
 

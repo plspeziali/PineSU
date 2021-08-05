@@ -89,7 +89,7 @@ const run = async () => {
       break; 
 
     case "Check files integrity":
-      await checkFiles();
+      await checkFilesBlockchain();
       run();
       break;
 
@@ -234,6 +234,7 @@ const check = async () => {
     var pinesu = files.readPineSUFile(".pinesu.json");
     spinnerCalc.succeed("Calculation complete!");
     console.log(pinesu.hash+"\n"+merkleroot);
+    checkFiles();
     if(pinesu.hash == merkleroot){
       var res = files.checkRegistration(merkleroot)
       console.log(res);
@@ -267,6 +268,37 @@ const checkFiles = async () => {
     var hash = gitLogic.fileHashSync(el.path)
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
+    } else {
+      console.log(chalk.red("The integrity of the file "+el.path+"\ncan't be been verified since it doesn't match the original hash root"));
+    }
+  }
+
+};
+
+const checkFilesBlockchain = async () => {
+  
+  var pifiles = files.readPifiles();
+  if(pifiles[0] == "null"){
+    console.log(chalk.red('No ".pifiles.json" found in the current folder'));
+    return;
+  }
+
+  for(var el of pifiles){
+    var hash = gitLogic.fileHashSync(el.path)
+    if(gitLogic.validateProof(el.proof, hash, el.root)){
+      console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
+      var res = files.checkRegistration(merkleroot)
+      //console.log(res);
+      if(res[0]){
+        console.log(chalk.green("The integrity of "+el.path+" has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
+        if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
+          console.log(chalk.green("The Storage Unit of the file "+el.path+"\nhas been found in the blockchain"));
+        } else {
+          console.log(chalk.red("The Storage Unit of the file "+el.path+"\nhasn't been found in the blockchain"));
+        }
+      } else {
+        console.log(chalk.red("The integrity of the file can't be been verified since they don't\nmatch the latest registration"));
+      }
     } else {
       console.log(chalk.red("The integrity of the file "+el.path+"\ncan't be been verified since it doesn't match the original hash root"));
     }
