@@ -61,6 +61,16 @@ module.exports = {
         return await git.setRemote(url);
     },
 
+    async checkCommitMessages(){
+        let list = await git.log();
+        for(var el of list){
+            if(el.message == "The Storage Unit is now closed"){
+                return false;
+            }
+        }
+        return true;
+    },
+
     async calculateSU(){
         var res = await git.getRepoFiles();
         res = res.split(/\r?\n/);

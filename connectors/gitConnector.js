@@ -62,6 +62,10 @@ class GitConnector{
         this.git.reset("--hard","HEAD~1");
     }
 
+    async log(){
+        return this.git.log();
+    }
+
     async hasRemote(){
         return await this.git.listRemote(['--get-url'], (err, data) => {
             if (!err) {

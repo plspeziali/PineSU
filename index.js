@@ -188,11 +188,18 @@ const stage = async () => {
 
 
 const close = async () => {
-  var pinesu = files.closePineSUFile('.pinesu.json');
-  if(pinesu == null){
-    console.log(chalk.red("This folder is not a Storage Unit"));
+
+  let res = await gitLogic.checkCommitMessages();
+  if(res){
+    var pinesu = files.closePineSUFile('.pinesu.json');
+    if(pinesu == null){
+      console.log(chalk.red("This folder is not a Storage Unit"));
+    } else {
+      console.log(chalk.green("The Storage Unit has been closed!"));
+      await gitLogic.commitSU("The Storage Unit is now closed");
+    }
   } else {
-    console.log(chalk.green("The Storage Unit has been closed!"));
+    console.log(chalk.red("This Storage Unit has already been closed in the past"));
   }
 };
 
