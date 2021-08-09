@@ -50,7 +50,11 @@ module.exports = {
     },
 
     async hasRemote(){
-        return await git.hasRemote;
+        return await git.hasRemote();
+    },
+
+    async getRemote(){
+        return await git.getRemote();
     },
 
     async calculateSU(){

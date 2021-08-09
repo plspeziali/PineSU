@@ -140,7 +140,13 @@ const create = async () => {
   var merkleroot = gitLogic.calculateTree(filelist);
   spinnerAdd.succeed("All files added");
 
-  await inquirer.askSUDetails(files.getCurrentDirectoryBase()).then((details) => {
+  let remote = await gitLogic.getRemote();
+
+  if(typeof(remote) == "undefined" || remote.length == 0){
+    remote = "localhost";
+  }
+
+  await inquirer.askSUDetails(files.getCurrentDirectoryBase(), remote).then((details) => {
     var hash = merkleroot.toString('utf8');
     Object.assign(details, {owner: w1});
     Object.assign(details, {hash: hash});

@@ -15,9 +15,9 @@ Finally the program will save in .pinesu.json the information about the Storage 
 
 ## TODO List
 
- - [ ] Improve the creation of local Merkle Trees for hashing a simgle Storage Unit
- - [ ] Improve local saving of Merkle Calendars
- - [ ] Implement sub-SUs exporting with blockchain checking
+ - [ ] Improve the creation of local Merkle Trees for hashing a single Storage Unit
+ - [x] Improve local saving of Merkle Calendars
+ - [x] Implement sub-SUs exporting with blockchain checking
  - [ ] Improve Git implementation
  - [ ] Improve checking of past versions
  - [ ] Implement server-side storage (with Git Servers?)
