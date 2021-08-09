@@ -79,6 +79,16 @@ class GitConnector{
         return await this.git.raw("config","--get","remote.origin.url");
     }
 
+    async setRemote(url){
+        await this.git.raw("remote", "add", "master", url, (err, result) => {
+            if(err){
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
     async custom(_commands){
         return await this.git.raw(_commands, (err, result) => {
             if(err){

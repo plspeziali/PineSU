@@ -57,6 +57,10 @@ module.exports = {
         return await git.getRemote();
     },
 
+    async setRemote(url){
+        return await git.setRemote(url);
+    },
+
     async calculateSU(){
         var res = await git.getRepoFiles();
         res = res.split(/\r?\n/);

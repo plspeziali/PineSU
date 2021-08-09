@@ -18,15 +18,7 @@ console.log(
   ) 
 );
 
-const run = async () => {
-
-  /*var res = files.readID();
-  if(typeof(res.id) == undefined || res.id === "null"){
-    const inquser = await inquirer.chooseAddresses();
-    files.writeID(inquser.username, inquirer.hash, []);
-    var res = files.readID();
-  }
-  ownID = res.id;*/
+const init = async () => {
   var res = await files.readWallet();
   w1 = res.wallet1;
   w2 = res.wallet2;
@@ -37,6 +29,11 @@ const run = async () => {
   mc = files.loadTree();
 
   sg = files.loadSG();
+
+  run();
+}
+
+const run = async () => {
 
   const inqstart = await inquirer.startAction();
 
@@ -153,6 +150,7 @@ const create = async () => {
     Object.assign(details, {filelist: filelist});
     Object.assign(details, {closed: false});
     files.saveJSON(details);
+    //gitLogic.setRemote(details.remote);
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
@@ -165,6 +163,8 @@ const create = async () => {
   } else {
     await gitLogic.commitSU("");
   }
+  
+  //await gitLogic.pushSU();
 
   //var pinesu = files.readPineSUFile('.pinesu.json');
   //ethLogic.addToTree(pinesu.name, pinesu.pinesuhash);
@@ -355,4 +355,4 @@ const addresses = async () => {
 
 };
 
-run();
+init();
