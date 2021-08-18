@@ -8,7 +8,7 @@ const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const ethLogic = require('./logic/ethLogic');
 const files = require('./lib/files');
-var w1, w2, k, mc, sg;
+var w1, w2, k, r, mc, sg;
 
 clear();
 
@@ -23,8 +23,13 @@ const init = async () => {
   w1 = res.wallet1;
   w2 = res.wallet2;
   k = res.pkey;
+  r = res.rem
 
   ethLogic.connect(w1,w2,k);
+
+  if(r != null){
+    files.downloadTree(r);
+  }
 
   mc = files.loadTree();
 
@@ -150,7 +155,11 @@ const create = async () => {
     Object.assign(details, {filelist: filelist});
     Object.assign(details, {closed: false});
     files.saveJSON(details);
-    //gitLogic.setRemote(details.remote);
+    try{
+      gitLogic.setRemote(details.remote);
+    } catch(e){
+      // TODO
+    }
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
@@ -164,10 +173,11 @@ const create = async () => {
     await gitLogic.commitSU("");
   }
   
-  //await gitLogic.pushSU();
-
-  //var pinesu = files.readPineSUFile('.pinesu.json');
-  //ethLogic.addToTree(pinesu.name, pinesu.pinesuhash);
+  try{
+    await gitLogic.pushSU();
+  } catch(e){
+    // TODO
+  }
 
 };
 
@@ -219,6 +229,7 @@ const register = async () => {
     var [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
     console.log(transactionHash);
 
+    console.log(document);
     for(var el of document){
       el.oHash = oHash;
       el.cHash = cHash;
@@ -350,6 +361,7 @@ const addresses = async () => {
     console.log("Your first wallet's address is "+chalk.black.bgGreen(w1));
     console.log("Your second wallet's address is "+chalk.black.bgGreen(w2));
     console.log("Your first wallet's private key is "+chalk.black.bgRed(k));
+    console.log("Your Merkle Calendars remote repository is "+chalk.black.bgMagenta(r));
 
     const inqchuser = await inquirer.changeAddresses();
 
@@ -358,6 +370,7 @@ const addresses = async () => {
       w1 = res.wallet1;
       w2 = res.wallet2;
       k = res.pkey;
+      r = res.remote;
     }
 
 };

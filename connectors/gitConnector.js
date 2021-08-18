@@ -84,13 +84,17 @@ class GitConnector{
     }
 
     async setRemote(url){
-        await this.git.raw("remote", "add", "master", url, (err, result) => {
-            if(err){
-                return false;
-            } else {
-                return true;
-            }
-        });
+        if(this.getRemote().length == 0){
+            await this.git.raw("remote", "add", "master", url, (err, result) => {
+                if(err){
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        } else {
+            
+        }
     }
 
     async custom(_commands){
