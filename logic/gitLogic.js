@@ -26,7 +26,7 @@ module.exports = {
     },
 
     async commitSU(_msg){
-        if(typeof msg === 'undefined' || msg === ""){
+        if(typeof(_msg) === 'undefined' || _msg === ""){
             return await git.commit("",false);
         } else {
             return await git.commit(_msg,true);
@@ -63,6 +63,10 @@ module.exports = {
 
     async checkCommitMessages(){
         let list = await git.log();
+        console.log(list);
+        if(list.hasOwnProperty("all")){
+            list = list.all;
+        }
         for(var el of list){
             if(el.message == "The Storage Unit is now closed"){
                 return false;

@@ -206,6 +206,7 @@ const close = async () => {
       console.log(chalk.red("This folder is not a Storage Unit"));
     } else {
       console.log(chalk.green("The Storage Unit has been closed!"));
+      await gitLogic.addFileSU(".pinesu.json");
       await gitLogic.commitSU("The Storage Unit is now closed");
     }
   } else {
@@ -225,11 +226,11 @@ const register = async () => {
     ethLogic.addToTree(closedRoot, mc, true);
   }
   if(openRoot != null || closedRoot != null){
-    console.log([openRoot, closedRoot])
+    //console.log([openRoot, closedRoot])
     var [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
-    console.log(transactionHash);
+    //console.log(transactionHash);
 
-    console.log(document);
+    //console.log(document);
     for(var el of document){
       el.oHash = oHash;
       el.cHash = cHash;
@@ -257,11 +258,11 @@ const check = async () => {
     var merkleroot = gitLogic.calculateTree(filelist);
     var pinesu = files.readPineSUFile(".pinesu.json");
     spinnerCalc.succeed("Calculation complete!");
-    console.log(pinesu.hash+"\n"+merkleroot);
+    //console.log(pinesu.hash+"\n"+merkleroot);
     checkFiles();
     if(pinesu.hash == merkleroot){
       var res = files.checkRegistration(merkleroot)
-      console.log(res);
+      //console.log(res);
       if(res[0]){
         console.log(chalk.green("The integrity of the local files has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
         if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
@@ -311,7 +312,7 @@ const checkFilesBlockchain = async () => {
     var hash = gitLogic.fileHashSync(el.path)
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
-      var res = files.checkRegistration(merkleroot)
+      var res = files.checkRegistration(el.root)
       //console.log(res);
       if(res[0]){
         console.log(chalk.green("The integrity of "+el.path+" has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
