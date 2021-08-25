@@ -110,6 +110,7 @@ const run = async () => {
 
 const create = async () => {
 
+  // Controllo d'esistenza di repository Git con creazione in caso contrario
   if (files.fileExists('.git')) {
     console.log(chalk.green('Already a Git repository!'));
   } else {
@@ -122,11 +123,15 @@ const create = async () => {
     }
   }
 
+  // Creazione del .gitignore 
   const inqignore = await inquirer.gitAdd();
   if(inqignore.gitignore == "Yes"){
     await files.createGitignore();
     await gitLogic.addFileSU('.gitignore');
   }
+
+  // Aggiunta dei file della directory a un commit "fantoccio"
+  // e calcolo dei loro hash
   const spinnerAdd = ora('Adding files to the Storage Unit...').start();
   await gitLogic.addAllSU();
 
@@ -139,6 +144,7 @@ const create = async () => {
     return;
   }
 
+  // Calcolo del Merkle Tree della SU
   var merkleroot = gitLogic.calculateTree(filelist);
   spinnerAdd.succeed("All files added");
 
@@ -148,6 +154,7 @@ const create = async () => {
     remote = "localhost";
   }
 
+  // Creazione del file .pinesu.json contenente i metadati della SU
   await inquirer.askSUDetails(files.getCurrentDirectoryBase(), remote).then((details) => {
     var hash = merkleroot.toString('utf8');
     Object.assign(details, {owner: w1});
@@ -163,6 +170,9 @@ const create = async () => {
     console.log(chalk.green("The Storage Unit has been created!"));
   });
   
+  // Reset del commit "fantoccio" e creazione
+  // di un commit vero e proprio includendo
+  // anche il file descrittore JSON
   gitLogic.resetCommit();
   await gitLogic.addAllSU();
 
@@ -183,6 +193,9 @@ const create = async () => {
 
 
 const stage = async () => {
+  // Lettura dei metadati della SU,
+  // se non è già presente viene
+  // inserita nello SG
   var pinesu = files.readPineSUFile(".pinesu.json");
   const found = sg.some(el => el.hash == pinesu.hash);
   if(!found){
@@ -198,7 +211,9 @@ const stage = async () => {
 
 
 const close = async () => {
-
+  // Chiusura "weak", vengono controllati i commit,
+  // se è presente un commit di chiusura viene
+  // annullata l'operazione, altrimenti si chiude la SU
   let res = await gitLogic.checkCommitMessages();
   if(res){
     var pinesu = files.closePineSUFile('.pinesu.json');
@@ -217,6 +232,7 @@ const close = async () => {
 
 const register = async () => {
 
+  
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
 
   if(openRoot != null){
@@ -315,7 +331,7 @@ const checkFilesBlockchain = async () => {
       var res = files.checkRegistration(el.root)
       //console.log(res);
       if(res[0]){
-        console.log(chalk.green("The integrity of "+el.path+" has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
+        console.log(chalk.green("The file "+el.path+" was verified\nin being once part of a Storage Unit.\nProceeding with the blockchain check"));
         if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
           console.log(chalk.green("The Storage Unit of the file "+el.path+"\nhas been found in the blockchain"));
         } else {
