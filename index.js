@@ -43,11 +43,11 @@ const run = async () => {
   const inqstart = await inquirer.startAction();
 
   switch(inqstart.startans){
-    case "Exit":
+    case 'exit':
       console.log(chalk.green("Goodbye!"));
       process.exit(0);
 
-    case "Create new SU / Recalculate open SU":
+    case 'create / update':
       if(!files.isClosed()){
         await create();
       } else {
@@ -55,7 +55,7 @@ const run = async () => {
       }
       run();
       break;
-    case "Stage Storage Unit for Synchronization":
+    case 'stage':
       if(files.fileExists(".pinesu.json")){
         await stage();
       } else {
@@ -63,7 +63,7 @@ const run = async () => {
       }
       run();
       break;
-    case "Close current SU":
+    case 'close':
       if(files.fileExists(".pinesu.json")){
         await close();
       } else {
@@ -71,17 +71,17 @@ const run = async () => {
       }
       run();
       break;
-    case "Register Staged SUs in the blockchain network":
+    case 'sync':
       await register();
       run();
       break;
 
-    case "Check SU integrity":
+    case 'checkbc':
       await check();
       run();
       break;
 
-    case "Export files from current SU":
+    case 'export':
       if(files.fileExists(".registration.json")){
         await distribute();
       } else {
@@ -90,18 +90,23 @@ const run = async () => {
       run();
       break; 
 
-    case "Check files integrity":
+    case 'checkfile':
       await checkFilesBlockchain();
       run();
       break;
 
-    case "Custom Git command":
+    case 'git':
       await customGit();
       run();
       break;
 
-    case "Get / Change Wallet Addresses":
+    case 'settings':
       await addresses();
+      run();
+      break;
+
+    case 'help':
+      await help();
       run();
       break;
   }
@@ -232,9 +237,10 @@ const close = async () => {
 
 const register = async () => {
 
-  
+  // Vengono calcolate le MR dei due Storage Group
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
 
+  // Si aggiungono massimo due nuovi BSP al Merkle Calendar
   if(openRoot != null){
     ethLogic.addToTree(openRoot, mc, false);
   }
@@ -242,16 +248,19 @@ const register = async () => {
     ethLogic.addToTree(closedRoot, mc, true);
   }
   if(openRoot != null || closedRoot != null){
-    //console.log([openRoot, closedRoot])
+    // Si richiama il connettore per la rete Ethereum
+    // per registrare la root del Merkle Calendar nella blockchain
     var [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
-    //console.log(transactionHash);
 
-    //console.log(document);
+    // Si creano i file di metadati ".registration.json"
+    // da inserire in ogni directory delle SU facente parti
+    // degli Storage Group appena inseriti
     for(var el of document){
       el.oHash = oHash;
       el.cHash = cHash;
       el.transactionHash = transactionHash;
       files.createRegistration(el);
+      // Si fa un Git Commit in ognuna di queste SU
       await gitLogic.makeRegistrationCommit(el.path);
     }
 
@@ -268,29 +277,40 @@ const register = async () => {
 
 const check = async () => {
 
+  // Si calcolano gli hash della SU in esame
   const spinnerCalc = ora('Calculating the Storage Unit hash...').start();
   await gitLogic.calculateSU().then( async (filelist) => {
-    //console.log("\n"+filelist+"\n")
+    // Si leggono i suoi metadati e si calcola
+    // la MR della SU attuale
     var merkleroot = gitLogic.calculateTree(filelist);
     var pinesu = files.readPineSUFile(".pinesu.json");
     spinnerCalc.succeed("Calculation complete!");
-    //console.log(pinesu.hash+"\n"+merkleroot);
+    // Si controlla l'integrità di file descritti
+    // da un eventuale ".pifiles.json"
     checkFiles();
+    // Si controlla che la MR appena calcolata corrisponda
+    // con quella precedentemente registrata
     if(pinesu.hash == merkleroot){
+      // Si verifica che lo stato della SU combaci
+      // con l'ultimo stato registrato in blockchain
+      // (da quanto dicono i metadati)
       var res = files.checkRegistration(merkleroot)
-      //console.log(res);
       if(res[0]){
-        console.log(chalk.green("The integrity of the local files has been verified and\nit matches the original hash root.\nProceeding with the blockchain check"));
+        console.log(chalk.green("The integrity of the local files has been verified and\nit"+
+                                "matches the original hash root.\nProceeding with the blockchain check"));
+        // Si procede all'effettivo controllo su blockchain
         if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
           console.log(chalk.green("The Storage Unit has been found in the blockchain"));
         } else {
           console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
         }
       } else {
-        console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the latest registration"));
+        console.log(chalk.red("The integrity of the files can't be been verified since they"+
+                              +"don't\nmatch the latest registration"));
       }
     } else {
-      console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the original hash root"));
+      console.log(chalk.red("The integrity of the files can't be been verified since they"+
+                            +"don't\nmatch the original hash root"));
     }
   });
 
@@ -299,13 +319,15 @@ const check = async () => {
 
 const checkFiles = async () => {
   
-  var pifiles = files.readPifiles();
-  if(pifiles[0] == "null"){
+  // Si controlla la presenza nella directory di un file chiamato ".pifiles.json"
+  var pifile = files.readPifile();
+  if(pifile[0] == "null"){
     console.log(chalk.cyan('No ".pifiles.json" found in the current folder'));
     return;
   }
 
-  for(var el of pifiles){
+  // Per ogni file elencato in ".pifiles.json" si effettuano controlli locali
+  for(var el of pifile){
     var hash = gitLogic.fileHashSync(el.path)
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
@@ -318,19 +340,21 @@ const checkFiles = async () => {
 
 const checkFilesBlockchain = async () => {
   
-  var pifiles = files.readPifiles();
-  if(pifiles[0] == "null"){
+  // Si controlla la presenza nella directory di un file chiamato ".pifiles.json"
+  var pifile = files.readPifile();
+  if(pifile[0] == "null"){
     console.log(chalk.cyan('No ".pifiles.json" found in the current folder'));
     return;
   }
 
-  for(var el of pifiles){
+  // Per ogni file elencato in ".pifiles.json" si effettuano controlli locali
+  for(var el of pifile){
     var hash = gitLogic.fileHashSync(el.path)
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
       var res = files.checkRegistration(el.root)
-      //console.log(res);
       if(res[0]){
+        // Se la verifica locale è andata a buon fine si esegue una verifica su blockchain
         console.log(chalk.green("The file "+el.path+" was verified\nin being once part of a Storage Unit.\nProceeding with the blockchain check"));
         if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
           console.log(chalk.green("The Storage Unit of the file "+el.path+"\nhas been found in the blockchain"));
@@ -349,9 +373,11 @@ const checkFilesBlockchain = async () => {
 
 const distribute = async () => {
 
+  // Si fanno scegliere all'utente i file da inserire nell'archivio
   var filelist = await files.distributeSU();
 
   if(filelist[0] != "null"){
+    // Si crea il file ZIP con i file e un descrittore ".pifiles.json"
     var filesJSON = gitLogic.createFilesJSON(filelist);
     files.createZIP(filelist, filesJSON);
     console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/../pinesuExport.zip"))
@@ -375,7 +401,7 @@ const customGit = async () => {
 
 const addresses = async () => {
 
-    console.log("Your first wallet's address is "+chalk.black.bgGreen(w1));
+    console.log("Your first wallet's address is");
     console.log("Your second wallet's address is "+chalk.black.bgGreen(w2));
     console.log("Your first wallet's private key is "+chalk.black.bgRed(k));
     console.log("Your Merkle Calendars remote repository is "+chalk.black.bgMagenta(r));
@@ -389,6 +415,20 @@ const addresses = async () => {
       k = res.pkey;
       r = res.remote;
     }
+
+};
+
+const help = async () => {
+
+  console.log(chalk.green("create / update")+": Create a new SU or update the hashes of an existing one");
+  console.log(chalk.green("stage")+": Flag a SU for the collective blockchain synchronizing");
+  console.log(chalk.green("close")+": Close a SU and flag it for the collective blockchain synchronizing");
+  console.log(chalk.green("sync")+": Synchronize the staged or closed SUs");
+  console.log(chalk.green("checkbc")+": Verify the integrity of a SU on the blockchain");
+  console.log(chalk.green("checkfile")+": Verify the integrity of a file / batch of files");
+  console.log(chalk.green("export")+": Export a a blockchain verifiable bundle");
+  console.log(chalk.green("git")+": Perform a custom Git command");
+  console.log(chalk.green("settings")+": Check the registered user information and change it");
 
 };
 
