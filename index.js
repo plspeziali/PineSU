@@ -210,6 +210,8 @@ const stage = async () => {
       path: files.getCurrentDirectoryABS(),
       closed: pinesu.closed
     });
+    // Sorting in ordine lessicografico dello Storage Group
+    sg.sort((a,b)=> (a.name > b.name ? 1 : -1))
     files.saveSG(sg);
   }
 };
@@ -219,8 +221,9 @@ const close = async () => {
   // Chiusura "weak", vengono controllati i commit,
   // se è presente un commit di chiusura viene
   // annullata l'operazione, altrimenti si chiude la SU
-  let res = await gitLogic.checkCommitMessages();
-  if(res){
+  let res1 = await gitLogic.checkCommitMessages();
+  let res2 = await gitLogic.checkCommitMessages();
+  if(res1 && res2){
     var pinesu = files.closePineSUFile('.pinesu.json');
     if(pinesu == null){
       console.log(chalk.red("This folder is not a Storage Unit"));
