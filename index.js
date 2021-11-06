@@ -242,13 +242,13 @@ const register = async () => {
 
   // Vengono calcolate le MR dei due Storage Group
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
-
+  var date = new Date()
   // Si aggiungono massimo due nuovi BSP al Merkle Calendar
   if(openRoot != null){
-    ethLogic.addToTree(openRoot, mc, false);
+    ethLogic.addToTree(openRoot, mc, false, date);
   }
   if(closedRoot != null){
-    ethLogic.addToTree(closedRoot, mc, true);
+    ethLogic.addToTree(closedRoot, mc, true, date);
   }
   if(openRoot != null || closedRoot != null){
     // Si richiama il connettore per la rete Ethereum
@@ -262,6 +262,7 @@ const register = async () => {
       el.oHash = oHash;
       el.cHash = cHash;
       el.transactionHash = transactionHash;
+      el.date = date
       files.createRegistration(el);
       // Si fa un Git Commit in ognuna di queste SU
       await gitLogic.makeRegistrationCommit(el.path);
@@ -299,20 +300,21 @@ const check = async () => {
       // (da quanto dicono i metadati)
       var res = files.checkRegistration(merkleroot)
       if(res[0]){
-        console.log(chalk.green("The integrity of the local files has been verified and\nit"+
+        console.log(chalk.green("The integrity of the local files has been verified and\nit "+
                                 "matches the original hash root.\nProceeding with the blockchain check"));
         // Si procede all'effettivo controllo su blockchain
-        if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
+        let realHash = gitLogic.calculateRealHash(new Date(res[1].date), res[1].root)
+        if(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash)){
           console.log(chalk.green("The Storage Unit has been found in the blockchain"));
         } else {
           console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
         }
       } else {
-        console.log(chalk.red("The integrity of the files can't be been verified since they"+
+        console.log(chalk.red("The integrity of the files can't be been verified since they "+
                               +"don't\nmatch the latest registration"));
       }
     } else {
-      console.log(chalk.red("The integrity of the files can't be been verified since they"+
+      console.log(chalk.red("The integrity of the files can't be been verified since they "+
                             +"don't\nmatch the original hash root"));
     }
   });

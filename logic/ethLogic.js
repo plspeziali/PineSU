@@ -7,8 +7,12 @@ module.exports = {
         ethConnector = new EthConnector('HTTP://127.0.0.1:7545',w1,w2,k);
     },
 
-    addToTree(hash, mc, closed){
+    addToTreeND(hash, mc, closed){
         var date = new Date()
+        mc.addRegistrationD("SU of "+date, hash, date, closed);
+    },
+
+    addToTree(hash, mc, closed, date){
         mc.addRegistrationD("SU of "+date, hash, date, closed);
     },
 
