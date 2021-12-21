@@ -231,6 +231,7 @@ const close = async () => {
       console.log(chalk.green("The Storage Unit has been closed!"));
       await gitLogic.addFileSU(".pinesu.json");
       await gitLogic.commitSU("The Storage Unit is now closed");
+      await stage();
     }
   } else {
     console.log(chalk.red("This Storage Unit has already been closed in the past"));
