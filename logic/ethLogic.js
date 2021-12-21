@@ -34,12 +34,13 @@ module.exports = {
         return [oHash, cHash, transactionHash];
     },
 
-    async verifyHash(mc, root, oHash, cHash, transactionHash){
+    async verifyHash(mc, root, oHash, cHash, transactionHash, w1){
         var BSPRoot = mc.getBSPRoot(root, oHash, cHash);
         if(BSPRoot != null){
-            return await ethConnector.verifyHash(transactionHash, BSPRoot);
+            [result, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
+            return [result, owner]
         }
-        return false;
+        return [false,BSPRoot];
     }
 
 }

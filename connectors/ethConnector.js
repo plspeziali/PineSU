@@ -33,14 +33,14 @@ class EthConnector{
         return receipt.transactionHash;
     }
 
-    async verifyHash(transactionHash, hash){
+    async verifyHash(transactionHash, hash, w1){
         const res = await this.#web3.eth.getTransaction(transactionHash)
         console.log(res);
-        //console.log(hash);
-        if(res.input == "0x"+hash){
-            return true;
+        console.log(w1);
+        if(res.input == "0x"+hash && res.from.toUpperCase() == w1.toUpperCase()){
+            return [res.from.toUpperCase() + w1.toUpperCase(),true];
         } else {
-            return false;
+            return [res.from.toUpperCase() + w1.toUpperCase(),false];
         }
     }
 }

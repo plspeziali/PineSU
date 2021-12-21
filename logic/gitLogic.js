@@ -169,7 +169,7 @@ module.exports = {
         let hour = date.getHours();
         let minute = date.getMinutes();
         let second = date.getSeconds();
-        return treelist.combineHash(day,hour,minute,second,hash)
+        return treelist.combineHash(year, month, day,hour,minute,second,hash)
     }
 
 }

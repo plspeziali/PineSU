@@ -67,7 +67,7 @@ const run = async () => {
       if(files.fileExists(".pinesu.json")){
         await close();
       } else {
-        console.log(chalk.red("This Storage Unit is already closed"))
+        console.log(chalk.red("This folder is not a Storage Unit"))
       }
       run();
       break;
@@ -85,7 +85,7 @@ const run = async () => {
       if(files.fileExists(".registration.json")){
         await distribute();
       } else {
-        console.log(chalk.red("This folder is not a Storage Unit"))
+        console.log(chalk.red("This Storage Unit hasn't been registered yet"))
       }
       run();
       break; 
@@ -304,7 +304,8 @@ const check = async () => {
                                 "matches the original hash root.\nProceeding with the blockchain check"));
         // Si procede all'effettivo controllo su blockchain
         let realHash = gitLogic.calculateRealHash(new Date(res[1].date), res[1].root)
-        if(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash)){
+        console.log(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1))
+        if(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1)){
           console.log(chalk.green("The Storage Unit has been found in the blockchain"));
         } else {
           console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
@@ -361,7 +362,7 @@ const checkFilesBlockchain = async () => {
       if(res[0]){
         // Se la verifica locale è andata a buon fine si esegue una verifica su blockchain
         console.log(chalk.green("The file "+el.path+" was verified\nin being once part of a Storage Unit.\nProceeding with the blockchain check"));
-        if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash)){
+        if(await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash, w1)){
           console.log(chalk.green("The Storage Unit of the file "+el.path+"\nhas been found in the blockchain"));
         } else {
           console.log(chalk.red("The Storage Unit of the file "+el.path+"\nhasn't been found in the blockchain"));
