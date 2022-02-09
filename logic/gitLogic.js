@@ -78,57 +78,34 @@ module.exports = {
     async calculateSU(){
         var res = await git.getRepoFiles();
         res = res.split(/\r?\n/);
-        /*var pinesulist = treelist.createSubArray(".pinesu.json",res);
-        //await inquirer.prova(res);
-        if(typeof(pinesulist) !== "undefined" && pinesulist.length > 0){
-            if(pinesulist.length > 1 || (pinesulist.length == 1 && pinesulist[0] !== ".pinesu.json")){
-                var pinesuArray = files.readPineSU(pinesulist);
-                var inqlist = new Array();
-                for(var el of pinesuArray){
-                    inqlist.push(el.name+":"+el.path)
-                }
-                var inqrec = await inquirer.askSURecalc(inqlist);
-                if(typeof(inqrec.recalc) !== "undefined" && inqrec.recalc.length > 0){
-                    for(var el of inqrec.recalc){
-                        var sufile = files.readPineSUFile(el.split(":")[1]);
-                        var rootpath = sufile.path.substring(0,sufile.path.length - "/.pinesu.json".length);
-                        // sostituisco la root
-                        res = treelist.createCompSubArray(rootpath, res);
-                        res.push(rootpath+":"+sufile.hash);
-                        // sostituisco tutti
-                        for(suel of sufile.filelist){
-                            res.push(rootpath+"/"+suel);
-                        }
-                    }
-                }
-            } else {
-                const answer = await inquirer.resetSU();
-                if (answer.reset == "No") {
-                    return ["null"];
-                }
-            }
-        }*/
+        
         res = res .filter(e => e !== '.gitignore');
         res = res .filter(e => e !== '.registration.json');
         res = res .filter(e => e !== '.pinesu.json');
+
+        // Scansiona il contenuto della cartella .pinesu_old per ignorarlo
+        for(var el of res){
+            if(el.includes(".pinesu_old")){
+                res = res .filter(e => e !== el);
+            }
+        }
+
         var hashed = treelist.createHashTree(res);
 
         return hashed;
     },
 
     calculateTree(list){
-        //inquirer.prova(list);
         var hashlist = [];
         for(el of list){
             elsplit = el.split(':');
             hashlist.push(elsplit[1]);
         }
-        //inquirer.prova(list + " /// " + hashlist);
         return treelist.calculateTree(hashlist);
     },
 
     createFilesJSON(list){
-        var pinesufile = files.readPineSUFile(".pinesu.json");
+        var pinesufile = files.readPineSUFile();
         var root = pinesufile.hash;
         var owner = pinesufile.owner;
         if(!treelist.sameRoot(root)){

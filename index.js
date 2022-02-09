@@ -18,6 +18,7 @@ console.log(
   ) 
 );
 
+
 const init = async () => {
   var res = await files.readWallet();
   w1 = res.wallet1;
@@ -37,6 +38,7 @@ const init = async () => {
 
   run();
 }
+
 
 const run = async () => {
 
@@ -112,6 +114,7 @@ const run = async () => {
   }
 
 };
+
 
 const create = async () => {
 
@@ -201,7 +204,7 @@ const stage = async () => {
   // Lettura dei metadati della SU,
   // se non è già presente viene
   // inserita nello SG
-  var pinesu = files.readPineSUFile(".pinesu.json");
+  var pinesu = files.readPineSUFile();
   const found = sg.some(el => el.hash == pinesu.hash);
   if(!found){
     sg.push({
@@ -224,7 +227,7 @@ const close = async () => {
   let res1 = await gitLogic.checkCommitMessages();
   let res2 = await gitLogic.checkCommitMessages();
   if(res1 && res2){
-    var pinesu = files.closePineSUFile('.pinesu.json');
+    var pinesu = files.closePineSUFile();
     if(pinesu == null){
       console.log(chalk.red("This folder is not a Storage Unit"));
     } else {
@@ -288,7 +291,7 @@ const check = async () => {
     // Si leggono i suoi metadati e si calcola
     // la MR della SU attuale
     var merkleroot = gitLogic.calculateTree(filelist);
-    var pinesu = files.readPineSUFile(".pinesu.json");
+    var pinesu = files.readPineSUFile();
     spinnerCalc.succeed("Calculation complete!");
     // Si controlla l'integrità di file descritti
     // da un eventuale ".pifiles.json"
@@ -345,6 +348,7 @@ const checkFiles = async () => {
 
 };
 
+
 const checkFilesBlockchain = async () => {
   
   // Si controlla la presenza nella directory di un file chiamato ".pifiles.json"
@@ -378,6 +382,7 @@ const checkFilesBlockchain = async () => {
 
 };
 
+
 const distribute = async () => {
 
   // Si fanno scegliere all'utente i file da inserire nell'archivio
@@ -394,6 +399,7 @@ const distribute = async () => {
 
 };
 
+
 const customGit = async () => {
 
   try {
@@ -405,6 +411,7 @@ const customGit = async () => {
   }
 
 };
+
 
 const addresses = async () => {
 
@@ -424,6 +431,7 @@ const addresses = async () => {
     }
 
 };
+
 
 const help = async () => {
 
