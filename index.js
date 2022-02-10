@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const clear = require('clear');
 const figlet = require('figlet');
 const ora = require('ora');
+const { v4: uuidv4 } = require("uuid");
 const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const ethLogic = require('./logic/ethLogic');
@@ -162,9 +163,18 @@ const create = async () => {
     remote = "localhost";
   }
 
+  // Reperimento di un vecchio uuid
+  var content = files.readPineSUFile()
+  if(content[0] != 'null'){
+    var uuidSU = content.uuid;
+  } else {
+    var uuidSU = uuidv4();
+  }
+
   // Creazione del file .pinesu.json contenente i metadati della SU
   await inquirer.askSUDetails(files.getCurrentDirectoryBase(), remote).then((details) => {
     var hash = merkleroot.toString('utf8');
+    Object.assign(details, {uuid: uuidSU});
     Object.assign(details, {owner: w1});
     Object.assign(details, {hash: hash});
     Object.assign(details, {filelist: filelist});
@@ -213,8 +223,8 @@ const stage = async () => {
       path: files.getCurrentDirectoryABS(),
       closed: pinesu.closed
     });
-    // Sorting in ordine lessicografico dello Storage Group
-    sg.sort((a,b)=> (a.name > b.name ? 1 : -1))
+    // Sorting in ordine lessicografico di uuid dello Storage Group
+    sg.sort((a,b)=> (a.uuid > b.uuid ? 1 : -1))
     files.saveSG(sg);
   }
 };
