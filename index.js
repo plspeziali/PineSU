@@ -258,11 +258,12 @@ const register = async () => {
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
   var date = new Date()
   // Si aggiungono massimo due nuovi BSP al Merkle Calendar
+  var proofBSP;
   if(openRoot != null){
-    ethLogic.addToTree(openRoot, mc, false, date);
+    proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
   }
   if(closedRoot != null){
-    ethLogic.addToTree(closedRoot, mc, true, date);
+    proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
   }
   if(openRoot != null || closedRoot != null){
     // Si richiama il connettore per la rete Ethereum
@@ -276,7 +277,9 @@ const register = async () => {
       el.oHash = oHash;
       el.cHash = cHash;
       el.transactionHash = transactionHash;
-      el.date = date
+      el.date = date;
+      el.proofBSPO = proofBSPO;
+      el.proofBSPC = proofBSPC;
       files.createRegistration(el);
       // Si fa un Git Commit in ognuna di queste SU
       await gitLogic.makeRegistrationCommit(el.path);

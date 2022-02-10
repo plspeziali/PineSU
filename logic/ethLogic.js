@@ -9,11 +9,12 @@ module.exports = {
 
     addToTreeND(hash, mc, closed){
         var date = new Date()
-        mc.addRegistrationD("SU of "+date, hash, date, closed);
+        return module.exports.addToTree(hash, mc, closed, date);
     },
 
     addToTree(hash, mc, closed, date){
-        mc.addRegistrationD("SU of "+date, hash, date, closed);
+        var leaf = mc.addRegistrationD("SU of "+date, hash, date, closed);
+        return mc.generateProof(leaf);
     },
 
     async registerMC(mc){
