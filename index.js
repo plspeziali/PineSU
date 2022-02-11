@@ -211,6 +211,7 @@ const create = async () => {
 
 
 const stage = async () => {
+
   // Lettura dei metadati della SU,
   // se non è già presente viene
   // inserita nello SG
@@ -231,6 +232,7 @@ const stage = async () => {
 
 
 const close = async () => {
+
   // Chiusura "weak", vengono controllati i commit,
   // se è presente un commit di chiusura viene
   // annullata l'operazione, altrimenti si chiude la SU
@@ -258,12 +260,11 @@ const register = async () => {
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
   var date = new Date()
   // Si aggiungono massimo due nuovi BSP al Merkle Calendar
-  var proofBSP;
   if(openRoot != null){
-    proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
+    var proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
   }
   if(closedRoot != null){
-    proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
+    var proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
   }
   if(openRoot != null || closedRoot != null){
     // Si richiama il connettore per la rete Ethereum
@@ -324,6 +325,8 @@ const check = async () => {
         console.log(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1))
         if(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1)){
           console.log(chalk.green("The Storage Unit has been found in the blockchain"));
+        } else if(await ethLogic.validateProof(mc, res[1].root, res[1].openProofTree, res[1].closedProofTree, res[1].transactionHash, w1)) {
+          console.log(chalk.green("The Storage Unit has been found in the blockchain through the backed up Merkle Calendar"));
         } else {
           console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
         }

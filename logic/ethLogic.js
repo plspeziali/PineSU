@@ -42,6 +42,20 @@ module.exports = {
             return [result, owner]
         }
         return [false,BSPRoot];
+    },
+
+    async validateProof(mc, leafHash, openProofTree, closedProofTree, transactionHash, w1){
+        var checkOpen = checkProof(leafHash, openProofTree);
+        var checkClosed = checkProof(leafHash, closedProofTree);
+        if(checkOpen || checkClosed){
+            var BSPRoot = mc.calculateHash([openProofTree.BSPRoot, closedProofTree.BSPRoot]);
+            if(BSPRoot != null){
+                [result, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
+                return [result, owner]
+            }
+            return [false,BSPRoot];
+        }
+        return [false,""];
     }
 
 }
