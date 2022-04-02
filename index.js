@@ -9,7 +9,7 @@ const inquirer = require('./lib/inquirer');
 const gitLogic = require('./logic/gitLogic');
 const ethLogic = require('./logic/ethLogic');
 const files = require('./lib/files');
-var w1, w2, k, r, mc, sg;
+let w1, w2, k, mc, sg;
 
 clear();
 
@@ -25,13 +25,10 @@ const init = async () => {
   w1 = res.wallet1;
   w2 = res.wallet2;
   k = res.pkey;
-  r = res.rem
 
   ethLogic.connect(w1,w2,k);
 
-  if(r != null){
-    files.downloadTree(r);
-  }
+  files.downloadTree();
 
   mc = files.loadTree();
 
@@ -239,7 +236,7 @@ const close = async () => {
   let res1 = await gitLogic.checkCommitMessages();
   let res2 = await gitLogic.checkCommitMessages();
   if(res1 && res2){
-    var pinesu = files.closePineSUFile();
+    const pinesu = files.closePineSUFile();
     if(pinesu == null){
       console.log(chalk.red("This folder is not a Storage Unit"));
     } else {
@@ -258,7 +255,7 @@ const register = async () => {
 
   // Vengono calcolate le MR dei due Storage Group
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
-  var date = new Date()
+  const date = new Date();
   // Si aggiungono massimo due nuovi BSP al Merkle Calendar
   if(openRoot != null){
     var proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
@@ -419,9 +416,9 @@ const distribute = async () => {
 const customGit = async () => {
 
   try {
-  await inquirer.gitCustom().then( async (res) => {
-    console.log(await gitLogic.customGit(res.command));
-  });
+    await inquirer.gitCustom().then( async (res) => {
+      console.log(await gitLogic.customGit(res.command));
+    });
   } catch(e){
     console.log(chalk.red("Error! You may have entered an invalid Git command!"));
   }
@@ -434,11 +431,10 @@ const addresses = async () => {
     console.log("Your first wallet's address is");
     console.log("Your second wallet's address is "+chalk.black.bgGreen(w2));
     console.log("Your first wallet's private key is "+chalk.black.bgRed(k));
-    console.log("Your Merkle Calendars remote repository is "+chalk.black.bgMagenta(r));
 
     const inqchuser = await inquirer.changeAddresses();
 
-    if(inqchuser.addresschange == "Yes"){
+    if(inqchuser.addressChange === "Yes"){
       var res = await files.readWallet();
       w1 = res.wallet1;
       w2 = res.wallet2;
