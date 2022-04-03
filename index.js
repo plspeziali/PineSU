@@ -28,8 +28,6 @@ const init = async () => {
 
   ethLogic.connect(w1,w2,k);
 
-  files.downloadTree();
-
   mc = files.loadTree();
 
   sg = files.loadSG();
@@ -121,7 +119,7 @@ const create = async () => {
     console.log(chalk.green('Already a Git repository!'));
   } else {
     const setup = await inquirer.gitSetup();
-    if(setup.gitinit == "Yes"){
+    if(setup.gitinit === "Yes"){
       gitLogic.init();
     }else{
       console.log('PineSU requires the folder to be initialized as a git repository in order to\nwork');
@@ -131,7 +129,7 @@ const create = async () => {
 
   // Creazione del .gitignore 
   const inqignore = await inquirer.gitAdd();
-  if(inqignore.gitignore == "Yes"){
+  if(inqignore.gitignore === "Yes"){
     await files.createGitignore();
     await gitLogic.addFileSU('.gitignore');
   }

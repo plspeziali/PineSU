@@ -1,4 +1,5 @@
-var simpleGit = require('simple-git');
+const simpleGit = require('simple-git');
+simpleGit().clean(simpleGit.CleanOptions.FORCE);
 
 class GitConnector{
 
