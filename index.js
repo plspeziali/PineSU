@@ -21,7 +21,7 @@ console.log(
 
 
 const init = async () => {
-  var res = await files.readWallet();
+  const res = await files.readWallet();
   w1 = res.wallet1;
   w2 = res.wallet2;
   k = res.pkey;
@@ -32,7 +32,7 @@ const init = async () => {
 
   sg = files.loadSG();
 
-  run();
+  await run();
 }
 
 
@@ -51,7 +51,7 @@ const run = async () => {
       } else {
         console.log(chalk.red("This folder is already a Storage Unit and is closed"))
       }
-      run();
+      await run();
       break;
     case 'stage':
       if(files.fileExists(".pinesu.json")){
@@ -59,7 +59,7 @@ const run = async () => {
       } else {
         console.log(chalk.red("This folder is not a Storage Unit"))
       }
-      run();
+      await run();
       break;
     case 'close':
       if(files.fileExists(".pinesu.json")){
@@ -67,16 +67,16 @@ const run = async () => {
       } else {
         console.log(chalk.red("This folder is not a Storage Unit"))
       }
-      run();
+      await run();
       break;
     case 'sync':
       await register();
-      run();
+      await run();
       break;
 
     case 'checkbc':
       await check();
-      run();
+      await run();
       break;
 
     case 'export':
@@ -85,27 +85,27 @@ const run = async () => {
       } else {
         console.log(chalk.red("This Storage Unit hasn't been registered yet"))
       }
-      run();
+      await run();
       break; 
 
     case 'checkfile':
       await checkFilesBlockchain();
-      run();
+      await run();
       break;
 
     case 'git':
       await customGit();
-      run();
+      await run();
       break;
 
     case 'settings':
       await addresses();
-      run();
+      await run();
       break;
 
     case 'help':
       await help();
-      run();
+      await run();
       break;
   }
 
@@ -139,17 +139,17 @@ const create = async () => {
   const spinnerAdd = ora('Adding files to the Storage Unit...').start();
   await gitLogic.addAllSU();
 
-  var filelist = await gitLogic.commitSU("").then( async () => {
+  const filelist = await gitLogic.commitSU("").then(async () => {
     return await gitLogic.calculateSU()
   });
-  
+
   if(filelist[0] == "null"){
     gitLogic.resetCommit();
     return;
   }
 
   // Calcolo del Merkle Tree della SU
-  var merkleroot = gitLogic.calculateTree(filelist);
+  const merkleroot = gitLogic.calculateTree(filelist);
   spinnerAdd.succeed("All files added");
 
   let remote = await gitLogic.getRemote();
@@ -159,16 +159,17 @@ const create = async () => {
   }
 
   // Reperimento di un vecchio uuid
-  var content = files.readPineSUFile()
+  const content = files.readPineSUFile();
+  let uuidSU;
   if(content[0] != 'null'){
-    var uuidSU = content.uuid;
+    uuidSU = content.uuid;
   } else {
-    var uuidSU = uuidv4();
+    uuidSU = uuidv4();
   }
 
   // Creazione del file .pinesu.json contenente i metadati della SU
   await inquirer.askSUDetails(files.getCurrentDirectoryBase(), remote).then((details) => {
-    var hash = merkleroot.toString('utf8');
+    const hash = merkleroot.toString('utf8');
     Object.assign(details, {uuid: uuidSU});
     Object.assign(details, {owner: w1});
     Object.assign(details, {hash: hash});
@@ -210,7 +211,7 @@ const stage = async () => {
   // Lettura dei metadati della SU,
   // se non è già presente viene
   // inserita nello SG
-  var pinesu = files.readPineSUFile();
+  const pinesu = files.readPineSUFile();
   const found = sg.some(el => el.hash == pinesu.hash);
   if(!found){
     sg.push({
@@ -250,26 +251,25 @@ const close = async () => {
 
 
 const register = async () => {
-
-  // Vengono calcolate le MR dei due Storage Group
+// Vengono calcolate le MR dei due Storage Group
   [document, openRoot, closedRoot] = files.createSGTrees(sg);
   const date = new Date();
   // Si aggiungono massimo due nuovi BSP al Merkle Calendar
   if(openRoot != null){
-    var proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
+    const proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
   }
   if(closedRoot != null){
-    var proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
+    const proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
   }
   if(openRoot != null || closedRoot != null){
     // Si richiama il connettore per la rete Ethereum
     // per registrare la root del Merkle Calendar nella blockchain
-    var [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
+    let [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
 
     // Si creano i file di metadati ".registration.json"
     // da inserire in ogni directory delle SU facente parti
     // degli Storage Group appena inseriti
-    for(var el of document){
+    for(let el of document){
       el.oHash = oHash;
       el.cHash = cHash;
       el.transactionHash = transactionHash;
@@ -299,19 +299,19 @@ const check = async () => {
   await gitLogic.calculateSU().then( async (filelist) => {
     // Si leggono i suoi metadati e si calcola
     // la MR della SU attuale
-    var merkleroot = gitLogic.calculateTree(filelist);
-    var pinesu = files.readPineSUFile();
+    const merkleroot = gitLogic.calculateTree(filelist);
+    const pinesu = files.readPineSUFile();
     spinnerCalc.succeed("Calculation complete!");
     // Si controlla l'integrità di file descritti
     // da un eventuale ".pifiles.json"
-    checkFiles();
+    await checkFiles();
     // Si controlla che la MR appena calcolata corrisponda
     // con quella precedentemente registrata
     if(pinesu.hash == merkleroot){
       // Si verifica che lo stato della SU combaci
       // con l'ultimo stato registrato in blockchain
       // (da quanto dicono i metadati)
-      var res = files.checkRegistration(merkleroot)
+      const res = files.checkRegistration(merkleroot);
       if(res[0]){
         console.log(chalk.green("The integrity of the local files has been verified and\nit "+
                                 "matches the original hash root.\nProceeding with the blockchain check"));
@@ -341,15 +341,15 @@ const check = async () => {
 const checkFiles = async () => {
   
   // Si controlla la presenza nella directory di un file chiamato ".pifiles.json"
-  var pifile = files.readPifile();
+  const pifile = files.readPifile();
   if(pifile[0] == "null"){
     console.log(chalk.cyan('No ".pifiles.json" found in the current folder'));
     return;
   }
 
   // Per ogni file elencato in ".pifiles.json" si effettuano controlli locali
-  for(var el of pifile){
-    var hash = gitLogic.fileHashSync(el.path)
+  for(let el of pifile){
+    const hash = gitLogic.fileHashSync(el.path);
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
     } else {
@@ -363,18 +363,18 @@ const checkFiles = async () => {
 const checkFilesBlockchain = async () => {
   
   // Si controlla la presenza nella directory di un file chiamato ".pifiles.json"
-  var pifile = files.readPifile();
+  const pifile = files.readPifile();
   if(pifile[0] == "null"){
     console.log(chalk.cyan('No ".pifiles.json" found in the current folder'));
     return;
   }
 
   // Per ogni file elencato in ".pifiles.json" si effettuano controlli locali
-  for(var el of pifile){
-    var hash = gitLogic.fileHashSync(el.path)
+  for(let el of pifile){
+    const hash = gitLogic.fileHashSync(el.path);
     if(gitLogic.validateProof(el.proof, hash, el.root)){
       console.log(chalk.green("The integrity of the file "+el.path+"\nhas been verified and it matches the original hash root"));
-      var res = files.checkRegistration(el.root)
+      const res = files.checkRegistration(el.root);
       if(res[0]){
         // Se la verifica locale è andata a buon fine si esegue una verifica su blockchain
         console.log(chalk.green("The file "+el.path+" was verified\nin being once part of a Storage Unit.\nProceeding with the blockchain check"));
@@ -397,11 +397,11 @@ const checkFilesBlockchain = async () => {
 const distribute = async () => {
 
   // Si fanno scegliere all'utente i file da inserire nell'archivio
-  var filelist = await files.distributeSU();
+  const filelist = await files.distributeSU();
 
   if(filelist[0] != "null"){
     // Si crea il file ZIP con i file e un descrittore ".pifiles.json"
-    var filesJSON = gitLogic.createFilesJSON(filelist);
+    const filesJSON = gitLogic.createFilesJSON(filelist);
     files.createZIP(filelist, filesJSON);
     console.log(chalk.green("ZIP file successfully created at "+process.cwd().replace(/\\/g, "/")+"/../pinesuExport.zip"))
   } else {
@@ -433,11 +433,10 @@ const addresses = async () => {
     const inqchuser = await inquirer.changeAddresses();
 
     if(inqchuser.addressChange === "Yes"){
-      var res = await files.readWallet();
+      const res = await files.readWallet();
       w1 = res.wallet1;
       w2 = res.wallet2;
       k = res.pkey;
-      r = res.remote;
     }
 
 };
@@ -457,4 +456,4 @@ const help = async () => {
 
 };
 
-init();
+init().then(r => {});

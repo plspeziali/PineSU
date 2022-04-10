@@ -1,9 +1,9 @@
 const fs = require('fs');
-var mkdirp = require('mkdirp');
-var GitConnector = require('../connectors/gitConnector');
-var git = new GitConnector(process.cwd());
-var TreeListC = require('../lib/treelist');
-var treelist = new TreeListC();
+const mkdirp = require('mkdirp');
+const GitConnector = require('../connectors/gitConnector');
+let git = new GitConnector(process.cwd());
+const TreeListC = require('../lib/treelist');
+const treelist = new TreeListC();
 const files = require('../lib/files');
 const inquirer = require('../lib/inquirer');
 
@@ -67,8 +67,8 @@ module.exports = {
         if(list.hasOwnProperty("all")){
             list = list.all;
         }
-        for(var el of list){
-            if(el.message == "The Storage Unit is now closed"){
+        for(let el of list){
+            if(el.message === "The Storage Unit is now closed"){
                 return false;
             }
         }
@@ -76,7 +76,7 @@ module.exports = {
     },
 
     async calculateSU(){
-        var res = await git.getRepoFiles();
+        let res = await git.getRepoFiles();
         res = res.split(/\r?\n/);
         
         res = res .filter(e => e !== '.gitignore');
@@ -84,20 +84,20 @@ module.exports = {
         res = res .filter(e => e !== '.pinesu.json');
 
         // Scansiona il contenuto della cartella .pinesu_old per ignorarlo
-        for(var el of res){
+        for(let el of res){
             if(el.includes(".pinesu_old")){
                 res = res .filter(e => e !== el);
             }
         }
 
-        var hashed = treelist.createHashTree(res);
-
-        return hashed;
+        return treelist.createHashTree(res);
     },
 
     calculateTree(list){
-        var hashlist = [];
-        for(el of list){
+        const hashlist = [];
+        let elsplit;
+        let el;
+        for (el of list) {
             elsplit = el.split(':');
             hashlist.push(elsplit[1]);
         }
@@ -105,21 +105,22 @@ module.exports = {
     },
 
     createFilesJSON(list){
-        var pinesufile = files.readPineSUFile();
-        var root = pinesufile.hash;
-        var owner = pinesufile.owner;
+        const pinesufile = files.readPineSUFile();
+        let root = pinesufile.hash;
+        const owner = pinesufile.owner;
         if(!treelist.sameRoot(root)){
             root = module.exports.calculateTree(pinesufile.filelist);
         }
-        var res = []
+        const res = [];
+        let el;
         for(el of list){
-            var o = {
+            const o = {
                 path: el.split(":")[0],
                 hash: el.split(":")[1],
                 owner: owner,
                 root: root,
                 proof: treelist.getProof(el.split(":")[1])
-            }
+            };
             res.push(o);
         }
         return res;

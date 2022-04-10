@@ -68,30 +68,22 @@ class GitConnector{
     }
 
     async hasRemote(){
-        return await this.git.listRemote(['--get-url'], (err, data) => {
+        return this.git.listRemote(['--get-url'], (err, data) => {
             if (!err) {
-                if(typeof(data) !== "undefined" && data !== ""){
-                    return true
-                }else{
-                    return false
-                }
+                return typeof (data) !== "undefined" && data !== "";
             }
             return false;
         });
     }
 
     async getRemote(){
-        return await this.git.raw("config","--get","remote.origin.url");
+        return this.git.raw("config", "--get", "remote.origin.url");
     }
 
     async setRemote(url){
         if(this.getRemote().length == 0){
             await this.git.raw("remote", "add", "master", url, (err, result) => {
-                if(err){
-                    return false;
-                } else {
-                    return true;
-                }
+                return !err;
             });
         } else {
             
@@ -99,14 +91,16 @@ class GitConnector{
     }
 
     async custom(_commands){
-        return await this.git.raw(_commands, (err, result) => {
-            if(err){
+        return this.git.raw(_commands, (err, result) => {
+            if (err) {
                 console.error(err);
             } else {
                 console.log(result);
             }
         })
-        .raw('rev-list','--all','--count',(err,log) => {return log});
+            .raw('rev-list', '--all', '--count', (err, log) => {
+                return log
+            });
     }
 }
 
