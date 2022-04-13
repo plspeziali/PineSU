@@ -1,4 +1,6 @@
 # PineSU
+
+<img src="favicon.png" alt="drawing" align="right" height="150x"/>
 NodeJS application which provides file version control along with integrity checking
 on the Ethereum blockchain network.
 
@@ -13,7 +15,7 @@ and that they can respectively be called using the commands `git` and `node`.
 
 
 # How to install
-<img src="favicon.png" alt="drawing" align="right" height="150x"/>
+
 
 Clone the repo and then install with [npm](https://www.npmjs.com/):
 
