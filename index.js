@@ -26,7 +26,9 @@ const init = async () => {
     w2 = res.wallet2;
     k = res.pkey;
 
-    ethLogic.connect(w1, w2, k);
+    const ethHost = await inquirer.ethHost();
+
+    ethLogic.connect(w1, w2, k, ethHost.host);
 
     mc = files.loadTree();
 
@@ -69,7 +71,7 @@ const run = async () => {
             }
             await run();
             break;
-        case 'sync':
+        case 'syncwbc':
             await register();
             await run();
             break;
@@ -214,17 +216,20 @@ const stage = async () => {
     // inserita nello SG
     const pinesu = files.readPineSUFile();
     const found = sg.some(el => el.hash == pinesu.hash);
-    if (!found) {
-        sg.push({
-            name: pinesu.name,
-            hash: pinesu.hash,
-            path: files.getCurrentDirectoryABS(),
-            closed: pinesu.closed
+    if(found){
+        sg = sg.filter(function( obj ) {
+            return obj.hash !== pinesu.hash;
         });
-        // Sorting in ordine lessicografico di uuid dello Storage Group
-        sg.sort((a, b) => (a.uuid > b.uuid ? 1 : -1))
-        files.saveSG(sg);
     }
+    sg.push({
+        uuid: pinesu.uuid,
+        hash: pinesu.hash,
+        path: files.getCurrentDirectoryABS(),
+        closed: pinesu.closed
+    });
+    // Sorting in ordine lessicografico di uuid dello Storage Group
+    sg.sort((a, b) => (a.uuid > b.uuid ? 1 : -1))
+    files.saveSG(sg);
 };
 
 
@@ -234,7 +239,7 @@ const close = async () => {
     // se è presente un commit di chiusura viene
     // annullata l'operazione, altrimenti si chiude la SU
     let res1 = await gitLogic.checkCommitMessages();
-    let res2 = await gitLogic.checkCommitMessages();
+    let res2 = true; // Chiusura forte TODO
     if (res1 && res2) {
         const pinesu = files.closePineSUFile();
         if (pinesu == null) {
@@ -252,15 +257,18 @@ const close = async () => {
 
 
 const register = async () => {
-// Vengono calcolate le MR dei due Storage Group
+
+    // Vengono calcolate le MR dei due Storage Group
     [document, openRoot, closedRoot] = files.createSGTrees(sg);
     const date = new Date();
     // Si aggiungono massimo due nuovi BSP al Merkle Calendar
+    let proofBSPO = null;
+    let proofBSPC = null;
     if (openRoot != null) {
-        const proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
+        proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
     }
     if (closedRoot != null) {
-        const proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
+        proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
     }
     if (openRoot != null || closedRoot != null) {
         // Si richiama il connettore per la rete Ethereum
@@ -448,7 +456,7 @@ const help = async () => {
     console.log(chalk.green("create / update") + ": Create a new SU or update the hashes of an existing one");
     console.log(chalk.green("stage") + ": Flag a SU for the collective blockchain synchronizing");
     console.log(chalk.green("close") + ": Close a SU and flag it for the collective blockchain synchronizing");
-    console.log(chalk.green("sync") + ": Synchronize the staged or closed SUs");
+    console.log(chalk.green("syncwbc") + ": Synchronize the staged or closed SUs");
     console.log(chalk.green("checkbc") + ": Verify the integrity of a SU on the blockchain");
     console.log(chalk.green("checkfile") + ": Verify the integrity of a file / batch of files");
     console.log(chalk.green("export") + ": Export a a blockchain verifiable bundle");

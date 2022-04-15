@@ -1,10 +1,11 @@
 const EthConnector = require('../connectors/ethConnector');
+const {v4: uuidv4} = require("@types/uuid");
 let ethConnector;
 
 module.exports = {
 
-    connect(w1, w2, k) {
-        ethConnector = new EthConnector('HTTP://127.0.0.1:7545', w1, w2, k);
+    connect(w1, w2, k, h) {
+        ethConnector = new EthConnector(h, w1, w2, k);
     },
 
     addToTreeND(hash, mc, closed) {
@@ -13,7 +14,8 @@ module.exports = {
     },
 
     addToTree(hash, mc, closed, date) {
-        const leaf = mc.addRegistrationD("SU of " + date, hash, date, closed);
+        const uuid = uuidv4();
+        const leaf = mc.addRegistrationD(uuid, hash, date, closed);
         return mc.generateProof(leaf);
     },
 
