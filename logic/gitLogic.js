@@ -1,11 +1,7 @@
-const fs = require('fs');
-const mkdirp = require('mkdirp');
 const GitConnector = require('../connectors/gitConnector');
 let git = new GitConnector(process.cwd());
-const TreeListC = require('../lib/treelist');
-const treelist = new TreeListC();
+const treelist = require('../lib/treelist');
 const files = require('../lib/files');
-const inquirer = require('../lib/inquirer');
 
 module.exports = {
 
@@ -78,8 +74,9 @@ module.exports = {
     async calculateSU() {
         let res = [];
         files.getFilelist("",res);
-        res = res.split(/\r?\n/);
-
+        for(let el of res){
+            el = el.replace(/\\\\/g, '/');
+        }
         return treelist.createHashTree(res);
     },
 

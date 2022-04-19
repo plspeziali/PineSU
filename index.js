@@ -141,6 +141,7 @@ const create = async () => {
     const spinnerAdd = ora('Adding files to the Storage Unit...').start();
 
     const filelist = await gitLogic.calculateSU();
+    console.log(filelist);
 
     if (filelist[0] == "null") {
         spinnerAdd.fail("No files could be added");
