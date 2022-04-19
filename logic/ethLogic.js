@@ -1,5 +1,5 @@
 const EthConnector = require('../connectors/ethConnector');
-const {v4: uuidv4} = require("@types/uuid");
+const {v4: uuidv4} = require("uuid");
 let ethConnector;
 
 module.exports = {

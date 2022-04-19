@@ -76,19 +76,9 @@ module.exports = {
     },
 
     async calculateSU() {
-        let res = await git.getRepoFiles();
+        let res = [];
+        files.getFilelist("",res);
         res = res.split(/\r?\n/);
-
-        res = res.filter(e => e !== '.gitignore');
-        res = res.filter(e => e !== '.registration.json');
-        res = res.filter(e => e !== '.pinesu.json');
-
-        // Scansiona il contenuto della cartella .pinesu_old per ignorarlo
-        for (let el of res) {
-            if (el.includes(".pinesu_old")) {
-                res = res.filter(e => e !== el);
-            }
-        }
 
         return treelist.createHashTree(res);
     },

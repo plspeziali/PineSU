@@ -139,16 +139,14 @@ const create = async () => {
     // Aggiunta dei file della directory a un commit "fantoccio"
     // e calcolo dei loro hash
     const spinnerAdd = ora('Adding files to the Storage Unit...').start();
-    await gitLogic.addAllSU();
 
-    const filelist = await gitLogic.commitSU("").then(async () => {
-        return await gitLogic.calculateSU()
-    });
+    const filelist = await gitLogic.calculateSU();
 
     if (filelist[0] == "null") {
-        gitLogic.resetCommit();
+        spinnerAdd.fail("No files could be added");
         return;
     }
+    console.log(filelist);
 
     // Calcolo del Merkle Tree della SU
     const merkleroot = gitLogic.calculateTree(filelist);
@@ -187,10 +185,8 @@ const create = async () => {
         console.log(chalk.green("The Storage Unit has been created!"));
     });
 
-    // Reset del commit "fantoccio" e creazione
-    // di un commit vero e proprio includendo
+    // commit includendo
     // anche il file descrittore JSON
-    gitLogic.resetCommit();
     await gitLogic.addAllSU();
 
     const commit = await inquirer.gitCommit();
