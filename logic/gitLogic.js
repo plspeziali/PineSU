@@ -77,6 +77,7 @@ module.exports = {
         for(let el of res){
             el = el.replace(/\\\\/g, '/');
         }
+        return res;
         return treelist.createHashTree(res);
     },
 
