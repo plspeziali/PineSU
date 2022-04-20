@@ -74,10 +74,7 @@ module.exports = {
     async calculateSU() {
         let res = [];
         files.getFilelist("",res);
-        for(let el of res){
-            el = el.replace(/\\\\/g, '/');
-        }
-        return res;
+        res = res.map(function(x){ return x.replace(/\\/g, '/') });
         return treelist.createHashTree(res);
     },
 

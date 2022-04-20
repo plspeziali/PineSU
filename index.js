@@ -147,7 +147,6 @@ const create = async () => {
         spinnerAdd.fail("No files could be added");
         return;
     }
-    console.log(filelist);
 
     // Calcolo del Merkle Tree della SU
     const merkleroot = gitLogic.calculateTree(filelist);
