@@ -21,7 +21,7 @@ console.log(
 
 
 const init = async () => {
-    const res = await files.readWallet();
+    const res = await files.readWallet(false);
     w1 = res.wallet1;
     w2 = res.wallet2;
     k = res.pkey;
@@ -438,7 +438,7 @@ const addresses = async () => {
     const inqchuser = await inquirer.changeAddresses();
 
     if (inqchuser.addressChange === "Yes") {
-        const res = await files.readWallet();
+        const res = await files.readWallet(true);
         w1 = res.wallet1;
         w2 = res.wallet2;
         k = res.pkey;
