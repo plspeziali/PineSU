@@ -169,6 +169,7 @@ const create = async () => {
     }
 
     // Creazione del file .pinesu.json contenente i metadati della SU
+    // Aggiungere timestamp ISO timestamp 8061 con i secondi pure
     await inquirer.askSUDetails(files.getCurrentDirectoryBase(), remote).then((details) => {
         const hash = merkleroot.toString('utf8');
         Object.assign(details, {uuid: uuidSU});

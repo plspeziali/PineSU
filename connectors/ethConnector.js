@@ -31,6 +31,9 @@ class EthConnector {
         //console.log(web3.eth.accounts.recoverTransaction(createTransaction.rawTransaction));
         //console.log(await web3.eth.getTransaction(receipt.transactionHash));
         return receipt.transactionHash;
+        // Restituire tutte le info del blocco, non solo l'hash della transazione
+        // Togli path assoluto da registration.json
+        // Aggiungere operazione che crea confirmedRegistration perché valida le transazioni e trova i blocchi
     }
 
     async verifyHash(transactionHash, hash, w1) {
