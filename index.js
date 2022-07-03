@@ -262,10 +262,10 @@ const register = async () => {
     let proofBSPO = null;
     let proofBSPC = null;
     if (openRoot != null) {
-        proofBSPO = ethLogic.addToTree(openRoot, mc, false, date);
+        proofBSPO = ethLogic.addToTree(openRoot, mc, false, date, sg);
     }
     if (closedRoot != null) {
-        proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date);
+        proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date, sg);
     }
     if (openRoot != null || closedRoot != null) {
         // Si richiama il connettore per la rete Ethereum

@@ -8,14 +8,14 @@ module.exports = {
         ethConnector = new EthConnector(h, w1, w2, k);
     },
 
-    addToTreeND(hash, mc, closed) {
+    addToTreeND(hash, mc, closed, storageGroup) {
         const date = new Date();
-        return module.exports.addToTree(hash, mc, closed, date);
+        return module.exports.addToTree(hash, mc, closed, date, storageGroup);
     },
 
-    addToTree(hash, mc, closed, date) {
+    addToTree(hash, mc, closed, date, storageGroup) {
         const uuid = uuidv4();
-        const leaf = mc.addRegistrationD(uuid, hash, date, closed);
+        const leaf = mc.addRegistrationD(uuid, hash, date, closed, storageGroup);
         return mc.generateProof(leaf);
     },
 
