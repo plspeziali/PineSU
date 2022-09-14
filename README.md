@@ -1,5 +1,9 @@
 # PineSU
 
+## WARNING: The application is going under a rewriting phase
+Please refer to [this commit](https://github.com/plspeziali/PineSU/tree/4a2daba66db32cfba69792d13f0ab1f6c4f2e34d)
+if you desire to test an early implementation
+
 <img src="favicon.png" alt="drawing" align="right" height="150x"/>
 
 NodeJS application which provides file version control along with integrity checking on the Ethereum blockchain network.
