@@ -89,6 +89,10 @@ module.exports = {
         return treelist.calculateTree(hashlist);
     },
 
+    calculateHeader(header) {
+        return treelist.calculateUnhashedTree(Object.values(header));
+    },
+
     createFilesJSON(list) {
         const pinesufile = files.readPineSUFile();
         let root = pinesufile.hash;

@@ -143,7 +143,7 @@ const create = async () => {
     const filelist = await gitLogic.calculateSU();
     console.log(filelist);
 
-    if (filelist[0] == "null") {
+    if (filelist[0] === "null") {
         spinnerAdd.fail("No files could be added");
         return;
     }
@@ -154,30 +154,55 @@ const create = async () => {
 
     let remote = await gitLogic.getRemote();
 
-    if (typeof (remote) == "undefined" || remote.length == 0) {
+    if (typeof (remote) == "undefined" || remote.length === 0) {
         remote = "localhost";
     }
 
     // Reperimento di un vecchio uuid
     // se non esiste, ne generiamo uno nuovo
-    const content = files.readPineSUFile();
+    const oldContent = files.readPineSUFile();
     let uuidSU;
-    if (content[0] != 'null') {
-        uuidSU = content.uuid;
+    if (!oldContent) {
+        uuidSU = oldContent.uuid;
     } else {
         uuidSU = uuidv4();
     }
 
+    // Reperimento del time attuale
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+
+
     // Creazione del file .pinesu.json contenente i metadati della SU
     // Aggiungere timestamp ISO timestamp 8061 con i secondi pure
     await inquirer.askSUDetails(files.getCurrentDirectoryBase(), remote).then((details) => {
-        const hash = merkleroot.toString('utf8');
-        Object.assign(details, {uuid: uuidSU});
-        Object.assign(details, {owner: w1});
-        Object.assign(details, {hash: hash});
-        Object.assign(details, {filelist: filelist});
-        Object.assign(details, {closed: false});
-        files.saveJSON(details);
+        const pineSUFile = {};
+        pineSUFile.hash = null;
+        pineSUFile.header = {};
+
+        pineSUFile.header.uuid = uuidSU;
+        pineSUFile.header.remote = details.remote;
+        pineSUFile.header.owner = w1;
+        pineSUFile.header.name = details.name;
+        pineSUFile.header.description = details.description;
+        pineSUFile.header.crtime = today.toISOString();
+        pineSUFile.header.prevmkcalroot = oldContent.prevmkcalroot;
+        pineSUFile.header.prevsuhash = oldContent.prevsuhash;
+        pineSUFile.header.prevbcregnumber = oldContent.prevbcregnumber;
+        pineSUFile.header.prevbcregtime = oldContent.prevbcregtime;
+        pineSUFile.header.prevclosed = oldContent.prevclosed;
+        pineSUFile.header.merkleroot = merkleroot.toString('utf8');
+
+        pineSUFile.hash = gitLogic.calculateHeader(pineSUFile.header);
+
+        pineSUFile.filelist = filelist;
+        pineSUFile.offhash = {};
+
+        pineSUFile.offhash.bcregnumber = oldContent.bcregnumber;
+        pineSUFile.offhash.bcregtime = oldContent.bcregtime;
+        pineSUFile.offhash.closed = false;
+
+        files.savePineSUJSON(pineSUFile);
         try {
             gitLogic.setRemote(details.remote);
         } catch (e) {
