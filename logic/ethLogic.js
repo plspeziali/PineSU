@@ -1,5 +1,6 @@
 const EthConnector = require('../connectors/ethConnector');
 const {v4: uuidv4} = require("uuid");
+
 let ethConnector;
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
 
     addToTree(hash, mc, closed, date, storageGroup) {
         const uuid = uuidv4();
+
         const leaf = mc.addRegistrationD(uuid, hash, date, closed, storageGroup);
         return mc.generateProof(leaf);
     },

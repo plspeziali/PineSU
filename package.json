@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "NodeJS application which provides file version control along with integrity checking on the Ethereum blockchain network",
   "main": "index.js",
+  "type": "module",
   "keywords": [
     "cli",
     "Git"

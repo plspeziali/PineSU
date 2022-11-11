@@ -351,8 +351,9 @@ const check = async () => {
                 console.log(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1))
                 if (await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1)) {
                     console.log(chalk.green("The Storage Unit has been found in the blockchain"));
-                } else if (await ethLogic.validateProof(mc, res[1].root, res[1].openProofTree, res[1].closedProofTree, res[1].transactionHash, w1)) {
-                    console.log(chalk.green("The Storage Unit has been found in the blockchain through the backed up Merkle Calendar"));
+                } else if (await ethLogic.validateProof(mc, res[1].root, res[1].openProofTree,res[1].closedProofTree, res[1].transactionHash, w1)) {
+                    console.log(chalk.green("The Storage Unit has been found in the blockchain through the backed" +
+                        "up Merkle Calendar"));
                 } else {
                     console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
                 }
@@ -382,9 +383,11 @@ const checkFiles = async () => {
     for (let el of pifile) {
         const hash = gitLogic.fileHashSync(el.path);
         if (gitLogic.validateProof(el.proof, hash, el.root)) {
-            console.log(chalk.green("The integrity of the file " + el.path + "\nhas been verified and it matches the original hash root"));
+            console.log(chalk.green("The integrity of the file " + el.path + "\nhas been verified and it matches the" +
+                "original hash root"));
         } else {
-            console.log(chalk.red("The integrity of the file " + el.path + "\ncan't be been verified since it doesn't match the original hash root"));
+            console.log(chalk.red("The integrity of the file " + el.path + "\ncan't be been verified since it doesn't" +
+                "match the original hash root"));
         }
     }
 
@@ -404,21 +407,27 @@ const checkFilesBlockchain = async () => {
     for (let el of pifile) {
         const hash = gitLogic.fileHashSync(el.path);
         if (gitLogic.validateProof(el.proof, hash, el.root)) {
-            console.log(chalk.green("The integrity of the file " + el.path + "\nhas been verified and it matches the original hash root"));
+            console.log(chalk.green("The integrity of the file " + el.path + "\nhas been verified and it matches" +
+                "the original hash root"));
             const res = files.checkRegistration(el.root);
             if (res[0]) {
                 // Se la verifica locale è andata a buon fine si esegue una verifica su blockchain
-                console.log(chalk.green("The file " + el.path + " was verified\nin being once part of a Storage Unit.\nProceeding with the blockchain check"));
+                console.log(chalk.green("The file " + el.path + " was verified\nin being once part of a Storage Unit" +
+                    "\nProceeding with the blockchain check"));
                 if (await ethLogic.verifyHash(mc, res[1].root, res[1].oHash, res[1].cHash, res[1].transactionHash, w1)) {
-                    console.log(chalk.green("The Storage Unit of the file " + el.path + "\nhas been found in the blockchain"));
+                    console.log(chalk.green("The Storage Unit of the file " + el.path +
+                        "\nhas been found in the blockchain"));
                 } else {
-                    console.log(chalk.red("The Storage Unit of the file " + el.path + "\nhasn't been found in the blockchain"));
+                    console.log(chalk.red("The Storage Unit of the file " + el.path +
+                        "\nhasn't been found in the blockchain"));
                 }
             } else {
-                console.log(chalk.red("The integrity of the file can't be been verified since they don't\nmatch the latest registration"));
+                console.log(chalk.red("The integrity of the file can't be been verified since they don't" +
+                    "\nmatch the latest registration"));
             }
         } else {
-            console.log(chalk.red("The integrity of the file " + el.path + "\ncan't be been verified since it doesn't match the original hash root"));
+            console.log(chalk.red("The integrity of the file " + el.path +
+                "\ncan't be been verified since it doesn't match the original hash root"));
         }
     }
 
