@@ -281,16 +281,19 @@ const close = async () => {
 const register = async () => {
 
     // Vengono calcolate le MR dei due Storage Group
-    [document, openRoot, closedRoot] = files.createSGTrees(sg);
-    const date = new Date();
+    [document, openRoot, closedRoot, openL, closedL] = files.createSGTrees(sg);
+    // Reperimento del time attuale
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const date = today.toISOString();
     // Si aggiungono massimo due nuovi BSP al Merkle Calendar
     let proofBSPO = null;
     let proofBSPC = null;
     if (openRoot != null) {
-        proofBSPO = ethLogic.addToTree(openRoot, mc, false, date, sg);
+        proofBSPO = ethLogic.addToTree(openRoot, mc, false, date, openL);
     }
     if (closedRoot != null) {
-        proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date, sg);
+        proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date, closedL);
     }
     if (openRoot != null || closedRoot != null) {
         // Si richiama il connettore per la rete Ethereum

@@ -1,5 +1,6 @@
 const EthConnector = require('../connectors/ethConnector');
 const {v4: uuidv4} = require("uuid");
+const mkc = require('merkle-calendar');
 
 let ethConnector;
 
@@ -16,9 +17,30 @@ module.exports = {
 
     addToTree(hash, mc, closed, date, storageGroup) {
         const uuid = uuidv4();
-
-        const leaf = mc.addRegistration(uuid, hash, date, closed, storageGroup);
+        const map = [];
+        for (let su in storageGroup){
+            map.push({
+                hash: su.hash,
+                uuid: su.uuid
+            })
+        }
+        const sg = new mkc.StorageGroup(hash, map);
+        const leaf = mc.addRegistration(uuid, hash, date, closed, sg, null, null);
         return mc.generateProof(leaf);
+    },
+
+    deserializeMC(mcFile) {
+        const mc = new mkc.MerkleCalendar();
+        mc.deserializeMC(mcFile);
+        return mc;
+    },
+
+    returnEmptyMC(){
+        return new mkc.MerkleCalendar();
+    },
+
+    serializeMC(mc) {
+        return mc.serializeMC();
     },
 
     async registerMC(mc) {
