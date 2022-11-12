@@ -216,7 +216,7 @@ const create = async () => {
     await gitLogic.addAllSU();
 
     const commit = await inquirer.gitCommit();
-    if (commit.message != "[Commit # by PineSU]") {
+    if (commit.message !== "[Commit # by PineSU]") {
         await gitLogic.commitSU(commit.message);
     } else {
         await gitLogic.commitSU("");
@@ -237,7 +237,7 @@ const stage = async () => {
     // se non è già presente viene
     // inserita nello SG
     const pinesu = files.readPineSUFile();
-    const found = sg.some(el => el.hash == pinesu.hash);
+    const found = sg.some(el => el.hash === pinesu.hash);
     if(found){
         sg = sg.filter(function( obj ) {
             return obj.hash !== pinesu.hash;

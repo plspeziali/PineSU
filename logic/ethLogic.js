@@ -17,7 +17,7 @@ module.exports = {
     addToTree(hash, mc, closed, date, storageGroup) {
         const uuid = uuidv4();
 
-        const leaf = mc.addRegistrationD(uuid, hash, date, closed, storageGroup);
+        const leaf = mc.addRegistration(uuid, hash, date, closed, storageGroup);
         return mc.generateProof(leaf);
     },
 
