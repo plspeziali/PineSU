@@ -26,19 +26,22 @@ module.exports = {
         }
         const sg = new mkc.StorageGroup(hash, map);
         const leaf = mc.addRegistration(uuid, hash, date, closed, sg, null, null);
+        const month = leaf.parent;
+        const year = month.parent;
+        let witness;
         if (!closed){
-            const witness = {
+            witness = {
                 closedroot: mc.closed.hash,
-                years: [],
-                months: [],
-                syncpoints: []
+                years: mc.open.getChildrenHashes(),
+                months: year.getChildrenHashes(),
+                syncpoints: month.getChildrenHashes()
             }
         } else {
-            const witness = {
+            witness = {
                 openroot: mc.closed.hash,
-                years: [],
-                months: [],
-                syncpoints: []
+                years: mc.closed.getChildrenHashes(),
+                months: year.getChildrenHashes(),
+                syncpoints: month.getChildrenHashes()
             }
         }
         return [witness, map];
