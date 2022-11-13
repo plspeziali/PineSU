@@ -26,7 +26,22 @@ module.exports = {
         }
         const sg = new mkc.StorageGroup(hash, map);
         const leaf = mc.addRegistration(uuid, hash, date, closed, sg, null, null);
-        return mc.generateProof(leaf);
+        if (!closed){
+            const witness = {
+                closedroot: mc.closed.hash,
+                years: [],
+                months: [],
+                syncpoints: []
+            }
+        } else {
+            const witness = {
+                openroot: mc.closed.hash,
+                years: [],
+                months: [],
+                syncpoints: []
+            }
+        }
+        return [witness, map];
     },
 
     deserializeMC(mcFile) {
@@ -44,40 +59,29 @@ module.exports = {
     },
 
     async registerMC(mc) {
-        let [oHash, cHash] = mc.getMCRoot();
-        let hash;
-        if (oHash != null) {
-            if (cHash != null) {
-                //console.log([oHash, cHash])
-                hash = mc.calculateHash([oHash, cHash]);
-            } else {
-                hash = oHash;
-            }
-        }
-        if (cHash != null && oHash == null) {
-            hash = cHash;
-        }
-        const transactionHash = await ethConnector.deploy(hash);
-        return [oHash, cHash, transactionHash];
+        let mkcHash = mc.getMCRoot();
+        const receipt = await ethConnector.deploy(mkcHash);
+        const bktimestamp = await ethConnector.getTimestamp(receipt.blockNumber);
+        return [mkcHash, receipt, bktimestamp];
     },
 
     async verifyHash(mc, root, oHash, cHash, transactionHash, w1) {
         const BSPRoot = mc.getBSPRoot(root, oHash, cHash);
         if (BSPRoot != null) {
-            [result, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
-            return [result, owner]
+            [res, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
+            return [res, owner]
         }
         return [false, BSPRoot];
     },
 
     async validateProof(mc, leafHash, openProofTree, closedProofTree, transactionHash, w1) {
-        const checkOpen = checkProof(leafHash, openProofTree);
-        const checkClosed = checkProof(leafHash, closedProofTree);
+        const checkOpen = mc.checkProof(leafHash, openProofTree);
+        const checkClosed = mc.checkProof(leafHash, closedProofTree);
         if (checkOpen || checkClosed) {
             const BSPRoot = mc.calculateHash([openProofTree.BSPRoot, closedProofTree.BSPRoot]);
             if (BSPRoot != null) {
-                [result, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
-                return [result, owner]
+                [res, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
+                return [res, owner]
             }
             return [false, BSPRoot];
         }

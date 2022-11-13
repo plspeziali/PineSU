@@ -34,6 +34,26 @@ class EthConnector {
         // Restituire tutte le info del blocco, non solo l'hash della transazione
         // Togli path assoluto da registration.json
         // Aggiungere operazione che crea confirmedRegistration perché valida le transazioni e trova i blocchi
+        while (true) {
+            try {
+                const options = {
+                    from: this.#w1,
+                    to: this.#w2,
+                    data: hashRoot + '',
+                    gas  : (await web3.eth.getBlock("latest")).gasLimit
+                };
+                const signed  = await this.#web3.eth.accounts.signTransaction(options, this.#k);
+                const receipt = await this.#web3.eth.sendSignedTransaction(signed.rawTransaction);
+                return await this.#web3.eth.getTransactionReceipt(receipt.transactionHash);
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+        }
+    }
+
+    async getTimestamp(blockNumber){
+        return await this.#web3.eth.getBlock(blockNumber).timestamp;
     }
 
     async verifyHash(transactionHash, hash, w1) {

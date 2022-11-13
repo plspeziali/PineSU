@@ -281,36 +281,43 @@ const close = async () => {
 const register = async () => {
 
     // Vengono calcolate le MR dei due Storage Group
-    [document, openRoot, closedRoot, openL, closedL] = files.createSGTrees(sg);
+    [openRoot, closedRoot, openL, closedL] = files.createSGTrees(sg);
     // Reperimento del time attuale
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
     const date = today.toISOString();
     // Si aggiungono massimo due nuovi BSP al Merkle Calendar
-    let proofBSPO = null;
-    let proofBSPC = null;
     if (openRoot != null) {
-        proofBSPO = ethLogic.addToTree(openRoot, mc, false, date, openL);
+        [openWitness, openSG] = ethLogic.addToTree(openRoot, mc, false, date, openL);
     }
     if (closedRoot != null) {
-        proofBSPC = ethLogic.addToTree(closedRoot, mc, true, date, closedL);
+        [closedWitness, closedSG] = ethLogic.addToTree(closedRoot, mc, true, date, closedL);
     }
     if (openRoot != null || closedRoot != null) {
         // Si richiama il connettore per la rete Ethereum
         // per registrare la root del Merkle Calendar nella blockchain
-        let [oHash, cHash, transactionHash] = await ethLogic.registerMC(mc);
-
+        let [mkcHash, receipt, bktimestamp] = await ethLogic.registerMC(mc);
+    } else {
+        console.log(chalk.red("There are no Storage Units staged!"));
+        return;
+    }
+    if (openRoot != null) {
         // Si creano i file di metadati ".registration.json"
         // da inserire in ogni directory delle SU facente parti
         // degli Storage Group appena inseriti
-        for (let el of document) {
-            el.oHash = oHash;
-            el.cHash = cHash;
-            el.transactionHash = transactionHash;
-            el.date = date;
-            el.proofBSPO = proofBSPO;
-            el.proofBSPC = proofBSPC;
-            files.createRegistration(el);
+        for (let el of openL) {
+            let o = {
+                type: "synchronization",
+                mkcalroot: mkcHash,
+                mkcaltimestamp: date,
+                txhash: receipt.transactionHash,
+                bkhash: receipt.blockHash,
+                bkheight: receipt.blockNumber,
+                bktimestamp: bktimestamp,
+                witness: openWitness,
+                openstoragegroup: openSG
+            }
+            files.createRegistration(o);
             // Si fa un Git Commit in ognuna di queste SU
             await gitLogic.makeRegistrationCommit(el.path);
         }
@@ -320,8 +327,33 @@ const register = async () => {
         files.flushSG();
 
         files.saveTree(mc);
-    } else {
-        console.log(chalk.red("There are no Storage Units staged!"));
+    }
+    if (closedRoot != null) {
+        // Si creano i file di metadati ".registration.json"
+        // da inserire in ogni directory delle SU facente parti
+        // degli Storage Group appena inseriti
+        for (let el of closedL) {
+            let o = {
+                type: "synchronization",
+                mkcalroot: mkcHash,
+                mkcaltimestamp: date,
+                txhash: receipt.transactionHash,
+                bkhash: receipt.blockHash,
+                bkheight: receipt.blockNumber,
+                bktimestamp: bktimestamp,
+                witness: closedWitness,
+                closedstoragegroup: closedSG
+            }
+            files.createRegistration(o);
+            // Si fa un Git Commit in ognuna di queste SU
+            await gitLogic.makeRegistrationCommit(el.path);
+        }
+
+        gitLogic.changeDir('.');
+
+        files.flushSG();
+
+        files.saveTree(mc);
     }
 };
 
