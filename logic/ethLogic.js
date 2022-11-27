@@ -19,10 +19,7 @@ module.exports = {
         const uuid = uuidv4();
         const map = [];
         for (let su in storageGroup){
-            map.push({
-                hash: su.hash,
-                uuid: su.uuid
-            })
+            map.push(new mkc.StorageUnit(hash,uuid));
         }
         const sg = new mkc.StorageGroup(hash, map);
         const leaf = mc.addRegistration(uuid, hash, date, closed, sg, null, null);

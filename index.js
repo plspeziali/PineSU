@@ -72,7 +72,9 @@ const run = async () => {
             await run();
             break;
         case 'syncwbc':
-            await register();
+            if(sg.length !== 0){
+                await register();
+            }
             await run();
             break;
 
@@ -83,7 +85,8 @@ const run = async () => {
 
         case 'export':
             if (files.fileExists(".registration.json")) {
-                await distribute();
+                //await distribute();
+                console.log(chalk.yellow("Functionality under construction"))
             } else {
                 console.log(chalk.red("This Storage Unit hasn't been registered yet"))
             }
@@ -91,7 +94,8 @@ const run = async () => {
             break;
 
         case 'checkfile':
-            await checkFilesBlockchain();
+            //await checkFilesBlockchain();
+            console.log(chalk.yellow("Functionality under construction"))
             await run();
             break;
 
@@ -285,18 +289,20 @@ const register = async () => {
     // Reperimento del time attuale
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
-    const date = today.toISOString();
     // Si aggiungono massimo due nuovi BSP al Merkle Calendar
+    let openSG, openWitness, closedSG, closedWitness;
     if (openRoot != null) {
-        [openWitness, openSG] = ethLogic.addToTree(openRoot, mc, false, date, openL);
+        [openWitness, openSG] = ethLogic.addToTree(openRoot, mc, false, today, openL);
     }
     if (closedRoot != null) {
-        [closedWitness, closedSG] = ethLogic.addToTree(closedRoot, mc, true, date, closedL);
+        [closedWitness, closedSG] = ethLogic.addToTree(closedRoot, mc, true, today, closedL);
     }
+    const date = today.toISOString();
+    let mkcHash, receipt, bktimestamp;
     if (openRoot != null || closedRoot != null) {
         // Si richiama il connettore per la rete Ethereum
         // per registrare la root del Merkle Calendar nella blockchain
-        let [mkcHash, receipt, bktimestamp] = await ethLogic.registerMC(mc);
+        [mkcHash, receipt, bktimestamp] = await ethLogic.registerMC(mc);
     } else {
         console.log(chalk.red("There are no Storage Units staged!"));
         return;
@@ -307,6 +313,7 @@ const register = async () => {
         // degli Storage Group appena inseriti
         for (let el of openL) {
             let o = {
+                path: el.path,
                 type: "synchronization",
                 mkcalroot: mkcHash,
                 mkcaltimestamp: date,
@@ -373,7 +380,7 @@ const check = async () => {
         await checkFiles();
         // Si controlla che la MR appena calcolata corrisponda
         // con quella precedentemente registrata
-        if (pinesu.hash == merkleroot) {
+        if (pinesu.hash === merkleroot) {
             // Si verifica che lo stato della SU combaci
             // con l'ultimo stato registrato in blockchain
             // (da quanto dicono i metadati)
@@ -501,7 +508,7 @@ const customGit = async () => {
 
 const addresses = async () => {
 
-    console.log("Your first wallet's address is");
+    console.log("Your first wallet's address is " + chalk.black.bgGreen(w1));
     console.log("Your second wallet's address is " + chalk.black.bgGreen(w2));
     console.log("Your first wallet's private key is " + chalk.black.bgRed(k));
 
