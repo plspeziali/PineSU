@@ -18,8 +18,13 @@ module.exports = {
     addToTree(hash, mc, closed, date, storageGroup) {
         const uuid = uuidv4();
         const map = [];
+        const mapR = [];
         for (let su in storageGroup){
             map.push(new mkc.StorageUnit(hash,uuid));
+            mapR.push({
+                'hash': hash,
+                'uuid': uuid
+            })
         }
         const sg = new mkc.StorageGroup(hash, map);
         const leaf = mc.addRegistration(uuid, hash, date, closed, sg, null, null);
@@ -41,7 +46,7 @@ module.exports = {
                 syncpoints: month.getChildrenHashes()
             }
         }
-        return [witness, map];
+        return [witness, mapR];
     },
 
     deserializeMC(mcFile) {
