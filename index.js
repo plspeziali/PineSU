@@ -372,19 +372,29 @@ const check = async () => {
     await gitLogic.calculateSU().then(async (filelist) => {
         // Si leggono i suoi metadati e si calcola
         // la MR della SU attuale
-        const merkleroot = gitLogic.calculateTree(filelist);
         const pinesu = files.readPineSUFile();
+        const merkleroot = gitLogic.calculateTree(filelist);
+        pinesu.header.merkleroot = merkleroot.toString('utf8');
+
+        for (const key in pinesu.header) {
+            if (pinesu.header[key] === '') {
+                pinesu.header[key] = null;
+            }
+        }
+
+        const calculatedHash = gitLogic.calculateHeader(pinesu.header)
         spinnerCalc.succeed("Calculation complete!");
         // Si controlla l'integrità di file descritti
         // da un eventuale ".pifiles.json"
-        await checkFiles();
+        // await checkFiles();
         // Si controlla che la MR appena calcolata corrisponda
         // con quella precedentemente registrata
-        if (pinesu.hash === merkleroot) {
+        if (pinesu.hash === calculatedHash) {
             // Si verifica che lo stato della SU combaci
             // con l'ultimo stato registrato in blockchain
             // (da quanto dicono i metadati)
             const res = files.checkRegistration(merkleroot);
+            console.log(res)
             if (res[0]) {
                 console.log(chalk.green("The integrity of the local files has been verified and\nit " +
                     "matches the original hash root.\nProceeding with the blockchain check"));
@@ -400,12 +410,10 @@ const check = async () => {
                     console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
                 }
             } else {
-                console.log(chalk.red("The integrity of the files can't be been verified since they " +
-                    +"don't\nmatch the latest registration"));
+                console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the latest registration"));
             }
         } else {
-            console.log(chalk.red("The integrity of the files can't be been verified since they " +
-                +"don't\nmatch the original hash root"));
+            console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the original hash root"));
         }
     });
 
