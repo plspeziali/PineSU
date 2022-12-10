@@ -264,7 +264,7 @@ const close = async () => {
     // Chiusura "weak", vengono controllati i commit,
     // se è presente un commit di chiusura viene
     // annullata l'operazione, altrimenti si chiude la SU
-    let res1 = await gitLogic.checkCommitMessages();
+    let res1 = true //await gitLogic.checkCommitMessages();
     let res2 = true; // Chiusura forte TODO
     if (res1 && res2) {
         const pinesu = files.closePineSUFile();
@@ -341,6 +341,7 @@ const register = async () => {
         // degli Storage Group appena inseriti
         for (let el of closedL) {
             let o = {
+                path: el.path,
                 type: "synchronization",
                 mkcalroot: mkcHash,
                 mkcaltimestamp: date,
