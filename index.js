@@ -20,7 +20,7 @@ console.log(
 );
 
 
-const init = async () => {
+const init = async (cli) => {
     const res = await files.readWallet(false);
     w1 = res.wallet1;
     w2 = res.wallet2;
@@ -34,7 +34,9 @@ const init = async () => {
 
     sg = files.loadSG();
 
-    await run();
+    if(cli){
+        await run();
+    }
 }
 
 
@@ -547,5 +549,4 @@ const help = async () => {
 
 };
 
-init().then(r => {
-});
+init(true).then();
