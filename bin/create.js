@@ -110,12 +110,6 @@ const create = async () => {
 
     await gitLogic.commitSU("");
 
-    try {
-        await gitLogic.pushSU();
-    } catch (e) {
-        // TODO
-    }
-
 };
 
 init().then();
