@@ -1,11 +1,8 @@
 const clear = require('clear');
 const {v4: uuidv4} = require("uuid");
 const files = require("../lib/files");
-const inquirer = require("../lib/inquirer");
 const ethLogic = require("../logic/ethLogic");
-const chalk = require("chalk");
 const gitLogic = require("../logic/gitLogic");
-const ora = require("ora");
 let w1, w2, k, mc, sg;
 
 clear();
