@@ -28,21 +28,21 @@ const create = async () => {
 
     // Controllo d'esistenza di repository Git con creazione in caso contrario
     if (files.fileExists('.git')) {
-        console.log('Already a Git repository!');
+        //console.log('Already a Git repository!');
     } else {
         gitLogic.init();
     }
     const filelist = await gitLogic.calculateSU();
-    console.log(filelist);
+    //console.log(filelist);
 
     if (filelist[0] === "null") {
-        console.log("No files could be added");
+        //console.log("No files could be added");
         return;
     }
 
     // Calcolo del Merkle Tree della SU
     const merkleroot = gitLogic.calculateTree(filelist);
-    console.log("All files added");
+    //console.log("All files added");
 
     let remote = await gitLogic.getRemote();
 
@@ -99,7 +99,7 @@ const create = async () => {
     } catch (e) {
         // TODO
     }
-    console.log("The Storage Unit has been created!");
+    //console.log("The Storage Unit has been created!");
 
     // commit includendo
     // anche il file descrittore JSON

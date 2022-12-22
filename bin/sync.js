@@ -45,7 +45,7 @@ const register = async () => {
         // per registrare la root del Merkle Calendar nella blockchain
         [mkcHash, receipt, bktimestamp] = await ethLogic.registerMC(mc);
     } else {
-        console.log("There are no Storage Units staged!");
+        //console.log("There are no Storage Units staged!");
         return;
     }
     if (openRoot != null) {
