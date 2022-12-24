@@ -3,6 +3,7 @@ const {v4: uuidv4} = require("uuid");
 const files = require("../lib/files");
 const ethLogic = require("../logic/ethLogic");
 const gitLogic = require("../logic/gitLogic");
+const {performance} = require("perf_hooks");
 let w1, w2, k, mc, sg;
 
 clear();
@@ -25,6 +26,8 @@ const init = async () => {
 }
 
 const create = async () => {
+
+    const start = performance.now()
 
     // Controllo d'esistenza di repository Git con creazione in caso contrario
     if (files.fileExists('.git')) {
@@ -106,6 +109,10 @@ const create = async () => {
     await gitLogic.addAllSU();
 
     await gitLogic.commitSU("");
+
+    const end = performance.now()
+
+    console.log((end - start).toString());
 
 };
 
