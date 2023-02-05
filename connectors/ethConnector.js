@@ -30,38 +30,24 @@ class EthConnector {
         //console.log('Transaction successfull with hash: '+createTransaction.messageHash+': '+web3.utils.utf8ToHex("Hello Worldd"));
         //console.log(web3.eth.accounts.recoverTransaction(createTransaction.rawTransaction));
         //console.log(await web3.eth.getTransaction(receipt.transactionHash));
-        return receipt.transactionHash;
-        // Restituire tutte le info del blocco, non solo l'hash della transazione
-        // Togli path assoluto da registration.json
-        // Aggiungere operazione che crea confirmedRegistration perché valida le transazioni e trova i blocchi
-        while (true) {
-            try {
-                const options = {
-                    from: this.#w1,
-                    to: this.#w2,
-                    data: hashRoot + '',
-                    gas  : (await web3.eth.getBlock("latest")).gasLimit
-                };
-                const signed  = await this.#web3.eth.accounts.signTransaction(options, this.#k);
-                const receipt = await this.#web3.eth.sendSignedTransaction(signed.rawTransaction);
-                return await this.#web3.eth.getTransactionReceipt(receipt.transactionHash);
-            }
-            catch (error) {
-                console.log(error.message);
-            }
-        }
+        return receipt;
     }
 
-    async getTimestamp(blockNumber){
-        return await this.#web3.eth.getBlock(blockNumber).timestamp;
+    async getBlock(blockNumber){
+        return await this.#web3.eth.getBlock(blockNumber);
     }
 
-    async verifyHash(transactionHash, hash, w1) {
-        const res = await this.#web3.eth.getTransaction(transactionHash)
-        console.log(res);
-        console.log(w1);
-        if (res.input == "0x" + hash && res.from.toUpperCase() == w1.toUpperCase()) {
-            return [res.from.toUpperCase() + w1.toUpperCase(), true];
+    async verifyHash(transactionHash, blockNum, root, w1) {
+        const block = await this.#web3.eth.getBlock(blockNum)
+        console.log(block);
+        if (block.transactions[0] == transactionHash) {
+            const res = await this.#web3.eth.getTransaction(transactionHash)
+            console.log(res);
+            if (res.input == "0x" + root && res.from.toUpperCase() == w1.toUpperCase()) {
+                return [res.from.toUpperCase() + w1.toUpperCase(), true];
+            } else {
+                return [res.from.toUpperCase() + w1.toUpperCase(), false];
+            }
         } else {
             return [res.from.toUpperCase() + w1.toUpperCase(), false];
         }

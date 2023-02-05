@@ -66,17 +66,12 @@ module.exports = {
     async registerMC(mc) {
         let mkcHash = mc.getMCRoot();
         const receipt = await ethConnector.deploy(mkcHash);
-        const bktimestamp = await ethConnector.getTimestamp(receipt.blockNumber);
-        return [mkcHash, receipt, bktimestamp];
+        const block = await ethConnector.getBlock(receipt.blockNumber);
+        return [mkcHash, receipt, block.timestamp];
     },
 
-    async verifyHash(mc, root, oHash, cHash, transactionHash, w1) {
-        const BSPRoot = mc.getBSPRoot(root, oHash, cHash);
-        if (BSPRoot != null) {
-            [res, owner] = await ethConnector.verifyHash(transactionHash, BSPRoot, w1);
-            return [res, owner]
-        }
-        return [false, BSPRoot];
+    async verifyHash(transactionHash, block, root, w1) {
+        return await ethConnector.verifyHash(transactionHash, block, root, w1);
     },
 
     async validateProof(mc, leafHash, openProofTree, closedProofTree, transactionHash, w1) {

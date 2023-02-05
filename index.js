@@ -229,7 +229,7 @@ const create = async () => {
     }
 
     try {
-        await gitLogic.pushSU();
+        // await gitLogic.pushSU();
     } catch (e) {
         // TODO
     }
@@ -305,6 +305,7 @@ const register = async () => {
         // Si richiama il connettore per la rete Ethereum
         // per registrare la root del Merkle Calendar nella blockchain
         [mkcHash, receipt, bktimestamp] = await ethLogic.registerMC(mc);
+        console.log(receipt)
     } else {
         console.log(chalk.red("There are no Storage Units staged!"));
         return;
@@ -326,7 +327,10 @@ const register = async () => {
                 witness: openWitness,
                 openstoragegroup: openSG
             }
-            files.createRegistration(o);
+            // Returns the content of the new .pinesu.json file
+            pinesuContent = files.createRegistration(o);
+            pinesuContent.hash = gitLogic.calculateHeader(pinesuContent.header);
+            files.savePineSUJSON(pinesuContent);
             // Si fa un Git Commit in ognuna di queste SU
             await gitLogic.makeRegistrationCommit(el.path);
         }
@@ -354,7 +358,10 @@ const register = async () => {
                 witness: closedWitness,
                 closedstoragegroup: closedSG
             }
-            files.createRegistration(o);
+            // Returns the content of the new .pinesu.json file
+            pinesuContent = files.createRegistration(o);
+            pinesuContent.hash = gitLogic.calculateHeader(pinesuContent.header);
+            files.savePineSUJSON(pinesuContent);
             // Si fa un Git Commit in ognuna di queste SU
             await gitLogic.makeRegistrationCommit(el.path);
         }
@@ -379,12 +386,6 @@ const check = async () => {
         const merkleroot = gitLogic.calculateTree(filelist);
         pinesu.header.merkleroot = merkleroot.toString('utf8');
 
-        for (const key in pinesu.header) {
-            if (pinesu.header[key] === '') {
-                pinesu.header[key] = null;
-            }
-        }
-
         const calculatedHash = gitLogic.calculateHeader(pinesu.header)
         spinnerCalc.succeed("Calculation complete!");
         // Si controlla l'integrità di file descritti
@@ -402,13 +403,8 @@ const check = async () => {
                 console.log(chalk.green("The integrity of the local files has been verified and\nit " +
                     "matches the original hash root.\nProceeding with the blockchain check"));
                 // Si procede all'effettivo controllo su blockchain
-                let realHash = gitLogic.calculateRealHash(new Date(res[1].date), res[1].root)
-                console.log(await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1))
-                if (await ethLogic.verifyHash(mc, realHash, res[1].oHash, res[1].cHash, res[1].transactionHash, w1)) {
+                if (await ethLogic.verifyHash(res[1].txhash, res[1].bkheight, res[1].mkcalroot, w1)) {
                     console.log(chalk.green("The Storage Unit has been found in the blockchain"));
-                } else if (await ethLogic.validateProof(mc, res[1].root, res[1].openProofTree,res[1].closedProofTree, res[1].transactionHash, w1)) {
-                    console.log(chalk.green("The Storage Unit has been found in the blockchain through the backed" +
-                        "up Merkle Calendar"));
                 } else {
                     console.log(chalk.red("The Storage Unit hasn't been found in the blockchain"));
                 }

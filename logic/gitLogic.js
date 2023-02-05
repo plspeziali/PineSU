@@ -127,16 +127,6 @@ module.exports = {
         this.changeDir(path);
         await this.addFileSU(".registration.json");
         await this.commitSU();
-    },
-
-    calculateRealHash(date, hash) {
-        let year = date.getFullYear();
-        let month = date.getMonth();
-        let day = date.getDay();
-        let hour = date.getHours();
-        let minute = date.getMinutes();
-        let second = date.getSeconds();
-        return treelist.combineHash(year, month, day, hour, minute, second, hash)
     }
 
 }
