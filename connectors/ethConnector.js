@@ -15,16 +15,19 @@ class EthConnector {
     }
 
     async deploy(hashRoot) {
+
+        const txObject = {
+            from: this.#w1,
+            to: this.#w2,
+            data: hashRoot + ''
+        };
+
+        txObject.gas = await this.#web3.eth.estimateGas(txObject);
+
+        console.log(txObject.gas)
+
         console.log('Sending a transaction from ' + this.#w1 + ' to ' + this.#w2);
-        const createTransaction = await this.#web3.eth.accounts.signTransaction({
-                from: this.#w1,
-                to: this.#w2,
-                data: hashRoot + '',
-                //value: web3.utils.toWei('10','ether'),
-                gas: 3000000,
-            },
-            this.#k
-        );
+        const createTransaction = await this.#web3.eth.accounts.signTransaction(txObject, this.#k);
         const receipt = await this.#web3.eth.sendSignedTransaction(createTransaction.rawTransaction);
         //console.log(receipt);
         //console.log('Transaction successfull with hash: '+createTransaction.messageHash+': '+web3.utils.utf8ToHex("Hello Worldd"));
