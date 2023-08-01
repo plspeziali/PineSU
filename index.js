@@ -393,6 +393,8 @@ const check = async () => {
         // await checkFiles();
         // Si controlla che la MR appena calcolata corrisponda
         // con quella precedentemente registrata
+        console.log("Original hash:   " + chalk.green(pinesu.hash+""));
+        console.log("Calculated hash: " + chalk.red(calculatedHash+""));
         if (pinesu.hash === calculatedHash) {
             // Si verifica che lo stato della SU combaci
             // con l'ultimo stato registrato in blockchain
