@@ -20,10 +20,10 @@ module.exports = {
         const map = [];
         const mapR = [];
         for (let su in storageGroup){
-            map.push(new mkc.StorageUnit(hash,uuid));
+            map.push(new mkc.StorageUnit(su.hash,su.uuid));
             mapR.push({
-                'hash': hash,
-                'uuid': uuid
+                'hash': su.hash,
+                'uuid': su.uuid
             })
         }
         const sg = new mkc.StorageGroup(hash, map);

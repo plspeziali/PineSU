@@ -43,7 +43,7 @@ class EthConnector {
     async verifyHash(transactionHash, blockNum, root, w1) {
         const block = await this.#web3.eth.getBlock(blockNum)
         console.log(block);
-        if (block.transactions[0] == transactionHash) {
+        if (block.transactions.includes(transactionHash)) {
             const res = await this.#web3.eth.getTransaction(transactionHash)
             console.log(res);
             if (res.input == "0x" + root && res.from.toUpperCase() == w1.toUpperCase()) {
