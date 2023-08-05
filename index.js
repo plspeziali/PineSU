@@ -384,6 +384,28 @@ const check = async () => {
         // la MR della SU attuale
         const pinesu = files.readPineSUFile();
         const merkleroot = gitLogic.calculateTree(filelist);
+        /*for (let i = 0; i < filelist.length; i++) {
+
+            // Controlla se l'elemento non è presente nel secondo array
+            if (!pinesu.filelist.includes(filelist[i])) {
+                // Stampa l'elemento che non è presente nel secondo array
+                console.log(filelist[i]);
+            }
+        }
+        console.log("sull'altra")
+        for (let i = 0; i < pinesu.filelist.length; i++) {
+
+            // Controlla se l'elemento non è presente nel secondo array
+            if (!filelist.includes(pinesu.filelist[i])) {
+                // Stampa l'elemento che non è presente nel secondo array
+                console.log(pinesu.filelist[i]);
+            }
+        }
+
+        console.log("Original length:   " + chalk.green(pinesu.filelist.length+""));
+        console.log("Calculated length: " + chalk.red(filelist.length+""));
+        console.log("Original hash:   " + chalk.green(pinesu.header.merkleroot+""));
+        console.log("Calculated hash: " + chalk.red(merkleroot+""));*/
         pinesu.header.merkleroot = merkleroot.toString('utf8');
 
         const calculatedHash = gitLogic.calculateHeader(pinesu.header)
@@ -399,12 +421,13 @@ const check = async () => {
             // Si verifica che lo stato della SU combaci
             // con l'ultimo stato registrato in blockchain
             // (da quanto dicono i metadati)
-            const res = files.checkRegistration(merkleroot);
+            const res = files.checkRegistration(calculatedHash);
             console.log(res)
             if (res[0]) {
                 console.log(chalk.green("The integrity of the local files has been verified and\nit " +
                     "matches the original hash root.\nProceeding with the blockchain check"));
                 // Si procede all'effettivo controllo su blockchain
+                console.log(res[1].txhash + "," + res[1].bkheight + "," + res[1].mkcalroot + "," + w1)
                 if (await ethLogic.verifyHash(res[1].txhash, res[1].bkheight, res[1].mkcalroot, w1)) {
                     console.log(chalk.green("The Storage Unit has been found in the blockchain"));
                 } else {
