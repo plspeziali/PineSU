@@ -417,7 +417,7 @@ const check = async () => {
         // con quella precedentemente registrata
         //console.log("Original hash:   " + chalk.green(pinesu.hash+""));
         //console.log("Calculated hash: " + chalk.red(calculatedHash+""));
-        //if (pinesu.hash === calculatedHash) {
+        if (pinesu.hash === calculatedHash) {
             // Si verifica che lo stato della SU combaci
             // con l'ultimo stato registrato in blockchain
             // (da quanto dicono i metadati)
@@ -436,9 +436,9 @@ const check = async () => {
             } else {
                 console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the latest registration"));
             }
-        //} else {
-        //    console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the original hash root"));
-        //}
+        } else {
+            console.log(chalk.red("The integrity of the files can't be been verified since they don't\nmatch the original hash root"));
+        }
     });
 
 };
