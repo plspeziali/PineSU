@@ -40,7 +40,7 @@ module.exports = {
             }
         } else {
             witness = {
-                openroot: mc.closed.hash,
+                openroot: mc.open.hash,
                 years: mc.closed.getChildrenHashes(),
                 months: year.getChildrenHashes(),
                 syncpoints: month.getChildrenHashes()
